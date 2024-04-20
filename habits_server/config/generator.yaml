@@ -1,0 +1,7 @@
+type: server
+
+modules:
+  serverpod_auth:
+    nickname: auth
+
+client_package_path: ../habits_client

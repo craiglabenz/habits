@@ -1,0 +1,19 @@
+{
+  "moduleName": "habits",
+  "tables": [],
+  "installedModules": [
+    {
+      "module": "serverpod",
+      "version": "20240115074235544"
+    },
+    {
+      "module": "serverpod_auth",
+      "version": "20240115074239642"
+    },
+    {
+      "module": "habits",
+      "version": "20240420023003107"
+    }
+  ],
+  "migrationApiVersion": 1
+}
