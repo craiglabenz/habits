@@ -5,8 +5,11 @@ install: server/install client/install shared/install app/install
 server/install:
 	cd habits_server && dart pub get
 
-server/build: server/install
+server/build: generate
+
+generate:
 	cd habits_server && serverpod generate
+	cd habits_server && dart bin/adjust_protocol.dart
 
 migrations:
 	cd habits_server && serverpod create-migration
@@ -14,7 +17,7 @@ migrations:
 migrate:
 	cd habits_server && dart bin/main.dart --apply-migrations --role=maintenance
 
-server:
+server/run:
 	cd habits_server && dart bin/main.dart --apply-migrations
 
 # Client
@@ -29,5 +32,5 @@ shared/install:
 app/install:
 	cd habits_flutter && flutter pub get
 
-app:
+app/run:
 	cd habits_flutter && flutter run -d macos

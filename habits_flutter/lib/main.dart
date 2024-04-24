@@ -1,5 +1,6 @@
 import 'package:habits_client/habits_client.dart';
 import 'package:flutter/material.dart';
+import 'package:habits_shared/habits_shared.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
@@ -60,10 +61,10 @@ class MyHomePageState extends State<MyHomePage> {
   // is successful.
   void _callHello() async {
     try {
-      final result = await client.example.hello(_textEditingController.text);
+      // final result = await client.example.hello(_textEditingController.text);
       setState(() {
         _errorMessage = null;
-        _resultMessage = result;
+        // _resultMessage = result;
       });
     } catch (e) {
       setState(() {

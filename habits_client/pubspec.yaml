@@ -5,5 +5,7 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
+  habits_shared:
+    path: ../habits_shared
   serverpod_auth_client: 1.2.6
   serverpod_client: 1.2.6
