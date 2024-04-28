@@ -14,16 +14,25 @@ import 'package:serverpod_auth_client/module.dart' as _i3;
 import 'protocol.dart' as _i4;
 
 /// {@category Endpoint}
-class EndpointExample extends _i1.EndpointRef {
-  EndpointExample(_i1.EndpointCaller caller) : super(caller);
+class EndpointAppAuth extends _i1.EndpointRef {
+  EndpointAppAuth(_i1.EndpointCaller caller) : super(caller);
 
   @override
-  String get name => 'example';
+  String get name => 'appAuth';
 
-  _i2.Future<String> hello(String name) => caller.callServerEndpoint<String>(
-        'example',
-        'hello',
-        {'name': name},
+  /// Creates an initial anonymous account which a user may or may not later
+  /// upgrade.
+  _i2.Future<_i3.AuthenticationResponse> createAnonymous({
+    required String userIdentifier,
+    required String username,
+  }) =>
+      caller.callServerEndpoint<_i3.AuthenticationResponse>(
+        'appAuth',
+        'createAnonymous',
+        {
+          'userIdentifier': userIdentifier,
+          'username': username,
+        },
       );
 }
 
@@ -50,16 +59,16 @@ class Client extends _i1.ServerpodClient {
           streamingConnectionTimeout: streamingConnectionTimeout,
           connectionTimeout: connectionTimeout,
         ) {
-    example = EndpointExample(this);
+    appAuth = EndpointAppAuth(this);
     modules = _Modules(this);
   }
 
-  late final EndpointExample example;
+  late final EndpointAppAuth appAuth;
 
   late final _Modules modules;
 
   @override
-  Map<String, _i1.EndpointRef> get endpointRefLookup => {'example': example};
+  Map<String, _i1.EndpointRef> get endpointRefLookup => {'appAuth': appAuth};
 
   @override
   Map<String, _i1.ModuleEndpointCaller> get moduleLookup =>

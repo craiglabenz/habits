@@ -9,10 +9,10 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
-  common_types:
-    path: ../packages/common_types
-  data:
-    path: ../packages/data
+  app_client:
+    path: ../packages/app_client
+  app_shared:
+    path: ../packages/app_shared
   freezed_annotation: ^2.4.1
   habits_client:
     path: ../habits_client

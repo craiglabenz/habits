@@ -1,5 +1,23 @@
 # All
-install: server/install client/install shared/install app/install
+install: packages/install server/install client/install shared/install app/install
+
+test: packages/test app/test
+
+# Packages
+packages/install:
+	cd packages/app_shared && dart pub get
+	cd packages/app_client && flutter pub get
+	cd habits_shared && dart pub get
+
+packages/build:
+	cd packages/app_shared && dart run build_runner build --delete-conflicting-outputs
+	cd packages/app_client && dart run build_runner build --delete-conflicting-outputs
+	habits_shared && dart run build_runner build --delete-conflicting-outputs
+
+packages/test:
+	cd packages/app_shared && dart test
+	cd packages/app_client && flutter test
+	cd habits_shared && dart test
 
 # Server
 server/install:
@@ -24,13 +42,15 @@ server/run:
 client/install:
 	cd habits_client && dart pub get
 
-# Shared
-shared/install:
-	cd packages/habits_shared && dart pub get
-
 # App
 app/install:
 	cd habits_flutter && flutter pub get
 
+app/intl:
+	cd habits_flutter && flutter gen-l10n
+
 app/run:
 	cd habits_flutter && flutter run -d macos
+
+app/test:
+	cd habits_flutter && flutter test
