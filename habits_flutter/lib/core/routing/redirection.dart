@@ -28,7 +28,7 @@ class GoRouterRedirector {
     ForceUpgradeRedirector(),
     MaintenanceRedirector(),
     // StayOnSplash(),
-    // UnauthenticatedToWelcome(),
+    UnauthenticatedToWelcome(),
     // NewUsersToOnboarding(),
     // AuthenticatedUsersAwayFromWelcome(),
     // AuthenticatedUsersAwayFromSignUp(),
@@ -44,6 +44,8 @@ class GoRouterRedirector {
     required RouteState routeState,
     required AppState appState,
   }) {
+    _log.fine('Considering redirect for ${routeState.path} with user '
+        '${appState.user}');
     if (GoRouterRedirector.doNotLeave.contains(routeState.path)) {
       return null;
     }
@@ -65,7 +67,7 @@ class GoRouterRedirector {
               '$redirect attempted to redirect to itself '
               'at $uriString',
             );
-            return null;
+            continue;
           }
 
           // ignore: avoid_print
@@ -74,6 +76,7 @@ class GoRouterRedirector {
         }
       }
     }
+    _log.finer('Not redirecting away from ${routeState.path}');
     return null;
   }
 }
@@ -207,26 +210,30 @@ class MaintenanceRedirector extends Redirector {
 //       null;
 // }
 
-// class UnauthenticatedToWelcome extends Redirector {
-//   const UnauthenticatedToWelcome();
-//   @override
-//   bool predicate(
-//     RouteState routeState,
-//     AppState appState,
-//   ) =>
-//       // Redirect unauthenticated users to the Welcome page.
-//       !routeState.path!.endsWith(Routes.welcome.path) &&
-//       !routeState.path!.endsWith(Routes.login.path) &&
-//       !routeState.path!.endsWith(Routes.signUp.path) &&
-//       appState.isAnonymous;
+/// {@template UnauthenticatedToWelcome}
+/// Detects completely unknown sessions and routes them to the welcome page,
+/// from which a user can login or instantly create an anonymous account.
+/// {@endtemplate}
+class UnauthenticatedToWelcome extends Redirector {
+  /// {@macro UnauthenticatedToWelcome}
+  const UnauthenticatedToWelcome();
+  @override
+  bool predicate(
+    RouteState routeState,
+    AppState appState,
+  ) =>
+      !routeState.path.endsWith(Routes.welcome.path) &&
+      // !routeState.path.endsWith(Routes.login.path) &&
+      // !routeState.path.endsWith(Routes.signUp.path) &&
+      appState.isAnonymous;
 
-//   @override
-//   Uri? getNewUri(
-//     RouteState routeState,
-//     AppState appState,
-//   ) =>
-//       Uri(path: Routes.welcome.path);
-// }
+  @override
+  Uri? getNewUri(
+    RouteState routeState,
+    AppState appState,
+  ) =>
+      Uri(path: Routes.welcome.path);
+}
 
 // class NewUsersToOnboarding extends Redirector {
 //   const NewUsersToOnboarding();
