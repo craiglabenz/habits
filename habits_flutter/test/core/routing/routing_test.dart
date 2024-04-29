@@ -1,5 +1,4 @@
 import 'package:app_client/app_client.dart';
-import 'package:app_shared/app_shared.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:habits_flutter/app/app.dart';
@@ -9,7 +8,7 @@ import 'package:habits_flutter/core/core.dart';
 void main() {
   group('AppRouter should', () {
     late FakeAppConfigRepository appConfigRepo;
-    late FakeAuthRepository<AuthUser> authRepo;
+    late FakeAuthRepository authRepo;
     late AppBloc appBloc;
 
     setUp(() {

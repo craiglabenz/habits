@@ -50,7 +50,10 @@ app/intl:
 	cd habits_flutter && flutter gen-l10n
 
 app/run:
-	cd habits_flutter && flutter run -d macos
+	cd habits_flutter && flutter run -d macos --target=lib/main_development.dart
+
+app/run/iphone:
+	cd habits_flutter && flutter run -d "Craig" --target=lib/main_development.dart
 
 app/test:
 	cd habits_flutter && flutter test

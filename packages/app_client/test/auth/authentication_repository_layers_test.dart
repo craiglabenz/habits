@@ -20,7 +20,7 @@ FirebaseUser buildFbUser({required Duration accountAge}) {
 
 void main() {
   late FakeRestAuth<AuthUser> restAuth;
-  late AuthRepository<AuthUser> authRepo;
+  late AuthRepository authRepo;
   const user = AuthUser(
     id: 'asdf',
     apiKey: 'apiKey',
@@ -40,7 +40,7 @@ void main() {
         registerResults: Queue.from(<UserOrError<AuthUser>>[const Right(user)]),
       );
       authRepo = AuthRepository(
-        streamAuthService: FakeStreamAuth()..prepareLogin(fbUser),
+        socialAuthService: FakeStreamAuth()..prepareLogin(fbUser),
         restAuthService: restAuth,
       );
       final userStreamExpectation =
@@ -70,7 +70,7 @@ void main() {
         registerResults: Queue.from(<UserOrError<AuthUser>>[const Right(user)]),
       );
       authRepo = AuthRepository(
-        streamAuthService: FakeStreamAuth()..prepareLogin(fbUser),
+        socialAuthService: FakeStreamAuth()..prepareLogin(fbUser),
         restAuthService: restAuth,
       );
       final userStreamExpectation = expectLater(
@@ -93,7 +93,7 @@ void main() {
         loginResults: Queue.from(<UserOrError<AuthUser>>[const Right(user)]),
       );
       authRepo = AuthRepository(
-        streamAuthService: FakeStreamAuth()..prepareLogin(fbUser),
+        socialAuthService: FakeStreamAuth()..prepareLogin(fbUser),
         restAuthService: restAuth,
       );
       final userStreamExpectation = expectLater(
@@ -120,7 +120,7 @@ void main() {
         registerResults: Queue.from(<UserOrError<AuthUser>>[const Right(user)]),
       );
       authRepo = AuthRepository(
-        streamAuthService: FakeStreamAuth()..prepareLogin(newFbUser),
+        socialAuthService: FakeStreamAuth()..prepareLogin(newFbUser),
         restAuthService: restAuth,
       );
       final userStreamExpectation = expectLater(
@@ -142,7 +142,7 @@ void main() {
       () async {
         restAuth = FakeRestAuth();
         authRepo = AuthRepository(
-          streamAuthService: FakeStreamAuth()
+          socialAuthService: FakeStreamAuth()
             ..error = const AuthenticationError.wrongMethod(
               <LoginType>{LoginType.google},
             ),
@@ -170,7 +170,7 @@ void main() {
       () async {
         restAuth = FakeRestAuth();
         authRepo = AuthRepository(
-          streamAuthService: FakeStreamAuth()
+          socialAuthService: FakeStreamAuth()
             ..error = const AuthenticationError.wrongMethod(
               <LoginType>{LoginType.google},
             ),

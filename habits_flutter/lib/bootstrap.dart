@@ -37,6 +37,9 @@ Future<void> bootstrap({
   required Widget child,
 }) async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   setUpLiveDI(apiBaseUrl: apiBaseUrl, env: env);
   await GetIt.I<SessionManager>().initialize();
 
@@ -45,10 +48,6 @@ Future<void> bootstrap({
   };
 
   Bloc.observer = const AppBlocObserver();
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
 
   runApp(child);
 }

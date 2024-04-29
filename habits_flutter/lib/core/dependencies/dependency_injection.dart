@@ -24,27 +24,38 @@ void setUpDI({
   AppConfigRepository? appConfigRepository,
   AppBloc? appBloc,
 }) {
+  // SERVERPOD
   GetIt.I.registerSingleton<Client>(
     Client(
       apiBaseUrl,
       authenticationKeyManager: FlutterAuthenticationKeyManager(),
     )..connectivityMonitor = FlutterConnectivityMonitor(),
   );
-
   GetIt.I.registerSingleton<SessionManager>(
     SessionManager(
       caller: GetIt.I<Client>().modules.auth,
     ),
   );
 
-  GetIt.I.registerSingleton<RestApi>(
-    RestApi(
-      apiBaseUrl: apiBaseUrl,
-      headersBuilder: GetIt.I.get<AppDetails>().getDefaultHeaders,
-      delegate: GetIt.I.get<RequestDelegate>(),
-    ),
+  // AUTH
+  GetIt.I.registerSingleton<AuthBindings<AuthUser, String>>(
+    const AuthUserBindings(),
   );
+  GetIt.I.registerSingleton<BaseRestAuth<AuthUser>>(
+    ServerpodAuthService<AuthUser, String>(),
+  );
+  GetIt.I.registerSingleton<BaseSocialAuth>(FirebaseAuthService());
+  GetIt.I.registerSingleton<AuthRepository>(AuthRepository());
 
+  // GetIt.I.registerSingleton<RestApi>(
+  //   RestApi(
+  //     apiBaseUrl: apiBaseUrl,
+  //     headersBuilder: GetIt.I.get<AppDetails>().getDefaultHeaders,
+  //     delegate: GetIt.I.get<RequestDelegate>(),
+  //   ),
+  // );
+
+  // APP-WIDE
   GetIt.I.registerSingleton<AppConfigRepository>(
     appConfigRepository ??
         AppConfigRepository(
@@ -56,7 +67,7 @@ void setUpDI({
     appBloc ??
         AppBloc(
           appConfigRepository: GetIt.I<AppConfigRepository>(),
-          authRepository: GetIt.I<AuthRepository<AuthUser>>(),
+          authRepository: GetIt.I<AuthRepository>(),
         ),
   );
   GetIt.I.registerSingleton<AppRouter>(

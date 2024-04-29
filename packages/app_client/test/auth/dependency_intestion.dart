@@ -21,9 +21,6 @@ Future<void> setUpTestingDI({
     GetIt.I.registerSingleton<TargetPlatform>(targetPlatform);
   }
   GetIt.I.registerSingleton<BaseAuthRepository<AuthUser>>(
-    AuthRepository<AuthUser>(
-      streamAuthService: GetIt.I<BaseSocialAuth>(),
-      restAuthService: GetIt.I<BaseRestAuth<AuthUser>>(),
-    ),
+    AuthRepository(),
   );
 }

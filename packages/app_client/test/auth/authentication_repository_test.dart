@@ -51,7 +51,7 @@ void main() {
     late firebase_auth.FirebaseAuth firebaseAuth;
     late StreamController<firebase_auth.User?> usersController;
     late GoogleSignIn googleSignIn;
-    late AuthRepository<AuthUser> authRepository;
+    late AuthRepository authRepository;
     late AuthorizationCredentialAppleID authorizationCredentialAppleID;
     late GetAppleCredentials getAppleCredentials;
     late List<List<AppleIDAuthorizationScopes>> getAppleCredentialsCalls;
@@ -85,7 +85,7 @@ void main() {
         return authorizationCredentialAppleID;
       };
       authRepository = AuthRepository(
-        streamAuthService: FirebaseAuthService(
+        socialAuthService: FirebaseAuthService(
           firebaseAuth: firebaseAuth,
           getAppleCredentials: getAppleCredentials,
           googleSignIn: googleSignIn,
@@ -314,7 +314,7 @@ void main() {
           (_) => Stream.value(null),
         );
         final authRepo = AuthRepository(
-          streamAuthService: FirebaseAuthService(
+          socialAuthService: FirebaseAuthService(
             firebaseAuth: firebaseAuth,
             getAppleCredentials: getAppleCredentials,
             googleSignIn: googleSignIn,
@@ -342,7 +342,7 @@ void main() {
           (_) => Stream.value(firebaseUser),
         );
         final authRepo = AuthRepository(
-          streamAuthService: FirebaseAuthService(
+          socialAuthService: FirebaseAuthService(
             firebaseAuth: firebaseAuth,
             getAppleCredentials: getAppleCredentials,
             googleSignIn: googleSignIn,
@@ -375,7 +375,7 @@ void main() {
           (_) => Stream.value(returningFirebaseUser),
         );
         final authRepo = AuthRepository(
-          streamAuthService: FirebaseAuthService(
+          socialAuthService: FirebaseAuthService(
             firebaseAuth: firebaseAuth,
             getAppleCredentials: getAppleCredentials,
             googleSignIn: googleSignIn,

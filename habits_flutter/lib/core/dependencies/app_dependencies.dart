@@ -1,5 +1,4 @@
 import 'package:app_client/app_client.dart';
-import 'package:app_shared/app_shared.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:habits_flutter/app/app.dart';
@@ -15,7 +14,7 @@ class AppDependencies {
         appConfigRepository: GetIt.I<AppConfigRepository>(),
         // appRouter: GetIt.I<ApplicationRouter>(),
         // appStoreReviewBloc: GetIt.I<AppStoreReviewBloc>(),
-        authRepository: GetIt.I<AuthRepository<AuthUser>>(),
+        authRepository: GetIt.I<AuthRepository>(),
         // navigationCubit: GetIt.I<NavigationCubit>(),
         targetPlatform: GetIt.I.isRegistered<TargetPlatform>()
             ? GetIt.I<TargetPlatform>()
@@ -44,7 +43,7 @@ class AppDependencies {
   // AppStoreReviewBloc appStoreReviewBloc;
 
   /// {@macro AuthRepository}
-  AuthRepository<AuthUser> authRepository;
+  AuthRepository authRepository;
 
   // NavigationCubit navigationCubit;
   // ThemeModeBloc themeModeBloc;

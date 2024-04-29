@@ -11,11 +11,11 @@ void main() {
           service: FakeAppConfigService(),
           details: AppDetails.fake(),
         ),
-        authRepository: authRepo ?? FakeAuthRepository<AuthUser>(),
+        authRepository: authRepo ?? FakeAuthRepository(),
       );
 
   group('AppBloc should', () {
-    FakeAuthRepository<AuthUser>? authRepo;
+    FakeAuthRepository? authRepo;
     const user = AuthUser(apiKey: 'abc', id: 'id');
 
     setUp(() => authRepo = FakeAuthRepository());
