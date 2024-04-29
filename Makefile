@@ -53,7 +53,7 @@ app/run:
 	cd habits_flutter && flutter run -d macos --target=lib/main_development.dart
 
 app/run/iphone:
-	cd habits_flutter && flutter run -d "Craig" --target=lib/main_development.dart
+	cd habits_flutter && flutter run -d "Craig" --target=lib/main_development.dart --dart-define=SERVER_URL=http://macbook.local:8080/
 
 app/test:
 	cd habits_flutter && flutter test
