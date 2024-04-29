@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:habits_flutter/app_config/app_config.dart';
 import 'package:habits_flutter/core/core.dart';
 import 'package:habits_flutter/firebase_options.dart';
+import 'package:logging/logging.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 
 /// {@template AppBlocObserver}
@@ -37,6 +38,14 @@ Future<void> bootstrap({
   required Widget child,
 }) async {
   WidgetsFlutterBinding.ensureInitialized();
+  initLogging(
+    switch (env) {
+      Environment.dev => Level.FINER,
+      Environment.qa => Level.FINE,
+      Environment.prod => Level.WARNING,
+      Environment.test => Level.SHOUT,
+    },
+  );
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
