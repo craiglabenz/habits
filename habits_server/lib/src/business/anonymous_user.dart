@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:habits_server/src/generated/protocol.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:serverpod/protocol.dart';
 // ignore: implementation_imports
@@ -14,6 +15,7 @@ class AnonymousUser {
     Session session, {
     required String userIdentifier,
     required String username,
+    bool allowEmptyUsername = false,
   }) async {
     final existingAccount = await session.dbNext.findFirstRow<auth.UserInfo>(
       where: auth.UserInfo.t.userIdentifier.equals(userIdentifier),
@@ -32,7 +34,7 @@ class AnonymousUser {
     }
 
     username = username.trim();
-    if (username.isEmpty) {
+    if (!allowEmptyUsername && username.isEmpty) {
       session.log('Username must not be empty', level: LogLevel.error);
       return auth.AuthenticationResponse(
         success: false,
@@ -40,12 +42,12 @@ class AnonymousUser {
       );
     }
 
-    final user = await auth.Users.createUser(
+    final userInfo = await auth.Users.createUser(
       session,
       auth.UserInfo(
-        // Firebase.uid
+        // FirebaseUser.uid
         userIdentifier: userIdentifier,
-        // Name of the person we asked for in the onboarding flow
+        // Name of the person, which will be saved after this account is ready.
         userName: username,
         created: DateTime.now(),
         scopeNames: [],
@@ -54,7 +56,7 @@ class AnonymousUser {
       AnonymousUser.methodName,
     );
 
-    if (user == null) {
+    if (userInfo == null) {
       session.log(
         'Failed to create new user for userIdentifier :: $userIdentifier',
         level: LogLevel.error,
@@ -65,26 +67,40 @@ class AnonymousUser {
       );
     }
 
+    // Create the resource that the client will use to access this session.
     final key = Random().nextString();
     var signInSalt = session.passwords['authKeySalt'] ?? defaultAuthKeySalt;
     AuthKey authKey = AuthKey(
-      userId: user.id!,
+      userId: userInfo.id!,
       key: key,
       hash: hashString(key, signInSalt),
       method: AnonymousUser.methodName,
       scopeNames: [],
     );
 
-    // Get the authentication key from the database
+    // Save the authentication key to the database in a separate session which
+    // has logging disabled for security purposes.
     var tempSession = await session.serverpod.createSession(
       enableLogging: false,
     );
     authKey = await tempSession.dbNext.insertRow<AuthKey>(authKey);
     await tempSession.close();
 
+    final now = DateTime.now();
+    await session.dbNext.insertRow<User>(
+      User(
+        id: userInfo.id!,
+        userInfoId: userInfo.id!,
+        uid: UuidValue.fromString(Uuid().v4()),
+        name: username,
+        createdAt: now,
+        updatedAt: now,
+      ),
+    );
+
     return auth.AuthenticationResponse(
       success: true,
-      userInfo: user,
+      userInfo: userInfo,
       key: authKey.key,
       keyId: authKey.id,
     );

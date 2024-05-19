@@ -19,6 +19,7 @@ mixin _$AppState {
   bool get isDownForMaintenance => throw _privateConstructorUsedError;
   ForceUpgrade get forceUpgrade => throw _privateConstructorUsedError;
   AuthUser? get user => throw _privateConstructorUsedError;
+  bool get isNewUser => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AppStateCopyWith<AppState> get copyWith =>
@@ -31,7 +32,10 @@ abstract class $AppStateCopyWith<$Res> {
       _$AppStateCopyWithImpl<$Res, AppState>;
   @useResult
   $Res call(
-      {bool isDownForMaintenance, ForceUpgrade forceUpgrade, AuthUser? user});
+      {bool isDownForMaintenance,
+      ForceUpgrade forceUpgrade,
+      AuthUser? user,
+      bool isNewUser});
 
   $AuthUserCopyWith<$Res>? get user;
 }
@@ -52,6 +56,7 @@ class _$AppStateCopyWithImpl<$Res, $Val extends AppState>
     Object? isDownForMaintenance = null,
     Object? forceUpgrade = null,
     Object? user = freezed,
+    Object? isNewUser = null,
   }) {
     return _then(_value.copyWith(
       isDownForMaintenance: null == isDownForMaintenance
@@ -66,6 +71,10 @@ class _$AppStateCopyWithImpl<$Res, $Val extends AppState>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as AuthUser?,
+      isNewUser: null == isNewUser
+          ? _value.isNewUser
+          : isNewUser // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -91,7 +100,10 @@ abstract class _$$AppStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool isDownForMaintenance, ForceUpgrade forceUpgrade, AuthUser? user});
+      {bool isDownForMaintenance,
+      ForceUpgrade forceUpgrade,
+      AuthUser? user,
+      bool isNewUser});
 
   @override
   $AuthUserCopyWith<$Res>? get user;
@@ -111,6 +123,7 @@ class __$$AppStateImplCopyWithImpl<$Res>
     Object? isDownForMaintenance = null,
     Object? forceUpgrade = null,
     Object? user = freezed,
+    Object? isNewUser = null,
   }) {
     return _then(_$AppStateImpl(
       isDownForMaintenance: null == isDownForMaintenance
@@ -125,6 +138,10 @@ class __$$AppStateImplCopyWithImpl<$Res>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as AuthUser?,
+      isNewUser: null == isNewUser
+          ? _value.isNewUser
+          : isNewUser // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -135,7 +152,8 @@ class _$AppStateImpl extends _AppState {
   const _$AppStateImpl(
       {this.isDownForMaintenance = false,
       this.forceUpgrade = const ForceUpgrade(isUpgradeRequired: false),
-      this.user})
+      this.user,
+      this.isNewUser = false})
       : super._();
 
   @override
@@ -146,10 +164,13 @@ class _$AppStateImpl extends _AppState {
   final ForceUpgrade forceUpgrade;
   @override
   final AuthUser? user;
+  @override
+  @JsonKey()
+  final bool isNewUser;
 
   @override
   String toString() {
-    return 'AppState(isDownForMaintenance: $isDownForMaintenance, forceUpgrade: $forceUpgrade, user: $user)';
+    return 'AppState(isDownForMaintenance: $isDownForMaintenance, forceUpgrade: $forceUpgrade, user: $user, isNewUser: $isNewUser)';
   }
 
   @override
@@ -161,12 +182,14 @@ class _$AppStateImpl extends _AppState {
                 other.isDownForMaintenance == isDownForMaintenance) &&
             (identical(other.forceUpgrade, forceUpgrade) ||
                 other.forceUpgrade == forceUpgrade) &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.isNewUser, isNewUser) ||
+                other.isNewUser == isNewUser));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isDownForMaintenance, forceUpgrade, user);
+  int get hashCode => Object.hash(
+      runtimeType, isDownForMaintenance, forceUpgrade, user, isNewUser);
 
   @JsonKey(ignore: true)
   @override
@@ -179,7 +202,8 @@ abstract class _AppState extends AppState {
   const factory _AppState(
       {final bool isDownForMaintenance,
       final ForceUpgrade forceUpgrade,
-      final AuthUser? user}) = _$AppStateImpl;
+      final AuthUser? user,
+      final bool isNewUser}) = _$AppStateImpl;
   const _AppState._() : super._();
 
   @override
@@ -188,6 +212,8 @@ abstract class _AppState extends AppState {
   ForceUpgrade get forceUpgrade;
   @override
   AuthUser? get user;
+  @override
+  bool get isNewUser;
   @override
   @JsonKey(ignore: true)
   _$$AppStateImplCopyWith<_$AppStateImpl> get copyWith =>
@@ -204,7 +230,7 @@ mixin _$AppEvent {
         downForMaintenanceStatusChanged,
     required TResult Function(ForceUpgrade forceUpgrade)
         forceUpgradeStatusChanged,
-    required TResult Function(AuthUser? user) userChanged,
+    required TResult Function(AuthUser user, bool? isNewUser) userChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -214,7 +240,7 @@ mixin _$AppEvent {
     TResult? Function(bool isDownForMaintenance)?
         downForMaintenanceStatusChanged,
     TResult? Function(ForceUpgrade forceUpgrade)? forceUpgradeStatusChanged,
-    TResult? Function(AuthUser? user)? userChanged,
+    TResult? Function(AuthUser user, bool? isNewUser)? userChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -224,7 +250,7 @@ mixin _$AppEvent {
     TResult Function(bool isDownForMaintenance)?
         downForMaintenanceStatusChanged,
     TResult Function(ForceUpgrade forceUpgrade)? forceUpgradeStatusChanged,
-    TResult Function(AuthUser? user)? userChanged,
+    TResult Function(AuthUser user, bool? isNewUser)? userChanged,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -329,7 +355,7 @@ class _$AppEventLogoutRequestedImpl implements AppEventLogoutRequested {
         downForMaintenanceStatusChanged,
     required TResult Function(ForceUpgrade forceUpgrade)
         forceUpgradeStatusChanged,
-    required TResult Function(AuthUser? user) userChanged,
+    required TResult Function(AuthUser user, bool? isNewUser) userChanged,
   }) {
     return logoutRequested();
   }
@@ -342,7 +368,7 @@ class _$AppEventLogoutRequestedImpl implements AppEventLogoutRequested {
     TResult? Function(bool isDownForMaintenance)?
         downForMaintenanceStatusChanged,
     TResult? Function(ForceUpgrade forceUpgrade)? forceUpgradeStatusChanged,
-    TResult? Function(AuthUser? user)? userChanged,
+    TResult? Function(AuthUser user, bool? isNewUser)? userChanged,
   }) {
     return logoutRequested?.call();
   }
@@ -355,7 +381,7 @@ class _$AppEventLogoutRequestedImpl implements AppEventLogoutRequested {
     TResult Function(bool isDownForMaintenance)?
         downForMaintenanceStatusChanged,
     TResult Function(ForceUpgrade forceUpgrade)? forceUpgradeStatusChanged,
-    TResult Function(AuthUser? user)? userChanged,
+    TResult Function(AuthUser user, bool? isNewUser)? userChanged,
     required TResult orElse(),
   }) {
     if (logoutRequested != null) {
@@ -463,7 +489,7 @@ class _$AppEventOnboardingCompletedImpl implements AppEventOnboardingCompleted {
         downForMaintenanceStatusChanged,
     required TResult Function(ForceUpgrade forceUpgrade)
         forceUpgradeStatusChanged,
-    required TResult Function(AuthUser? user) userChanged,
+    required TResult Function(AuthUser user, bool? isNewUser) userChanged,
   }) {
     return onboardingCompleted();
   }
@@ -476,7 +502,7 @@ class _$AppEventOnboardingCompletedImpl implements AppEventOnboardingCompleted {
     TResult? Function(bool isDownForMaintenance)?
         downForMaintenanceStatusChanged,
     TResult? Function(ForceUpgrade forceUpgrade)? forceUpgradeStatusChanged,
-    TResult? Function(AuthUser? user)? userChanged,
+    TResult? Function(AuthUser user, bool? isNewUser)? userChanged,
   }) {
     return onboardingCompleted?.call();
   }
@@ -489,7 +515,7 @@ class _$AppEventOnboardingCompletedImpl implements AppEventOnboardingCompleted {
     TResult Function(bool isDownForMaintenance)?
         downForMaintenanceStatusChanged,
     TResult Function(ForceUpgrade forceUpgrade)? forceUpgradeStatusChanged,
-    TResult Function(AuthUser? user)? userChanged,
+    TResult Function(AuthUser user, bool? isNewUser)? userChanged,
     required TResult orElse(),
   }) {
     if (onboardingCompleted != null) {
@@ -631,7 +657,7 @@ class _$AppEventDownForMaintenanceStatusChangedImpl
         downForMaintenanceStatusChanged,
     required TResult Function(ForceUpgrade forceUpgrade)
         forceUpgradeStatusChanged,
-    required TResult Function(AuthUser? user) userChanged,
+    required TResult Function(AuthUser user, bool? isNewUser) userChanged,
   }) {
     return downForMaintenanceStatusChanged(isDownForMaintenance);
   }
@@ -644,7 +670,7 @@ class _$AppEventDownForMaintenanceStatusChangedImpl
     TResult? Function(bool isDownForMaintenance)?
         downForMaintenanceStatusChanged,
     TResult? Function(ForceUpgrade forceUpgrade)? forceUpgradeStatusChanged,
-    TResult? Function(AuthUser? user)? userChanged,
+    TResult? Function(AuthUser user, bool? isNewUser)? userChanged,
   }) {
     return downForMaintenanceStatusChanged?.call(isDownForMaintenance);
   }
@@ -657,7 +683,7 @@ class _$AppEventDownForMaintenanceStatusChangedImpl
     TResult Function(bool isDownForMaintenance)?
         downForMaintenanceStatusChanged,
     TResult Function(ForceUpgrade forceUpgrade)? forceUpgradeStatusChanged,
-    TResult Function(AuthUser? user)? userChanged,
+    TResult Function(AuthUser user, bool? isNewUser)? userChanged,
     required TResult orElse(),
   }) {
     if (downForMaintenanceStatusChanged != null) {
@@ -804,7 +830,7 @@ class _$AppEventForceUpgradeStatusChangedImpl
         downForMaintenanceStatusChanged,
     required TResult Function(ForceUpgrade forceUpgrade)
         forceUpgradeStatusChanged,
-    required TResult Function(AuthUser? user) userChanged,
+    required TResult Function(AuthUser user, bool? isNewUser) userChanged,
   }) {
     return forceUpgradeStatusChanged(forceUpgrade);
   }
@@ -817,7 +843,7 @@ class _$AppEventForceUpgradeStatusChangedImpl
     TResult? Function(bool isDownForMaintenance)?
         downForMaintenanceStatusChanged,
     TResult? Function(ForceUpgrade forceUpgrade)? forceUpgradeStatusChanged,
-    TResult? Function(AuthUser? user)? userChanged,
+    TResult? Function(AuthUser user, bool? isNewUser)? userChanged,
   }) {
     return forceUpgradeStatusChanged?.call(forceUpgrade);
   }
@@ -830,7 +856,7 @@ class _$AppEventForceUpgradeStatusChangedImpl
     TResult Function(bool isDownForMaintenance)?
         downForMaintenanceStatusChanged,
     TResult Function(ForceUpgrade forceUpgrade)? forceUpgradeStatusChanged,
-    TResult Function(AuthUser? user)? userChanged,
+    TResult Function(AuthUser user, bool? isNewUser)? userChanged,
     required TResult orElse(),
   }) {
     if (forceUpgradeStatusChanged != null) {
@@ -905,9 +931,9 @@ abstract class _$$AppEventUserChangedImplCopyWith<$Res> {
           $Res Function(_$AppEventUserChangedImpl) then) =
       __$$AppEventUserChangedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({AuthUser? user});
+  $Res call({AuthUser user, bool? isNewUser});
 
-  $AuthUserCopyWith<$Res>? get user;
+  $AuthUserCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -921,24 +947,25 @@ class __$$AppEventUserChangedImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? user = freezed,
+    Object? user = null,
+    Object? isNewUser = freezed,
   }) {
     return _then(_$AppEventUserChangedImpl(
-      freezed == user
+      null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as AuthUser?,
+              as AuthUser,
+      isNewUser: freezed == isNewUser
+          ? _value.isNewUser
+          : isNewUser // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $AuthUserCopyWith<$Res>? get user {
-    if (_value.user == null) {
-      return null;
-    }
-
-    return $AuthUserCopyWith<$Res>(_value.user!, (value) {
+  $AuthUserCopyWith<$Res> get user {
+    return $AuthUserCopyWith<$Res>(_value.user, (value) {
       return _then(_value.copyWith(user: value));
     });
   }
@@ -947,14 +974,16 @@ class __$$AppEventUserChangedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$AppEventUserChangedImpl implements AppEventUserChanged {
-  const _$AppEventUserChangedImpl(this.user);
+  const _$AppEventUserChangedImpl(this.user, {this.isNewUser});
 
   @override
-  final AuthUser? user;
+  final AuthUser user;
+  @override
+  final bool? isNewUser;
 
   @override
   String toString() {
-    return 'AppEvent.userChanged(user: $user)';
+    return 'AppEvent.userChanged(user: $user, isNewUser: $isNewUser)';
   }
 
   @override
@@ -962,11 +991,13 @@ class _$AppEventUserChangedImpl implements AppEventUserChanged {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AppEventUserChangedImpl &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.isNewUser, isNewUser) ||
+                other.isNewUser == isNewUser));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, user);
+  int get hashCode => Object.hash(runtimeType, user, isNewUser);
 
   @JsonKey(ignore: true)
   @override
@@ -984,9 +1015,9 @@ class _$AppEventUserChangedImpl implements AppEventUserChanged {
         downForMaintenanceStatusChanged,
     required TResult Function(ForceUpgrade forceUpgrade)
         forceUpgradeStatusChanged,
-    required TResult Function(AuthUser? user) userChanged,
+    required TResult Function(AuthUser user, bool? isNewUser) userChanged,
   }) {
-    return userChanged(user);
+    return userChanged(user, isNewUser);
   }
 
   @override
@@ -997,9 +1028,9 @@ class _$AppEventUserChangedImpl implements AppEventUserChanged {
     TResult? Function(bool isDownForMaintenance)?
         downForMaintenanceStatusChanged,
     TResult? Function(ForceUpgrade forceUpgrade)? forceUpgradeStatusChanged,
-    TResult? Function(AuthUser? user)? userChanged,
+    TResult? Function(AuthUser user, bool? isNewUser)? userChanged,
   }) {
-    return userChanged?.call(user);
+    return userChanged?.call(user, isNewUser);
   }
 
   @override
@@ -1010,11 +1041,11 @@ class _$AppEventUserChangedImpl implements AppEventUserChanged {
     TResult Function(bool isDownForMaintenance)?
         downForMaintenanceStatusChanged,
     TResult Function(ForceUpgrade forceUpgrade)? forceUpgradeStatusChanged,
-    TResult Function(AuthUser? user)? userChanged,
+    TResult Function(AuthUser user, bool? isNewUser)? userChanged,
     required TResult orElse(),
   }) {
     if (userChanged != null) {
-      return userChanged(user);
+      return userChanged(user, isNewUser);
     }
     return orElse();
   }
@@ -1068,10 +1099,11 @@ class _$AppEventUserChangedImpl implements AppEventUserChanged {
 }
 
 abstract class AppEventUserChanged implements AppEvent {
-  const factory AppEventUserChanged(final AuthUser? user) =
-      _$AppEventUserChangedImpl;
+  const factory AppEventUserChanged(final AuthUser user,
+      {final bool? isNewUser}) = _$AppEventUserChangedImpl;
 
-  AuthUser? get user;
+  AuthUser get user;
+  bool? get isNewUser;
   @JsonKey(ignore: true)
   _$$AppEventUserChangedImplCopyWith<_$AppEventUserChangedImpl> get copyWith =>
       throw _privateConstructorUsedError;

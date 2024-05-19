@@ -4,26 +4,37 @@ import 'package:get_it/get_it.dart';
 import 'package:habits_client/habits_client.dart';
 import 'package:habits_flutter/app/app.dart';
 import 'package:habits_flutter/app_config/app_config.dart';
+import 'package:habits_flutter/auth/auth.dart';
 import 'package:habits_flutter/core/core.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
 /// Sets up non-testing dependency injection. This means production or local
 /// development.
-void setUpLiveDI({required String apiBaseUrl, required Environment env}) {
+void setUpLiveDI({
+  required String apiBaseUrl,
+  required Environment env,
+  AppConfigRepository? appConfigRepository,
+}) {
   GetIt.I.registerSingleton<IAppConfigService>(FakeAppConfigService());
   GetIt.I.registerSingleton<AppDetails>(AppDetails.fake());
-  setUpDI(
-    apiBaseUrl: apiBaseUrl,
-  );
-}
 
-/// Shared/common setup between tests and live runs.
-void setUpDI({
-  required String apiBaseUrl,
-  AppConfigRepository? appConfigRepository,
-  AppBloc? appBloc,
-}) {
+  // AUTH
+  GetIt.I.registerSingleton<BaseRestAuth<AuthUser>>(
+    ServerpodAuthService<AuthUser, String>(),
+  );
+  GetIt.I.registerSingleton<BaseSocialAuth>(FirebaseAuthService());
+  GetIt.I.registerSingleton<BaseAuthRepository<AuthUser>>(AuthRepository());
+
+  // APP-WIDE
+  GetIt.I.registerSingleton<BaseAppConfigRepository>(
+    appConfigRepository ??
+        AppConfigRepository(
+          details: GetIt.I<AppDetails>(),
+          service: GetIt.I<IAppConfigService>(),
+        ),
+  );
+
   // SERVERPOD
   GetIt.I.registerSingleton<Client>(
     Client(
@@ -37,15 +48,21 @@ void setUpDI({
     ),
   );
 
+  // CORE DI
+  setUpDI(
+    apiBaseUrl: apiBaseUrl,
+  );
+}
+
+/// Shared/common setup between tests and live runs.
+void setUpDI({
+  required String apiBaseUrl,
+  AppBloc? appBloc,
+}) {
   // AUTH
   GetIt.I.registerSingleton<AuthBindings<AuthUser, String>>(
     const AuthUserBindings(),
   );
-  GetIt.I.registerSingleton<BaseRestAuth<AuthUser>>(
-    ServerpodAuthService<AuthUser, String>(),
-  );
-  GetIt.I.registerSingleton<BaseSocialAuth>(FirebaseAuthService());
-  GetIt.I.registerSingleton<AuthRepository>(AuthRepository());
 
   // GetIt.I.registerSingleton<RestApi>(
   //   RestApi(
@@ -56,18 +73,11 @@ void setUpDI({
   // );
 
   // APP-WIDE
-  GetIt.I.registerSingleton<AppConfigRepository>(
-    appConfigRepository ??
-        AppConfigRepository(
-          details: GetIt.I<AppDetails>(),
-          service: GetIt.I<IAppConfigService>(),
-        ),
-  );
   GetIt.I.registerSingleton<AppBloc>(
     appBloc ??
         AppBloc(
-          appConfigRepository: GetIt.I<AppConfigRepository>(),
-          authRepository: GetIt.I<AuthRepository>(),
+          appConfigRepository: GetIt.I<BaseAppConfigRepository>(),
+          authRepository: GetIt.I<BaseAuthRepository<AuthUser>>(),
         ),
   );
   GetIt.I.registerSingleton<AppRouter>(

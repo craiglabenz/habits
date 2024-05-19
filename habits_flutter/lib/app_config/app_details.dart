@@ -45,7 +45,7 @@ class AppDetails {
 
   /// Constructor which uses faked details for testing.
   factory AppDetails.fake() => const AppDetails(
-        apiBaseUrl: 'https://fake.com',
+        apiBaseUrl: 'https://fake.com/',
         appVersion: 'fake',
         environment: Environment.test,
         buildNumber: 1,

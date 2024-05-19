@@ -19,6 +19,18 @@ abstract class Model<K> {
   Json serializeId() => {'id': id};
 }
 
+/// Flavor of [Model] with String ids.
+abstract class StringModel extends Model<String> {
+  /// Generative constructor.
+  const StringModel();
+}
+
+/// Flavor of [Model] with [int] ids.
+abstract class IntModel extends Model<int> {
+  /// Generative constructor.
+  const IntModel();
+}
+
 /// Base data class for types which have a `createdAt` field to track age.
 abstract class CreatedAtModel<K> extends Model<K> {
   /// Generative constructor.

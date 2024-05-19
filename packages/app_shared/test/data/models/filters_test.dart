@@ -26,7 +26,7 @@ class Data {
 enum BooleanLogic { and, or }
 
 ///
-final class DataFilter extends Filter<Data> {
+final class DataFilter extends BaseFilter<Data> {
   DataFilter._({
     this.idGreaterThan,
     this.idLessThan,

@@ -12,7 +12,7 @@ import 'package:equatable/src/equatable_utils.dart';
 abstract class RequestDetails<T> extends Equatable {
   /// {@macro RequestDetails}
   factory RequestDetails({
-    List<Filter<T>>? filters,
+    List<BaseFilter<T>>? filters,
     Pagination? pagination,
     RequestType? requestType,
     bool? shouldOverwrite,
@@ -27,7 +27,7 @@ abstract class RequestDetails<T> extends Equatable {
 
   /// Optional list of filters for this read request. Filters are only used
   /// during writes to local sources and reads from any source.
-  final List<Filter<T>> filters;
+  final List<BaseFilter<T>> filters;
 
   /// Optional pagination for this request. Pagination details are only used
   /// for local sources - of course this has no impact when writing to the
@@ -43,7 +43,7 @@ abstract class RequestDetails<T> extends Equatable {
   /// Returns a new [RequestDetails] with any passed fields overwritten with the
   /// new values.
   RequestDetails<T> copyWith({
-    List<Filter<T>>? filters,
+    List<BaseFilter<T>>? filters,
     Pagination? pagination,
     RequestType? requestType,
     bool? shouldOverwrite,
@@ -84,7 +84,7 @@ abstract class RequestDetails<T> extends Equatable {
         'requestType: $requestType, shouldOverwrite: $shouldOverwrite)';
   }
 
-  /// Returns the [Params] value from this object's list of [Filter]s.
+  /// Returns the [Params] value from this object's list of [BaseFilter]s.
   Params get params => filters.allParams();
 
   @override
@@ -95,7 +95,7 @@ abstract class RequestDetails<T> extends Equatable {
 // ignore: must_be_immutable
 class _RequestDetailsImpl<T> extends RequestDetails<T> {
   _RequestDetailsImpl({
-    List<Filter<T>>? filters,
+    List<BaseFilter<T>>? filters,
     super.pagination,
     RequestType? requestType,
     bool? shouldOverwrite,
@@ -113,7 +113,7 @@ class _RequestDetailsImpl<T> extends RequestDetails<T> {
     Object? shouldOverwrite = _Undefined,
   }) {
     return RequestDetails<T>(
-      filters: filters is List<Filter<T>>? ? filters : this.filters,
+      filters: filters is List<BaseFilter<T>>? ? filters : this.filters,
       pagination: pagination is Pagination? ? pagination : this.pagination,
       requestType: requestType is RequestType? ? requestType : this.requestType,
       shouldOverwrite:

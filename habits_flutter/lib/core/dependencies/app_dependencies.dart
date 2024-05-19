@@ -1,4 +1,5 @@
 import 'package:app_client/app_client.dart';
+import 'package:app_shared/app_shared.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:habits_flutter/app/app.dart';
@@ -11,10 +12,10 @@ class AppDependencies {
   /// {@macro AppDependencies}
   factory AppDependencies() => AppDependencies._(
         appBloc: GetIt.I<AppBloc>(),
-        appConfigRepository: GetIt.I<AppConfigRepository>(),
+        appConfigRepository: GetIt.I<BaseAppConfigRepository>(),
         // appRouter: GetIt.I<ApplicationRouter>(),
         // appStoreReviewBloc: GetIt.I<AppStoreReviewBloc>(),
-        authRepository: GetIt.I<AuthRepository>(),
+        authRepository: GetIt.I<BaseAuthRepository<AuthUser>>(),
         // navigationCubit: GetIt.I<NavigationCubit>(),
         targetPlatform: GetIt.I.isRegistered<TargetPlatform>()
             ? GetIt.I<TargetPlatform>()
@@ -37,13 +38,13 @@ class AppDependencies {
   AppBloc appBloc;
 
   /// {@macro AppConfigRepository}
-  AppConfigRepository appConfigRepository;
+  BaseAppConfigRepository appConfigRepository;
 
   // ApplicationRouter appRouter;
   // AppStoreReviewBloc appStoreReviewBloc;
 
   /// {@macro AuthRepository}
-  AuthRepository authRepository;
+  BaseAuthRepository<AuthUser> authRepository;
 
   // NavigationCubit navigationCubit;
   // ThemeModeBloc themeModeBloc;

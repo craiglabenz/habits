@@ -1,32 +1,25 @@
-import 'package:app_client/app_client.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:habits_flutter/app/app.dart';
 import 'package:habits_flutter/app_config/app_config.dart';
 import 'package:habits_flutter/core/core.dart';
 
+import '../../dependency_intestion.dart';
+
 void main() {
   group('AppRouter should', () {
-    late FakeAppConfigRepository appConfigRepo;
-    late FakeAuthRepository authRepo;
-    late AppBloc appBloc;
+    setUp(setUpTestDI);
 
-    setUp(() {
-      appConfigRepo = FakeAppConfigRepository();
-      authRepo = FakeAuthRepository();
-      appBloc = AppBloc(
-        appConfigRepository: appConfigRepo,
-        authRepository: authRepo,
-      );
-    });
+    tearDown(() async => GetIt.I.reset());
 
     testWidgets(
       'redirect to maintenance when the AppState signals as much',
       (tester) async {
         await tester.runAsync(() async {
-          final appRouter = AppRouter(appBloc);
+          // final appRouter = AppRouter(appBloc);
           final expectation = expectLater(
-            appRouter.redirects,
+            GetIt.I<AppRouter>().redirects,
+            // appRouter.redirects,
             emitsInOrder([
               // First non-redirect for staying on the splash page
               null,
@@ -38,15 +31,13 @@ void main() {
           );
 
           await tester.pumpWidget(
-            BlocProvider.value(
-              value: appBloc,
-              child: AppView(appRouter: appRouter),
-            ),
+            const AppView(),
           );
-          appConfigRepo.publishRequiredMaintenance();
+          GetIt.I<BaseAppConfigRepository>().publishRequiredMaintenance();
+
           await expectation;
           expect(
-            appRouter.lastGoRouterState!.fullPath,
+            GetIt.I<AppRouter>().lastGoRouterState!.fullPath,
             Routes.maintenance.path,
           );
         });
@@ -58,9 +49,9 @@ void main() {
       'redirect to upgrade page when the AppState signals as much',
       (tester) async {
         await tester.runAsync(() async {
-          final appRouter = AppRouter(appBloc);
+          // final appRouter = AppRouter(appBloc);
           final expectation = expectLater(
-            appRouter.redirects,
+            GetIt.I<AppRouter>().redirects,
             emitsInOrder([
               // First non-redirect for staying on the splash page
               null,
@@ -72,15 +63,13 @@ void main() {
           );
 
           await tester.pumpWidget(
-            BlocProvider.value(
-              value: appBloc,
-              child: AppView(appRouter: appRouter),
-            ),
+            const AppView(),
           );
-          appConfigRepo.publishUpgradeStatus(ForceUpgrade.yes('url'));
+          GetIt.I<BaseAppConfigRepository>()
+              .publishUpgradeStatus(ForceUpgrade.yes('url'));
           await expectation;
           expect(
-            appRouter.lastGoRouterState!.fullPath,
+            GetIt.I<AppRouter>().lastGoRouterState!.fullPath,
             Routes.upgrade.path,
           );
         });

@@ -323,7 +323,7 @@ void main() {
         );
         await expectLater(
           authRepo.user,
-          emitsInOrder(const <AuthUser?>[null]),
+          emitsInOrder(const [(AuthUser.anonymous, false)]),
         );
       });
 
@@ -352,12 +352,12 @@ void main() {
               const Left(AuthenticationError.badEmailPassword()),
             ]),
             registerResults:
-                Queue.from(<UserOrError<AuthUser>>[const Right(newUser)]),
+                Queue.from(<UserOrError<AuthUser>>[(const Right(newUser))]),
           ),
         );
         await expectLater(
           authRepo.user,
-          emitsInOrder(const <AuthUser>[newUser]),
+          emitsInOrder(const [(newUser, true)]),
         );
       });
 
@@ -387,7 +387,7 @@ void main() {
         );
         await expectLater(
           authRepo.user,
-          emitsInOrder(const <AuthUser>[returningUser]),
+          emitsInOrder(const [(returningUser, false)]),
         );
       });
     });

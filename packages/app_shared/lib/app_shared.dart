@@ -3,4 +3,5 @@ library;
 
 export 'src/auth/auth.dart';
 export 'src/data/data.dart';
+export 'src/extensions/extensions.dart';
 export 'src/types.dart';

@@ -15,6 +15,9 @@ class AppRouter {
       routes: [
         Routes.splash,
         Routes.welcome,
+        Routes.onboarding,
+        // includes Routes.login
+        // includes Routes.onboarding
         Routes.maintenance,
         Routes.upgrade,
       ],
@@ -81,6 +84,14 @@ class AppRouter {
 
   /// Navigates the app to the given page.
   void goTo(String path) => router.go(path);
+
+  /// Adds the onboarding screen to the navigation stack. This is pushed to
+  /// preserve the user's ability to go backward.
+  void pushOnboarding() => _pushNamed(Routes.onboarding.name!);
+
+  /// Adds the login screen to the navigation stack. This is pushed to
+  /// preserve the user's ability to go backward.
+  void pushLogin() => _pushNamed(Routes.login.name!);
 }
 
 /// {@template GoRouterRefreshStream}

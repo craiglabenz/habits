@@ -19,13 +19,7 @@ class App extends StatelessWidget {
 /// {@endtemplate}
 class AppView extends StatelessWidget {
   /// {@macro AppView.widget}
-  const AppView({
-    this.appRouter,
-    super.key,
-  });
-
-  /// Optional [AppRouter] override.
-  final AppRouter? appRouter;
+  const AppView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +32,7 @@ class AppView extends StatelessWidget {
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      routerConfig: (appRouter ?? GetIt.I<AppRouter>()).router,
+      routerConfig: GetIt.I<AppRouter>().router,
     );
   }
 }

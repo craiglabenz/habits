@@ -13,7 +13,9 @@ dependencies:
   path: ^1.9.0
   serverpod: 1.2.6
   serverpod_auth_server: 1.2.6
+  serverpod_serialization: 1.2.6
   timezone: ^0.9.2
+  uuid: ^4.4.0
 
 dev_dependencies:
   lints: ^3.0.0

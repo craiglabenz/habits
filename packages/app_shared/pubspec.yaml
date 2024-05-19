@@ -7,8 +7,6 @@ environment:
   sdk: "^3.3.0"
 
 dependencies:
-  app_client:
-    path: ../app_client
   dartz: ^0.10.1
   freezed_annotation: ^2.4.1
   meta: ^1.14.0

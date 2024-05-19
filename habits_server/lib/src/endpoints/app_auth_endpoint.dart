@@ -14,6 +14,7 @@ class AppAuthEndpoint extends Endpoint {
       session,
       userIdentifier: userIdentifier,
       username: username,
+      allowEmptyUsername: true,
     );
   }
 }

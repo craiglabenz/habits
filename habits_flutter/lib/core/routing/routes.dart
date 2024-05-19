@@ -18,6 +18,20 @@ class Routes {
     builder: (context, state) => WelcomeScreen(key: state.pageKey),
   );
 
+  /// Process for a user to quickly create an account.
+  static final GoRoute onboarding = GoRoute(
+    name: 'onboarding',
+    path: '/onboarding',
+    builder: (context, state) => OnboardingScreen(key: state.pageKey),
+  );
+
+  /// Page to restore an existing session.
+  static final GoRoute login = GoRoute(
+    name: 'login',
+    path: '/login',
+    builder: (context, state) => LoginScreen(key: state.pageKey),
+  );
+
   /// Home route which a user should settle on after successfully logging in or
   /// validating an existing session.
   static final GoRoute home = GoRoute(

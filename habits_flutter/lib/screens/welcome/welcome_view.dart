@@ -1,17 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:habits_flutter/core/core.dart';
+import 'package:habits_flutter/screens/welcome/welcome.dart';
 
 /// {@template WelcomeScreen}
 /// Initial welcome screen for unknown sessions.
 /// {@endtemplate}
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
   /// {@macro WelcomeScreen}
   const WelcomeScreen({super.key});
 
   @override
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  final bloc = WelcomeBloc();
+
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('Welcome'),
+    return Scaffold(
+      appBar: AppBar(title: const Text('Welcome')),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          TextButton(
+            onPressed: () => bloc.add(const CreateAccountEvent()),
+            child: Text(
+              'Get started',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          ),
+          TextButton(
+            onPressed: () => GetIt.I<AppRouter>().pushLogin(),
+            child: Text(
+              'Login',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          ),
+        ],
       ),
     );
   }

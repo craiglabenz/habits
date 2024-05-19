@@ -44,7 +44,7 @@ void main() {
         restAuthService: restAuth,
       );
       final userStreamExpectation =
-          expectLater(authRepo.user, emitsInOrder([user]));
+          expectLater(authRepo.user, emitsInOrder([(user, true)]));
       final result = await authRepo.signUp(
         email: user.email!,
         password: pw,
@@ -75,7 +75,7 @@ void main() {
       );
       final userStreamExpectation = expectLater(
         authRepo.user,
-        emitsInOrder([null]),
+        emitsInOrder([(AuthUser.anonymous, false)]),
       );
       final result = await authRepo.signUp(
         email: user.email!,
@@ -98,7 +98,7 @@ void main() {
       );
       final userStreamExpectation = expectLater(
         authRepo.user,
-        emitsInOrder([user]),
+        emitsInOrder([(user, false)]),
       );
       final result = await authRepo.logInWithEmailAndPassword(
         email: user.email!,
@@ -125,7 +125,7 @@ void main() {
       );
       final userStreamExpectation = expectLater(
         authRepo.user,
-        emitsInOrder([user]),
+        emitsInOrder([(user, true)]),
       );
       final result = await authRepo.logInWithEmailAndPassword(
         email: user.email!,

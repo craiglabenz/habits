@@ -21,6 +21,15 @@ abstract interface class BaseAppConfigRepository {
   /// Returns a [Stream<ForceUpgrade>] which indicates whether
   /// the current application requires a force upgrade.
   Stream<ForceUpgrade> get isForceUpgradeRequired;
+
+  /// Forces a "requires maintenance" signal through the repository's stream.
+  void publishRequiredMaintenance();
+
+  /// Forces a "no maintenance required" signal through the repository's stream.
+  void publishNoMaintenance();
+
+  /// Forces a specific upgrade signal through the repository.
+  void publishUpgradeStatus(ForceUpgrade val);
 }
 
 /// {@macro AppConfigRepository}
@@ -93,6 +102,15 @@ class AppConfigRepository implements BaseAppConfigRepository {
           },
         ),
       ).asBroadcastStream();
+
+  @override
+  void publishNoMaintenance() => _maintenanceController.add(false);
+
+  @override
+  void publishRequiredMaintenance() => _maintenanceController.add(true);
+
+  @override
+  void publishUpgradeStatus(ForceUpgrade val) => _upgradeController.add(val);
 }
 
 /// Faked implementation of [BaseAppConfigRepository] for testing.
@@ -100,13 +118,13 @@ class FakeAppConfigRepository implements BaseAppConfigRepository {
   final _maintenanceController = StreamController<bool>.broadcast();
   final _upgradeController = StreamController<ForceUpgrade>.broadcast();
 
-  /// Forces a "requires maintenance" signal through the repository's stream.
+  @override
   void publishRequiredMaintenance() => _maintenanceController.add(true);
 
-  /// Forces a "no maintenance required" signal through the repository's stream.
+  @override
   void publishNoMaintenance() => _maintenanceController.add(false);
 
-  /// Forces a specific upgrade signal through the repository.
+  @override
   void publishUpgradeStatus(ForceUpgrade val) => _upgradeController.add(val);
 
   @override

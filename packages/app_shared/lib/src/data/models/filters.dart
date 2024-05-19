@@ -3,9 +3,9 @@ import 'package:app_shared/app_shared.dart';
 /// {@template Filter}
 /// Base class for applying logical filters to sets of objects.
 /// {@endtemplate}
-abstract class Filter<T> {
+abstract class BaseFilter<T> {
   /// {@macro Filter}
-  const Filter();
+  const BaseFilter();
 
   /// Returns true if the given object satisfies the requirements.
   bool apply(T obj);
@@ -25,50 +25,8 @@ abstract class Filter<T> {
   Json toJson();
 }
 
-// @Freezed()
-// class ComboFilter<T> extends Filter<T> with _$ComboFilter<T> {
-//   const ComboFilter._();
-//   const factory ComboFilter.and(List<Filter<T>> children) = AndFilter;
-//   const factory ComboFilter.or(List<Filter<T>> children) = OrFilter;
-
-//   factory ComboFilter.fromJson(Json json) {
-//     return _$ComboFilterFromJson(json);
-//   }
-
-//   @override
-//   bool apply(obj) => map(
-//         and: (f) => children.every((f) => f.apply(obj)),
-//         or: (f) => children.any((f) => f.apply(obj)),
-//       );
-// }
-
-extension on DateTime {
-  /// Shorter [toIso8601String] getter.
-  // ignore: unused_element
-  String get iso => toIso8601String();
-}
-
-extension on DateTime? {
-  /// Easy greater than comparison for DateTimes.
-  // ignore: unused_element
-  bool operator >(DateTime other) =>
-      this != null && this!.difference(other) > Duration.zero;
-
-  /// Easy less than comparison for DateTimes.
-  // ignore: unused_element
-  bool operator <(DateTime other) =>
-      this != null && this!.difference(other) < Duration.zero;
-
-  // ignore: unused_element
-  bool operator >=(DateTime other) =>
-      this != null && this!.difference(other) >= Duration.zero;
-  // ignore: unused_element
-  bool operator <=(DateTime other) =>
-      this != null && this!.difference(other) <= Duration.zero;
-}
-
 /// Convenience rules for applying lists of filters to objects.
-extension FilterList<T> on List<Filter<T>> {
+extension FilterList<T> on Iterable<BaseFilter<T>> {
   /// Applies filters to the in-memory object, requiring that all pass
   /// successfully.
   bool apply(T obj) => every((f) => f.apply(obj));

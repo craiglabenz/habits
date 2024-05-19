@@ -1,0 +1,18 @@
+class: User
+table: user
+fields:
+  userInfo: module:auth:UserInfo?, relation
+  uid: UuidValue
+  name: String?
+  country: String?
+  timezone: String?
+  createdAt: DateTime?, scope=serverOnly
+  updatedAt: DateTime?, scope=serverOnly
+indexes:
+  user_info_id_unique_idx:
+    fields: userInfoId
+    unique: true
+  user_uid:
+    fields: uid
+    # No need for unique: true - that'll just be expensive to maintain and we
+    # can count on the very nature of Uuid.v4() to deliver uniqueness

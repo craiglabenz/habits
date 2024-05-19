@@ -29,7 +29,7 @@ class GoRouterRedirector {
     MaintenanceRedirector(),
     // StayOnSplash(),
     UnauthenticatedToWelcome(),
-    // NewUsersToOnboarding(),
+    NewUsersToOnboarding(),
     // AuthenticatedUsersAwayFromWelcome(),
     // AuthenticatedUsersAwayFromSignUp(),
     // AuthenticatedUsersAwayFromLogin(),
@@ -235,24 +235,27 @@ class UnauthenticatedToWelcome extends Redirector {
       Uri(path: Routes.welcome.path);
 }
 
-// class NewUsersToOnboarding extends Redirector {
-//   const NewUsersToOnboarding();
-//   @override
-//   bool predicate(
-//     RouteState routeState,
-//     AppState appState,
-//   ) =>
-//       // Redirect authenticated but new users to the Onboarding page.
-//       !routeState.path!.contains(Routes.onboardingStart.path) &&
-//       appState.isNewUser;
+/// {@template NewUsersToOnboarding}
+/// Sends brand new user sessions to the onboarding flow.
+/// {@endtemplate}
+class NewUsersToOnboarding extends Redirector {
+  /// {@macro NewUsersToOnboarding}
+  const NewUsersToOnboarding();
+  @override
+  bool predicate(
+    RouteState routeState,
+    AppState appState,
+  ) =>
+      // Redirect authenticated but new users to the Onboarding page.
+      !routeState.path.contains(Routes.onboarding.path) && appState.isNewUser;
 
-//   @override
-//   Uri? getNewUri(
-//     RouteState routeState,
-//     AppState appState,
-//   ) =>
-//       Uri(path: Routes.onboardingStart.path);
-// }
+  @override
+  Uri? getNewUri(
+    RouteState routeState,
+    AppState appState,
+  ) =>
+      Uri(path: Routes.onboarding.path);
+}
 
 // class AuthenticatedUsersAwayFromWelcome extends Redirector {
 //   const AuthenticatedUsersAwayFromWelcome();

@@ -5,3 +5,6 @@ modules:
     nickname: auth
 
 client_package_path: ../habits_client
+
+extraClasses:
+  - package:habits_shared/habits_shared.dart:UserFilter

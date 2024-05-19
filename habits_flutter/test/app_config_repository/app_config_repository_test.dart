@@ -43,7 +43,7 @@ void main() {
     test('does not require an injected Firestore instance', () {
       expect(
         () {
-          GetIt.I.get<AppConfigRepository>();
+          GetIt.I.get<BaseAppConfigRepository>();
         },
         isNot(throwsException),
       );

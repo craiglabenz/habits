@@ -2,6 +2,13 @@ import 'dart:io';
 import 'package:ansi/ansi.dart' as ansi;
 import 'package:path/path.dart' as path;
 
+/// Lists the class names to which to apply the toJson/fromJson modification.
+/// These are any classes from the `shared` directory - not models completely
+/// managed by Serverpod.
+const classNamesToAdjust = <String>[
+  'UserFilter',
+];
+
 void main() {
   if (!Directory.current.path.endsWith('habits_server')) {
     stderr.writeln(
@@ -19,7 +26,9 @@ void main() {
     stderr.writeln('Could not find server protocol file');
     exit(1);
   }
-  dropProtocolParameter(serverProtocol);
+  for (final className in classNamesToAdjust) {
+    dropProtocolParameter(className, serverProtocol);
+  }
   stdout.writeln(ansi.green('Updated server protocol.dart'));
 
   final clientProtocol = File(
@@ -33,14 +42,18 @@ void main() {
     stderr.writeln('Could not find client protocol file');
     exit(1);
   }
-  dropProtocolParameter(clientProtocol);
-  dropProtocolParameter(serverProtocol);
+  for (final className in classNamesToAdjust) {
+    dropProtocolParameter(className, clientProtocol);
+  }
   stdout.writeln(ansi.green('Updated client protocol.dart'));
 }
 
-void dropProtocolParameter(File file) {
+void dropProtocolParameter(String className, File file) {
   final content = file.readAsStringSync();
   file.writeAsStringSync(
-    content.replaceAll('fromJson(data, this)', 'fromJson(data)'),
+    content.replaceAll(
+      '$className.fromJson(data, this)',
+      '$className.fromJson(data)',
+    ),
   );
 }

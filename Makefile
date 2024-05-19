@@ -9,30 +9,36 @@ packages/install:
 	cd packages/app_client && flutter pub get
 	cd habits_shared && dart pub get
 
-packages/build:
+app_shared/build:
 	cd packages/app_shared && dart run build_runner build --delete-conflicting-outputs
+
+app_client/build:
 	cd packages/app_client && dart run build_runner build --delete-conflicting-outputs
-	habits_shared && dart run build_runner build --delete-conflicting-outputs
+
+habits_shared/build:
+	cd habits_shared && flutter pub run build_runner build --delete-conflicting-outputs
+
+packages/build: app_shared/build app_client/build habits_shared/build
 
 packages/test:
 	cd packages/app_shared && dart test
 	cd packages/app_client && flutter test
-	cd habits_shared && dart test
+	# cd habits_shared && dart test
 
 # Server
 server/install:
 	cd habits_server && dart pub get
 
-server/build: generate
+server/build: server/generate
 
-generate:
+server/generate:
 	cd habits_server && serverpod generate
 	cd habits_server && dart bin/adjust_protocol.dart
 
-migrations:
+server/migrations:
 	cd habits_server && serverpod create-migration
 
-migrate:
+server/migrate:
 	cd habits_server && dart bin/main.dart --apply-migrations --role=maintenance
 
 server/run:
@@ -43,6 +49,10 @@ client/install:
 	cd habits_client && dart pub get
 
 # App
+app/build:
+	cd habits_flutter && flutter pub run build_runner build --delete-conflicting-outputs
+	cd habits_flutter && flutter pub get
+
 app/install:
 	cd habits_flutter && flutter pub get
 

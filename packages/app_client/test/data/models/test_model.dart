@@ -127,7 +127,7 @@ class FakeSourceList<T, K> extends SourceList<T, K> {
 }
 
 @Freezed()
-class TestModelFilter extends Filter<TestModel> with _$TestModelFilter {
+class TestModelFilter extends BaseFilter<TestModel> with _$TestModelFilter {
   const TestModelFilter._();
   const factory TestModelFilter.messageEquals(String match) =
       TestModelMessageEquals;

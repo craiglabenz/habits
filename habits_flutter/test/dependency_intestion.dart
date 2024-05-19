@@ -6,12 +6,14 @@ import 'package:habits_flutter/app_config/app_config.dart';
 import 'package:habits_flutter/core/core.dart';
 
 void setUpTestDI({
-  String apiBaseUrl = 'https://fake.com',
+  String apiBaseUrl = 'https://fake.com/',
 }) {
+  GetIt.I.registerSingleton<BaseAppConfigRepository>(FakeAppConfigRepository());
   GetIt.I.registerSingleton<RequestDelegate>(RequestDelegate.fake());
   GetIt.I.registerSingleton<IAppConfigService>(FakeAppConfigService());
   GetIt.I.registerSingleton<BaseSocialAuth>(FakeStreamAuth());
   GetIt.I.registerSingleton<BaseRestAuth<AuthUser>>(FakeRestAuth());
+  GetIt.I.registerSingleton<BaseAuthRepository<AuthUser>>(FakeAuthRepository());
   GetIt.I.registerSingleton<AppDetails>(
     AppDetails.live(apiBaseUrl: apiBaseUrl, env: Environment.test),
   );

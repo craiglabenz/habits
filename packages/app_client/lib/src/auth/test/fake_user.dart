@@ -2,7 +2,7 @@ import 'package:app_client/app_client.dart';
 import 'package:app_shared/app_shared.dart';
 
 /// Fake [BaseUser] implementation.
-class FakeUser extends BaseUser<String> {
+class FakeUser extends BaseUser {
   /// Fake [BaseUser] implementation.
   FakeUser({
     required this.id,

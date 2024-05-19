@@ -3,13 +3,12 @@ import 'dart:async';
 import 'package:app_client/app_client.dart';
 import 'package:app_shared/app_shared.dart';
 import 'package:dartz/dartz.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 // import 'package:networking/networking.dart';
 
-final _log = Logger('auth.AuthRepository');
+final _log = Logger('app_client.auth.AuthRepository');
 
 /// Flavor of user login.
 enum LoginType {
@@ -32,11 +31,10 @@ enum LoginType {
 abstract interface class BaseAuthRepository<T> {
   /// Placeholder for the last [T] emitted from the Firebase auth stream.
   /// A value of `null` indicates that we have not yet completed initial checks
-  /// and should probably show the `SplashPage`. A value of `null` when
-  /// [initialized] equals true indicates that we have completed the initial
-  /// checks and no user is logged in, so we should probably show the
-  /// `LoginPage`.
-  T? get lastUser;
+  /// and should probably show the `SplashPage`. Once [initialized] resolves,
+  /// this value should never again be `null`. At that time, the most least
+  /// information this should contain is `(AuthUser.anonymous, false)`.
+  (T, bool)? get lastUser;
 
   /// Indicates whether initial checks for an existing session have been
   /// completed. While this value is still `false`, no authorization information
@@ -48,7 +46,7 @@ abstract interface class BaseAuthRepository<T> {
   ///
   /// Emits `null` before the initial check has been completed, then either a
   /// valid user or an "anonymous" sentinel/singleton afterward.
-  Stream<T?> get user;
+  Stream<(T, bool)> get user;
 
   /// Creates a new user with the provided [email] and [password].
   ///
@@ -71,7 +69,7 @@ abstract interface class BaseAuthRepository<T> {
   /// Creates a fresh anonymous session for a new user.
   ///
   /// Returns an [AuthenticationError] if an exception occurs.
-  Future<UserOrError<T>> signInAnonymously();
+  Future<UserOrError<T>> signInAnonymously(String username);
 
   /// Signs in with the provided [email] and [password].
   ///
@@ -98,7 +96,7 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
     BaseRestAuth<AuthUser>? restAuthService,
   })  : _socialAuthService = socialAuthService ?? GetIt.I<BaseSocialAuth>(),
         _restAuthService = restAuthService ?? GetIt.I<BaseRestAuth<AuthUser>>(),
-        _authUserController = StreamController<AuthUser?>.broadcast(),
+        _authUserController = StreamController<(AuthUser, bool)>.broadcast(),
         _initializedCompleter = Completer<bool>() {
     _streamAuthSub = _socialAuthService.users.listen(syncUserToRest);
   }
@@ -132,21 +130,29 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
 
   final BaseSocialAuth _socialAuthService;
   final BaseRestAuth<AuthUser> _restAuthService;
-  final StreamController<AuthUser?> _authUserController;
+  final StreamController<(AuthUser, bool)> _authUserController;
 
   @override
-  AuthUser? lastUser;
+  late (AuthUser, bool) lastUser;
 
   final Completer<bool> _initializedCompleter;
+
+  /// Set during login or account creation and emitted alongside the resulting
+  /// user.
+  bool? _isNewUserAuthenticating;
 
   @override
   Future<bool> get initialized => _initializedCompleter.future;
 
   @override
-  Stream<AuthUser?> get user => _authUserController.stream;
+  Stream<(AuthUser, bool)> get user => _authUserController.stream;
 
   /// Stores the last login type for [syncUserToRest].
   LoginType? _lastLoginType;
+
+  /// Set during the anonymous user sign in flow. Used to retain the user's
+  /// typed username while we wait for Firebase to emit the new anonymous user.
+  String? _anonymousUsername;
 
   /// Sends a new [AuthUser] object through the stream for any listeners.
   ///
@@ -155,38 +161,56 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
   /// system thinks our user's session status has changed.
   Future<void> syncUserToRest(FirebaseUser? firebaseUser) async {
     if (firebaseUser != null) {
-      _log.info('Syncing FirebaseUser $firebaseUser to Rest API');
+      _log.info('Syncing FirebaseUser ${firebaseUser.uid} to Rest API');
       final maybeUser = await _restLoginOrRegister(firebaseUser);
       _lastLoginType = null;
       _userCompleter?.complete(maybeUser);
 
       // Lastly, send all of this information to the rest of the app.
       if (maybeUser.isLeft()) {
-        _publishNewUser(AuthUser.anonymous);
+        _log.warning('RestAuth returned error: ${maybeUser.leftOrRaise()}');
+        _publishNewUser(AuthUser.anonymous, false);
       } else {
-        _publishNewUser(maybeUser.getOrRaise());
+        _log.finer('RestAuth returned user');
+        _publishNewUser(maybeUser.getOrRaise(), _isNewUserAuthenticating!);
+        _isNewUserAuthenticating = null;
       }
     } else {
-      _log.info(
-        'NULL user from Firebase. Publishing [AuthUser.anonymous] to app',
-      );
-      _publishNewUser(AuthUser.anonymous);
+      _log.info('NULL user from Firebase');
+      _publishNewUser(AuthUser.anonymous, false);
     }
     if (!_initializedCompleter.isCompleted) {
       _initializedCompleter.complete(true);
     }
   }
 
-  void _publishNewUser(AuthUser? user) {
-    lastUser = user;
-    _authUserController.sink.add(user);
+  void _publishNewUser(AuthUser user, bool isNewUser) {
+    // ignore: prefer_asserts_with_message
+    assert(() {
+      if (user == AuthUser.anonymous && isNewUser) {
+        throw AssertionError(
+          'Must not set value of `isNewUser=true` when session is anonymous',
+        );
+      }
+      return true;
+    }());
+    _log.info('Publishing $user to app');
+    lastUser = (user, isNewUser);
+    _authUserController.sink.add((user, isNewUser));
   }
 
   /// Attempts to copy a Firebase Auth session to the REST backend.
   Future<UserOrError<AuthUser>> _restLoginOrRegister(
     FirebaseUser firebaseUser,
   ) async {
+    // If the user flow is an anonymous session creation, finish the job by
+    // syncing that to the REST server.
+    if (_lastLoginType == LoginType.anonymous) {
+      _isNewUserAuthenticating = true;
+      return _restAnonymous(firebaseUser);
+    }
     // See if this already exists in the application server database.
+    _isNewUserAuthenticating = firebaseUser.isNew;
     return firebaseUser.isNew
         ? _restRegister(firebaseUser)
         : _restLogin(firebaseUser);
@@ -204,8 +228,28 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
     // return _restRegister(firebaseUser);
   }
 
+  /// Helper to complete anonymous session creation which started with Firebase.
+  Future<UserOrError<AuthUser>> _restAnonymous(FirebaseUser user) async {
+    assert(
+      _anonymousUsername != null,
+      'Should not have reached `_restAnonymous` without a store username value',
+    );
+    final userOrError = await _restAuthService.createAnonymous(
+      firebaseUid: user.uid,
+      username: _anonymousUsername!,
+    );
+    if (userOrError.isLeft()) {
+      _log.warning('RestAuth anonymous FAILURE: ${userOrError.leftOrRaise()}');
+      // If we could not login this user with the REST backend, then we should
+      // logout from Firebase to not have a half-logged-in state.
+      await _socialAuthService.logOut();
+    }
+    return userOrError;
+  }
+
   /// Helper method to complete other login methods that start with Firebase.
   Future<UserOrError<AuthUser>> _restLogin(FirebaseUser user) async {
+    _log.finer('RestAuth login for ${user.uid}');
     final userOrError = await _restAuthService.login(
       email: _lastLoginType == LoginType.anonymous
           ? '${user.uid}@habits.xyz'
@@ -213,6 +257,7 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
       password: user.uid,
     );
     if (userOrError.isLeft()) {
+      _log.warning('RestAuth login FAILURE: ${userOrError.leftOrRaise()}');
       // If we could not login this user with the REST backend, then we should
       // logout from Firebase to not have a half-logged-in state.
       await _socialAuthService.logOut();
@@ -222,6 +267,7 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
 
   /// Helper method to complete other login methods that start with Firebase.
   Future<UserOrError<AuthUser>> _restRegister(FirebaseUser user) async {
+    _log.finer('RestAuth register for ${user.uid}');
     final userOrError = await _restAuthService.register(
       email: _lastLoginType == LoginType.anonymous
           ? '${user.uid}@habits.xyz'
@@ -229,6 +275,7 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
       password: user.uid,
     );
     if (userOrError.isLeft()) {
+      _log.warning('RestAuth register FAILURE: ${userOrError.leftOrRaise()}');
       // If we failed to create this user in the REST backend, then the
       // [FirebaseUser] will be orphaned, and we should delete
       await _socialAuthService.deleteUser(user);
@@ -258,19 +305,23 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
   }
 
   @override
-  Future<UserOrError<AuthUser>> signInAnonymously() {
+  Future<UserOrError<AuthUser>> signInAnonymously(String username) {
+    _log.finer('Signing in anonymously');
     _lastLoginType = LoginType.anonymous;
+    _anonymousUsername = username;
     return _curriedLoginOrRegister(_socialAuthService.signInAnonymously);
   }
 
   @override
   Future<UserOrError<AuthUser>> logInWithApple() async {
+    _log.finer('Signing in via Apple');
     _lastLoginType = LoginType.apple;
     return _curriedLoginOrRegister(_socialAuthService.logInWithApple);
   }
 
   @override
   Future<UserOrError<AuthUser>> logInWithGoogle() async {
+    _log.finer('Signing in via Google');
     _lastLoginType = LoginType.google;
     return _curriedLoginOrRegister(_socialAuthService.logInWithGoogle);
   }
@@ -280,6 +331,7 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
     required String email,
     required String password,
   }) async {
+    _log.finer('Signing in via Email::Password');
     _lastLoginType = LoginType.email;
     return _curriedLoginOrRegister(
       () => _socialAuthService.logInWithEmailAndPassword(
@@ -317,32 +369,6 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
   Future<Either<AuthenticationError, void>> logOut() async =>
       _socialAuthService.logOut();
 
-  // @override
-  // Future<Either<DisplayableError, Profile>> updateUserProfile(
-  //   Profile profile,
-  // ) async {
-  //   assert(
-  //     lastUser != null,
-  //     "Cannot update a user's profile while unauthenticated",
-  //   );
-  //   final profileOrError = await _restAuthService.updateUserProfile(
-  //     lastUser,
-  //     profile,
-  //   );
-  //   if (profileOrError.isRight()) {
-  //     final updateProfile = profileOrError.getOrRaise();
-  //     await GetIt.I<Repository<Profile, String>>().setItem(
-  //       updateProfile,
-  //       RequestDetails<Profile>(requestType: RequestType.local),
-  //     );
-  //     return Right(updateProfile);
-  //   } else {
-  //     return const Left(
-  //      DisplayableError('Unable to update profile. Please try again later.'),
-  //     );
-  //   }
-  // }
-
   @override
   Future<void> dispose() async {
     if (_streamAuthSub != null) {
@@ -370,21 +396,22 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
 class FakeAuthRepository implements BaseAuthRepository<AuthUser> {
   /// {@macro FakeAuthRepository}
   FakeAuthRepository() {
-    _authUserController = StreamController<AuthUser?>.broadcast();
+    _authUserController = StreamController<(AuthUser, bool)>.broadcast();
   }
   @override
-  AuthUser? lastUser;
+  (AuthUser, bool)? lastUser;
 
-  late final StreamController<AuthUser?> _authUserController;
+  late final StreamController<(AuthUser, bool)> _authUserController;
 
   @override
-  Stream<AuthUser?> get user => _authUserController.stream;
+  Stream<(AuthUser, bool)> get user => _authUserController.stream;
 
   /// Adds the new [AuthUser] to the stream for any listeners to react.
   @visibleForTesting
-  void publishNewUser(AuthUser user) {
-    lastUser = user;
-    _authUserController.sink.add(user);
+  // ignore: avoid_positional_boolean_parameters
+  void publishNewUser(AuthUser user, bool isNewUser) {
+    lastUser = (user, isNewUser);
+    _authUserController.sink.add((user, isNewUser));
   }
 
   @override
@@ -393,15 +420,16 @@ class FakeAuthRepository implements BaseAuthRepository<AuthUser> {
   }
 
   @override
-  Future<UserOrError<AuthUser>> signInAnonymously() => throw Exception(
+  Future<UserOrError<AuthUser>> signInAnonymously(String username) =>
+      throw Exception(
         'Do not call real methods on FakeAuthRepository. '
-        'Only call `publishUser`.',
+        'Only call `publishNewUser`.',
       );
 
   @override
   Future<UserOrError<AuthUser>> logInWithApple() => throw Exception(
         'Do not call real methods on FakeAuthRepository. '
-        'Only call `publishUser`.',
+        'Only call `publishNewUser`.',
       );
 
   @override
@@ -411,19 +439,19 @@ class FakeAuthRepository implements BaseAuthRepository<AuthUser> {
   }) =>
       throw Exception(
         'Do not call real methods on FakeAuthRepository. '
-        'Only call `publishUser`.',
+        'Only call `publishNewUser`.',
       );
 
   @override
   Future<UserOrError<AuthUser>> logInWithGoogle() => throw Exception(
         'Do not call real methods on FakeAuthRepository. '
-        'Only call `publishUser`.',
+        'Only call `publishNewUser`.',
       );
 
   @override
   Future<Either<AuthenticationError, void>> logOut() => throw Exception(
         'Do not call real methods on FakeAuthRepository. '
-        'Only call `publishUser`.',
+        'Only call `publishNewUser`.',
       );
 
   @override
@@ -433,20 +461,21 @@ class FakeAuthRepository implements BaseAuthRepository<AuthUser> {
   }) =>
       throw Exception(
         'Do not call real methods on FakeAuthRepository. '
-        'Only call `publishUser`.',
+        'Only call `publishNewUser`.',
       );
 
-  // @override
-  // Future<Either<DisplayableError, Profile>> updateUserProfile(
-  //   Profile profile,
-  // ) =>
-  //     throw Exception(
-  //       'Do not call real methods on FakeAuthRepository. '
-  //       'Only call `publishUser`.',
-  //     );
+  final _initializedCompleter = Completer<bool>();
 
   @override
-  Future<bool> get initialized async => true;
+  Future<bool> get initialized => _initializedCompleter.future;
+
+  /// Test-only function to move this fake AuthRepository into active mode.
+  /// Without calling this function, [initialized] will never complete, which
+  /// may be what you want depending on the test.
+  void setAsInitialized([(AuthUser, bool)? newLastUser]) {
+    lastUser ??= newLastUser ?? (AuthUser.anonymous, false);
+    _initializedCompleter.complete(true);
+  }
 }
 
 /// Adds a convenient getter to [FirebaseUser] which identifies new users.
