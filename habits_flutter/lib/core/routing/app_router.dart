@@ -20,6 +20,7 @@ class AppRouter {
         // includes Routes.onboarding
         Routes.maintenance,
         Routes.upgrade,
+        Routes.home,
       ],
       refreshListenable: GoRouterRefreshStream(_appBloc.stream),
       initialLocation: initialRoute.path,

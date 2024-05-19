@@ -185,15 +185,16 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
   }
 
   void _publishNewUser(AuthUser user, bool isNewUser) {
-    // ignore: prefer_asserts_with_message
-    assert(() {
-      if (user == AuthUser.anonymous && isNewUser) {
-        throw AssertionError(
-          'Must not set value of `isNewUser=true` when session is anonymous',
-        );
-      }
-      return true;
-    }());
+    assert(
+      !(user == AuthUser.anonymous && isNewUser),
+      'Must not set value of `isNewUser=true` when session is anonymous',
+    );
+    if (_initializedCompleter.isCompleted &&
+        user == lastUser.$1 &&
+        isNewUser == lastUser.$2) {
+      _log.finer('Skipping publish of same old user');
+      return;
+    }
     _log.info('Publishing $user to app');
     lastUser = (user, isNewUser);
     _authUserController.sink.add((user, isNewUser));
@@ -203,29 +204,27 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
   Future<UserOrError<AuthUser>> _restLoginOrRegister(
     FirebaseUser firebaseUser,
   ) async {
+    _log.info(
+      'Syncing ${firebaseUser.uid} to Rest after login type $_lastLoginType',
+    );
     // If the user flow is an anonymous session creation, finish the job by
     // syncing that to the REST server.
     if (_lastLoginType == LoginType.anonymous) {
       _isNewUserAuthenticating = true;
       return _restAnonymous(firebaseUser);
     }
+
+    // New users (aka, `firebaseUser.isNew == true`) at this point are
+    // (potentially?) an error, but if login fails then the user records should
+    // be completely destroyed.
+    _isNewUserAuthenticating = false;
+    return _restLogin(firebaseUser);
+
     // See if this already exists in the application server database.
-    _isNewUserAuthenticating = firebaseUser.isNew;
-    return firebaseUser.isNew
-        ? _restRegister(firebaseUser)
-        : _restLogin(firebaseUser);
-
-    // Alternate implementation below. Above could be better as it does not
-    // threaten to silently fragment accounts downstream of a Firebase auth bug.
-    // However, this also throws false-positive errors for existing users which
-    // is a pain, so we'd have to figure that out.
-    // final loginUserOrError = await _restLogin(firebaseUser);
-    // if (loginUserOrError.isRight()) {
-    //   return loginUserOrError;
-    // }
-
-    // If the application server also has no idea, then just create them.
-    // return _restRegister(firebaseUser);
+    // _isNewUserAuthenticating = firebaseUser.isNew;
+    // return firebaseUser.isNew
+    //     ? _restRegister(firebaseUser)
+    //     : _restLogin(firebaseUser);
   }
 
   /// Helper to complete anonymous session creation which started with Firebase.
@@ -242,6 +241,7 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
       _log.warning('RestAuth anonymous FAILURE: ${userOrError.leftOrRaise()}');
       // If we could not login this user with the REST backend, then we should
       // logout from Firebase to not have a half-logged-in state.
+      await _socialAuthService.deleteUser(user);
       await _socialAuthService.logOut();
     }
     return userOrError;
@@ -260,12 +260,14 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
       _log.warning('RestAuth login FAILURE: ${userOrError.leftOrRaise()}');
       // If we could not login this user with the REST backend, then we should
       // logout from Firebase to not have a half-logged-in state.
-      await _socialAuthService.logOut();
+      // await _socialAuthService.deleteUser(user);
+      // await _socialAuthService.logOut();
     }
     return userOrError;
   }
 
   /// Helper method to complete other login methods that start with Firebase.
+  // ignore: unused_element
   Future<UserOrError<AuthUser>> _restRegister(FirebaseUser user) async {
     _log.finer('RestAuth register for ${user.uid}');
     final userOrError = await _restAuthService.register(
@@ -279,6 +281,7 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
       // If we failed to create this user in the REST backend, then the
       // [FirebaseUser] will be orphaned, and we should delete
       await _socialAuthService.deleteUser(user);
+      await _socialAuthService.logOut();
     }
     return userOrError;
   }

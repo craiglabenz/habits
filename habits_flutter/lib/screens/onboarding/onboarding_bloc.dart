@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:get_it/get_it.dart';
+import 'package:habits_flutter/app/app.dart';
 
 part 'onboarding_bloc.freezed.dart';
 
@@ -15,18 +17,15 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     on<OnboardingEvent>(
       (event, _Emit emit) => event.map(
         setUsername: (e) => _onSetUsername(e, emit),
+        complete: (e) => _onCompleteOnboarding(e, emit),
       ),
     );
   }
 
   Future<void> _onSetUsername(SetUsernameEvent e, _Emit emit) async {}
-}
-
-/// Actions that can be taken on the Onboarding page.
-@Freezed()
-class OnboardingEvent with _$OnboardingEvent {
-  /// Updates the username of the active account.
-  const factory OnboardingEvent.setUsername(String username) = SetUsernameEvent;
+  Future<void> _onCompleteOnboarding(CompleteOnboarding e, _Emit emit) async {
+    GetIt.I<AppBloc>().add(const AppEventOnboardingCompleted());
+  }
 }
 
 /// {@template OnboardingState}
@@ -53,4 +52,14 @@ class OnboardingState with _$OnboardingState {
 
   /// Starter state fed to the [OnboardingBloc].
   factory OnboardingState.initial() => const OnboardingState();
+}
+
+/// Actions that can be taken on the Onboarding page.
+@Freezed()
+class OnboardingEvent with _$OnboardingEvent {
+  /// Updates the username of the active account.
+  const factory OnboardingEvent.setUsername(String username) = SetUsernameEvent;
+
+  /// Signals that onboarding as complete to the rest of the app.
+  const factory OnboardingEvent.complete() = CompleteOnboarding;
 }

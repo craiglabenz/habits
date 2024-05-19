@@ -34,8 +34,13 @@ class ServerpodAuthService<T, K> extends BaseRestAuth<T> {
     required String password,
   }) async {
     final st = DateTime.now();
-    final authResponse =
-        await _client.modules.auth.email.authenticate(email, password);
+    final keyIdentifier = await _client.authenticationKeyManager?.get();
+    print('keyIdentifier: $keyIdentifier');
+    // final authResponse =
+    //     await _client.modules.auth.email.authenticate(email, password);
+    final authResponse = await _client.appAuth.checkSession(
+      keyIdentifier: keyIdentifier ?? '',
+    );
     if (authResponse.success) {
       await _sessionManager.registerSignedInUser(
         authResponse.userInfo!,

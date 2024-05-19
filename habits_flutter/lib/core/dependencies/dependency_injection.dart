@@ -19,22 +19,6 @@ void setUpLiveDI({
   GetIt.I.registerSingleton<IAppConfigService>(FakeAppConfigService());
   GetIt.I.registerSingleton<AppDetails>(AppDetails.fake());
 
-  // AUTH
-  GetIt.I.registerSingleton<BaseRestAuth<AuthUser>>(
-    ServerpodAuthService<AuthUser, String>(),
-  );
-  GetIt.I.registerSingleton<BaseSocialAuth>(FirebaseAuthService());
-  GetIt.I.registerSingleton<BaseAuthRepository<AuthUser>>(AuthRepository());
-
-  // APP-WIDE
-  GetIt.I.registerSingleton<BaseAppConfigRepository>(
-    appConfigRepository ??
-        AppConfigRepository(
-          details: GetIt.I<AppDetails>(),
-          service: GetIt.I<IAppConfigService>(),
-        ),
-  );
-
   // SERVERPOD
   GetIt.I.registerSingleton<Client>(
     Client(
@@ -46,6 +30,24 @@ void setUpLiveDI({
     SessionManager(
       caller: GetIt.I<Client>().modules.auth,
     ),
+  );
+
+  // AUTH
+  GetIt.I.registerLazySingleton<BaseRestAuth<AuthUser>>(
+    ServerpodAuthService<AuthUser, String>.new,
+  );
+  GetIt.I.registerLazySingleton<BaseSocialAuth>(FirebaseAuthService.new);
+  GetIt.I.registerLazySingleton<BaseAuthRepository<AuthUser>>(
+    AuthRepository.new,
+  );
+
+  // APP-WIDE
+  GetIt.I.registerSingleton<BaseAppConfigRepository>(
+    appConfigRepository ??
+        AppConfigRepository(
+          details: GetIt.I<AppDetails>(),
+          service: GetIt.I<IAppConfigService>(),
+        ),
   );
 
   // CORE DI

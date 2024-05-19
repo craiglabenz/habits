@@ -22,6 +22,13 @@ class GoRouterRedirector {
     Routes.upgrade.path,
   ];
 
+  /// Logging wrapper to easily turn on logging during tests.
+  static void log(String message, [Level level = Level.INFO]) {
+    // ignore: avoid_print
+    // print('[${_log.name}][${level.name}] $message');
+    _log.log(level, message);
+  }
+
   /// Singleton instance of the [GoRouterRedirector]. This class is always
   /// stateless, so there is no value in ever having separate instances.
   static const GoRouterRedirector instance = GoRouterRedirector([
@@ -34,7 +41,7 @@ class GoRouterRedirector {
     // AuthenticatedUsersAwayFromSignUp(),
     // AuthenticatedUsersAwayFromLogin(),
     // AuthenticatedUsersAwayFromOnboarding(),
-    // AuthenticatedUsersAwayFromSplash(),
+    AuthenticatedUsersAwayFromSplash(),
   ]);
 
   /// Compares the current [RouteState] against the [AppState] and returns a
@@ -44,9 +51,15 @@ class GoRouterRedirector {
     required RouteState routeState,
     required AppState appState,
   }) {
-    _log.fine('Considering redirect for ${routeState.path} with user '
-        '${appState.user}');
+    GoRouterRedirector.log(
+      'Considering redirect for ${routeState.path} with user ${appState.user}',
+      Level.FINE,
+    );
     if (GoRouterRedirector.doNotLeave.contains(routeState.path)) {
+      GoRouterRedirector.log(
+        'Not navigating away from ${routeState.path} for DO NOT LEAVE',
+        Level.FINEST,
+      );
       return null;
     }
     final current = Uri(
@@ -63,20 +76,27 @@ class GoRouterRedirector {
 
           if (uriString == current.toString()) {
             // ignore: avoid_print
-            _log.warning(
-              '$redirect attempted to redirect to itself '
-              'at $uriString',
+            GoRouterRedirector.log(
+              '$redirect attempted to redirect to itself at $uriString. '
+              'This should have been caught earlier!',
+              Level.WARNING,
             );
             continue;
           }
 
           // ignore: avoid_print
-          _log.fine('$redirect redirecting from $current to $uriString');
+          GoRouterRedirector.log(
+            '$redirect redirecting from $current to $uriString',
+            Level.FINE,
+          );
           return uriString;
         }
       }
     }
-    _log.finer('Not redirecting away from ${routeState.path}');
+    GoRouterRedirector.log(
+      'Not redirecting away from ${routeState.path}',
+      Level.FINER,
+    );
     return null;
   }
 }
@@ -110,13 +130,20 @@ class RouteState {
 
   /// Builds a GoRouterState value from a given route.
   /// Useful for the initial route.
-  factory RouteState.fromRoute(GoRoute route, {Params? pathParameters}) =>
-      RouteState(
-        uri: Uri(path: route.path),
-        path: route.path,
-        name: route.name,
-        pathParameters: pathParameters ?? {},
-      );
+  factory RouteState.fromRoute(GoRoute route, {Params? pathParameters}) {
+    String path = route.path;
+    if (pathParameters != null) {
+      for (final key in pathParameters.keys) {
+        path = path.replaceAll(':$key', pathParameters[key]!);
+      }
+    }
+    return RouteState(
+      uri: Uri(path: path),
+      path: route.path,
+      name: route.name,
+      pathParameters: pathParameters ?? {},
+    );
+  }
 
   /// Initial RouteState for the start of the app.
   factory RouteState.initial() => RouteState.fromRoute(AppRouter.initialRoute);
@@ -245,9 +272,15 @@ class NewUsersToOnboarding extends Redirector {
   bool predicate(
     RouteState routeState,
     AppState appState,
-  ) =>
-      // Redirect authenticated but new users to the Onboarding page.
-      !routeState.path.contains(Routes.onboarding.path) && appState.isNewUser;
+  ) {
+    GoRouterRedirector.log(
+      'appState.isNewUser::${appState.isNewUser}',
+      Level.FINEST,
+    );
+    // Redirect authenticated but new users to the Onboarding page.
+    return !routeState.path.contains(Routes.onboarding.path) &&
+        appState.isNewUser;
+  }
 
   @override
   Uri? getNewUri(
@@ -334,21 +367,25 @@ class NewUsersToOnboarding extends Redirector {
 //       Uri(path: Routes.home.path);
 // }
 
-// class AuthenticatedUsersAwayFromSplash extends Redirector {
-//   const AuthenticatedUsersAwayFromSplash();
-//   @override
-//   bool predicate(
-//     RouteState routeState,
-//     AppState appState,
-//   ) =>
-//       appState.isAuthenticated &&
-//       !appState.isNewUser &&
-//       routeState.path! == Routes.splash.path;
+/// {@template AuthenticatedUsersAwayFromSplash}
+/// Moves authenticated users away from the Splash page and to the Home page.
+/// {@endtemplate}
+class AuthenticatedUsersAwayFromSplash extends Redirector {
+  /// {@macro AuthenticatedUsersAwayFromSplash}
+  const AuthenticatedUsersAwayFromSplash();
+  @override
+  bool predicate(
+    RouteState routeState,
+    AppState appState,
+  ) =>
+      appState.isAuthenticated &&
+      !appState.isNewUser &&
+      routeState.path == Routes.splash.path;
 
-//   @override
-//   Uri? getNewUri(
-//     RouteState routeState,
-//     AppState appState,
-//   ) =>
-//       Uri(path: Routes.home.path);
-// }
+  @override
+  Uri? getNewUri(
+    RouteState routeState,
+    AppState appState,
+  ) =>
+      Uri(path: Routes.home.path);
+}

@@ -37,7 +37,7 @@ class Routes {
   static final GoRoute home = GoRoute(
     name: 'home',
     path: '/',
-    // pageBuilder: (context, state) => CounterPage.page(key: state.pageKey),
+    builder: (context, state) => HomeScreen(key: state.pageKey),
   );
 
   /// Screen to inform users that the app is down for scheduled maintenance.

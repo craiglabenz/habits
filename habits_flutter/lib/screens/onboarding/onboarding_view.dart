@@ -23,10 +23,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          TextButton(
-            onPressed: () => {},
+          OutlinedButton(
+            onPressed: () => bloc.add(const OnboardingEvent.complete()),
             child: Text(
-              'Onboarding',
+              'Done',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyLarge,
             ),

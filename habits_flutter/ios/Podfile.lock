@@ -200,7 +200,7 @@ SPEC CHECKSUMS:
   connectivity_plus: bf0076dd84a130856aa636df1c71ccaff908fa1d
   DKImagePickerController: a7836546cfdfe014171694f643a7d575bc8ace7f
   DKPhotoGallery: acbd8a3bab19cf6e5fe64a853fc07bfbd247a8f6
-  file_picker: 15fd9539e4eb735dc54bae8c0534a7a9511a03de
+  file_picker: 09aa5ec1ab24135ccd7a1621c46c84134bfd6655
   Firebase: 91fefd38712feb9186ea8996af6cbdef41473442
   firebase_auth: e9821e8c3a5db7e8b438d6be07b0c58f3103ab5b
   firebase_core: 7f1e1156934d0da3be260174812842df9420e4ab

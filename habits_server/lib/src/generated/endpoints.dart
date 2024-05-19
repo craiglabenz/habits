@@ -50,7 +50,25 @@ class Endpoints extends _i1.EndpointDispatch {
             userIdentifier: params['userIdentifier'],
             username: params['username'],
           ),
-        )
+        ),
+        'checkSession': _i1.MethodConnector(
+          name: 'checkSession',
+          params: {
+            'keyIdentifier': _i1.ParameterDescription(
+              name: 'keyIdentifier',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['appAuth'] as _i2.AppAuthEndpoint).checkSession(
+            session,
+            keyIdentifier: params['keyIdentifier'],
+          ),
+        ),
       },
     );
     modules['serverpod_auth'] = _i3.Endpoints()..initializeEndpoints(server);

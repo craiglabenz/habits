@@ -72,8 +72,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   void _onboardingCompleted(
     AppEventOnboardingCompleted event,
     Emitter<AppState> emit,
-  ) {}
-  // _authRepository.onboardingCompleted();
+  ) =>
+      emit(state.copyWith(isNewUser: false));
 
   void _forceUpgradeStatusChanged(
     AppEventForceUpgradeStatusChanged event,
@@ -85,7 +85,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     AppEventUserChanged event,
     Emitter<AppState> emit,
   ) =>
-      emit(state.copyWith(user: event.user));
+      emit(state.copyWith(user: event.user, isNewUser: event.isNewUser));
 
   @override
   Future<void> close() {
@@ -155,9 +155,9 @@ class AppEvent with _$AppEvent {
   /// Event which tells the rest of the app that the user authentication story
   /// has changed. If [user] equals [AuthUser.anonymous] then this would imply
   /// a successful logout. If [user] is not [AuthUser.anonymous], then
-  /// [isNewUser] must be non-null.
+  /// [isNewUser] should be `true` if the account was just created.
   const factory AppEvent.userChanged(
     AuthUser user, {
-    bool? isNewUser,
+    required bool isNewUser,
   }) = AppEventUserChanged;
 }

@@ -15,214 +15,6 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$OnboardingEvent {
-  String get username => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String username) setUsername,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String username)? setUsername,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String username)? setUsername,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(SetUsernameEvent value) setUsername,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(SetUsernameEvent value)? setUsername,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(SetUsernameEvent value)? setUsername,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $OnboardingEventCopyWith<OnboardingEvent> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $OnboardingEventCopyWith<$Res> {
-  factory $OnboardingEventCopyWith(
-          OnboardingEvent value, $Res Function(OnboardingEvent) then) =
-      _$OnboardingEventCopyWithImpl<$Res, OnboardingEvent>;
-  @useResult
-  $Res call({String username});
-}
-
-/// @nodoc
-class _$OnboardingEventCopyWithImpl<$Res, $Val extends OnboardingEvent>
-    implements $OnboardingEventCopyWith<$Res> {
-  _$OnboardingEventCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? username = null,
-  }) {
-    return _then(_value.copyWith(
-      username: null == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$SetUsernameEventImplCopyWith<$Res>
-    implements $OnboardingEventCopyWith<$Res> {
-  factory _$$SetUsernameEventImplCopyWith(_$SetUsernameEventImpl value,
-          $Res Function(_$SetUsernameEventImpl) then) =
-      __$$SetUsernameEventImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String username});
-}
-
-/// @nodoc
-class __$$SetUsernameEventImplCopyWithImpl<$Res>
-    extends _$OnboardingEventCopyWithImpl<$Res, _$SetUsernameEventImpl>
-    implements _$$SetUsernameEventImplCopyWith<$Res> {
-  __$$SetUsernameEventImplCopyWithImpl(_$SetUsernameEventImpl _value,
-      $Res Function(_$SetUsernameEventImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? username = null,
-  }) {
-    return _then(_$SetUsernameEventImpl(
-      null == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$SetUsernameEventImpl implements SetUsernameEvent {
-  const _$SetUsernameEventImpl(this.username);
-
-  @override
-  final String username;
-
-  @override
-  String toString() {
-    return 'OnboardingEvent.setUsername(username: $username)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SetUsernameEventImpl &&
-            (identical(other.username, username) ||
-                other.username == username));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, username);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$SetUsernameEventImplCopyWith<_$SetUsernameEventImpl> get copyWith =>
-      __$$SetUsernameEventImplCopyWithImpl<_$SetUsernameEventImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String username) setUsername,
-  }) {
-    return setUsername(username);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String username)? setUsername,
-  }) {
-    return setUsername?.call(username);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String username)? setUsername,
-    required TResult orElse(),
-  }) {
-    if (setUsername != null) {
-      return setUsername(username);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(SetUsernameEvent value) setUsername,
-  }) {
-    return setUsername(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(SetUsernameEvent value)? setUsername,
-  }) {
-    return setUsername?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(SetUsernameEvent value)? setUsername,
-    required TResult orElse(),
-  }) {
-    if (setUsername != null) {
-      return setUsername(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class SetUsernameEvent implements OnboardingEvent {
-  const factory SetUsernameEvent(final String username) =
-      _$SetUsernameEventImpl;
-
-  @override
-  String get username;
-  @override
-  @JsonKey(ignore: true)
-  _$$SetUsernameEventImplCopyWith<_$SetUsernameEventImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
 mixin _$OnboardingState {
   /// True if we are currently awaiting responses on any authentication
   /// requests. This is the period of time between a user tapping a button to
@@ -408,4 +200,302 @@ abstract class _OnboardingState extends OnboardingState {
   @JsonKey(ignore: true)
   _$$OnboardingStateImplCopyWith<_$OnboardingStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$OnboardingEvent {
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String username) setUsername,
+    required TResult Function() complete,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String username)? setUsername,
+    TResult? Function()? complete,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String username)? setUsername,
+    TResult Function()? complete,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(SetUsernameEvent value) setUsername,
+    required TResult Function(CompleteOnboarding value) complete,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(SetUsernameEvent value)? setUsername,
+    TResult? Function(CompleteOnboarding value)? complete,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(SetUsernameEvent value)? setUsername,
+    TResult Function(CompleteOnboarding value)? complete,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $OnboardingEventCopyWith<$Res> {
+  factory $OnboardingEventCopyWith(
+          OnboardingEvent value, $Res Function(OnboardingEvent) then) =
+      _$OnboardingEventCopyWithImpl<$Res, OnboardingEvent>;
+}
+
+/// @nodoc
+class _$OnboardingEventCopyWithImpl<$Res, $Val extends OnboardingEvent>
+    implements $OnboardingEventCopyWith<$Res> {
+  _$OnboardingEventCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$SetUsernameEventImplCopyWith<$Res> {
+  factory _$$SetUsernameEventImplCopyWith(_$SetUsernameEventImpl value,
+          $Res Function(_$SetUsernameEventImpl) then) =
+      __$$SetUsernameEventImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String username});
+}
+
+/// @nodoc
+class __$$SetUsernameEventImplCopyWithImpl<$Res>
+    extends _$OnboardingEventCopyWithImpl<$Res, _$SetUsernameEventImpl>
+    implements _$$SetUsernameEventImplCopyWith<$Res> {
+  __$$SetUsernameEventImplCopyWithImpl(_$SetUsernameEventImpl _value,
+      $Res Function(_$SetUsernameEventImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? username = null,
+  }) {
+    return _then(_$SetUsernameEventImpl(
+      null == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SetUsernameEventImpl implements SetUsernameEvent {
+  const _$SetUsernameEventImpl(this.username);
+
+  @override
+  final String username;
+
+  @override
+  String toString() {
+    return 'OnboardingEvent.setUsername(username: $username)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SetUsernameEventImpl &&
+            (identical(other.username, username) ||
+                other.username == username));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, username);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SetUsernameEventImplCopyWith<_$SetUsernameEventImpl> get copyWith =>
+      __$$SetUsernameEventImplCopyWithImpl<_$SetUsernameEventImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String username) setUsername,
+    required TResult Function() complete,
+  }) {
+    return setUsername(username);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String username)? setUsername,
+    TResult? Function()? complete,
+  }) {
+    return setUsername?.call(username);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String username)? setUsername,
+    TResult Function()? complete,
+    required TResult orElse(),
+  }) {
+    if (setUsername != null) {
+      return setUsername(username);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(SetUsernameEvent value) setUsername,
+    required TResult Function(CompleteOnboarding value) complete,
+  }) {
+    return setUsername(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(SetUsernameEvent value)? setUsername,
+    TResult? Function(CompleteOnboarding value)? complete,
+  }) {
+    return setUsername?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(SetUsernameEvent value)? setUsername,
+    TResult Function(CompleteOnboarding value)? complete,
+    required TResult orElse(),
+  }) {
+    if (setUsername != null) {
+      return setUsername(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SetUsernameEvent implements OnboardingEvent {
+  const factory SetUsernameEvent(final String username) =
+      _$SetUsernameEventImpl;
+
+  String get username;
+  @JsonKey(ignore: true)
+  _$$SetUsernameEventImplCopyWith<_$SetUsernameEventImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$CompleteOnboardingImplCopyWith<$Res> {
+  factory _$$CompleteOnboardingImplCopyWith(_$CompleteOnboardingImpl value,
+          $Res Function(_$CompleteOnboardingImpl) then) =
+      __$$CompleteOnboardingImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$CompleteOnboardingImplCopyWithImpl<$Res>
+    extends _$OnboardingEventCopyWithImpl<$Res, _$CompleteOnboardingImpl>
+    implements _$$CompleteOnboardingImplCopyWith<$Res> {
+  __$$CompleteOnboardingImplCopyWithImpl(_$CompleteOnboardingImpl _value,
+      $Res Function(_$CompleteOnboardingImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$CompleteOnboardingImpl implements CompleteOnboarding {
+  const _$CompleteOnboardingImpl();
+
+  @override
+  String toString() {
+    return 'OnboardingEvent.complete()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$CompleteOnboardingImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String username) setUsername,
+    required TResult Function() complete,
+  }) {
+    return complete();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String username)? setUsername,
+    TResult? Function()? complete,
+  }) {
+    return complete?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String username)? setUsername,
+    TResult Function()? complete,
+    required TResult orElse(),
+  }) {
+    if (complete != null) {
+      return complete();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(SetUsernameEvent value) setUsername,
+    required TResult Function(CompleteOnboarding value) complete,
+  }) {
+    return complete(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(SetUsernameEvent value)? setUsername,
+    TResult? Function(CompleteOnboarding value)? complete,
+  }) {
+    return complete?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(SetUsernameEvent value)? setUsername,
+    TResult Function(CompleteOnboarding value)? complete,
+    required TResult orElse(),
+  }) {
+    if (complete != null) {
+      return complete(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class CompleteOnboarding implements OnboardingEvent {
+  const factory CompleteOnboarding() = _$CompleteOnboardingImpl;
 }

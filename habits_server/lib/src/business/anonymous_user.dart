@@ -6,6 +6,7 @@ import 'package:serverpod/protocol.dart';
 // ignore: implementation_imports
 import 'package:serverpod/src/authentication/util.dart';
 import 'package:serverpod_auth_server/module.dart' as auth;
+import 'package:serverpod_auth_server/serverpod_auth_server.dart';
 
 class AnonymousUser {
   static const methodName = 'anonymous';
@@ -101,7 +102,57 @@ class AnonymousUser {
     return auth.AuthenticationResponse(
       success: true,
       userInfo: userInfo,
-      key: authKey.key,
+      key: key,
+      keyId: authKey.id,
+    );
+  }
+
+  static Future<auth.AuthenticationResponse> checkSession(
+    Session session, {
+    // "keyId:keyValue"
+    required String keyIdentifier,
+  }) async {
+    final [String keyIdStr, String keyValue] = keyIdentifier.split(':');
+
+    int? keyId = int.tryParse(keyIdStr);
+    if (keyId == null) {
+      session.log('Invalid keyId - must be integer');
+      return auth.AuthenticationResponse(
+        success: false,
+        failReason: AuthenticationFailReason.invalidCredentials,
+      );
+    }
+
+    final authKey = await session.db.findFirstRow<AuthKey>(
+      where: AuthKey.t.id.equals(keyId),
+    );
+
+    if (authKey == null) {
+      session.log('Unknown keyId $keyId');
+      return auth.AuthenticationResponse(
+        success: false,
+        failReason: AuthenticationFailReason.invalidCredentials,
+      );
+    }
+
+    var signInSalt = session.passwords['authKeySalt'] ?? defaultAuthKeySalt;
+    final hash = hashString(keyValue, signInSalt);
+    if (authKey.hash != hash) {
+      session.log('Hash "$hash" is incorrect');
+      return auth.AuthenticationResponse(
+        success: false,
+        failReason: AuthenticationFailReason.invalidCredentials,
+      );
+    }
+
+    final userInfo = await session.db.findFirstRow<auth.UserInfo>(
+      where: auth.UserInfo.t.id.equals(authKey.userId),
+    );
+
+    return auth.AuthenticationResponse(
+      success: true,
+      userInfo: userInfo,
+      key: keyValue,
       keyId: authKey.id,
     );
   }

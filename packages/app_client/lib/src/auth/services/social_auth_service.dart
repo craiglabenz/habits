@@ -231,7 +231,10 @@ class FirebaseAuthService extends BaseSocialAuth {
   Stream<FirebaseUser?> get users => _firebaseAuth.authStateChanges();
 
   @override
-  Future<void> deleteUser(FirebaseUser user) => user.delete();
+  Future<void> deleteUser(FirebaseUser user) {
+    _log.warning('Deleting user ${user.uid}');
+    return user.delete();
+  }
 
   @override
   Future<FirebaseUserOrError> signInAnonymously() async {

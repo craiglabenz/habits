@@ -17,4 +17,13 @@ class AppAuthEndpoint extends Endpoint {
       allowEmptyUsername: true,
     );
   }
+
+  Future<auth.AuthenticationResponse> checkSession(
+    Session session, {
+    // "keyId:keyValue"
+    required String keyIdentifier,
+  }) async {
+    // TODO(craiglabenz): If this returns a failure, add other session checkers.
+    return AnonymousUser.checkSession(session, keyIdentifier: keyIdentifier);
+  }
 }

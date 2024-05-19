@@ -34,6 +34,14 @@ class EndpointAppAuth extends _i1.EndpointRef {
           'username': username,
         },
       );
+
+  _i2.Future<_i3.AuthenticationResponse> checkSession(
+          {required String keyIdentifier}) =>
+      caller.callServerEndpoint<_i3.AuthenticationResponse>(
+        'appAuth',
+        'checkSession',
+        {'keyIdentifier': keyIdentifier},
+      );
 }
 
 class _Modules {

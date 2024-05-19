@@ -15,4 +15,4 @@ indexes:
   user_uid:
     fields: uid
     # No need for unique: true - that'll just be expensive to maintain and we
-    # can count on the very nature of Uuid.v4() to deliver uniqueness
+    # can count on the very nature of Uuid().v4() to deliver uniqueness
