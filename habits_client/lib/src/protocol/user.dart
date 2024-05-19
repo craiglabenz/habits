@@ -9,7 +9,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
-import 'package:serverpod_auth_client/module.dart' as _i2;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i2;
 
 abstract class User extends _i1.SerializableEntity {
   User._({
@@ -32,24 +32,18 @@ abstract class User extends _i1.SerializableEntity {
     String? timezone,
   }) = _UserImpl;
 
-  factory User.fromJson(
-    Map<String, dynamic> jsonSerialization,
-    _i1.SerializationManager serializationManager,
-  ) {
+  factory User.fromJson(Map<String, dynamic> jsonSerialization) {
     return User(
-      id: serializationManager.deserialize<int?>(jsonSerialization['id']),
-      userInfoId: serializationManager
-          .deserialize<int>(jsonSerialization['userInfoId']),
-      userInfo: serializationManager
-          .deserialize<_i2.UserInfo?>(jsonSerialization['userInfo']),
-      uid: serializationManager
-          .deserialize<_i1.UuidValue>(jsonSerialization['uid']),
-      name:
-          serializationManager.deserialize<String?>(jsonSerialization['name']),
-      country: serializationManager
-          .deserialize<String?>(jsonSerialization['country']),
-      timezone: serializationManager
-          .deserialize<String?>(jsonSerialization['timezone']),
+      id: jsonSerialization['id'] as int?,
+      userInfoId: jsonSerialization['userInfoId'] as int,
+      userInfo: jsonSerialization['userInfo'] == null
+          ? null
+          : _i2.UserInfo.fromJson(
+              (jsonSerialization['userInfo'] as Map<String, dynamic>)),
+      uid: _i1.UuidValueJsonExtension.fromJson(jsonSerialization['uid']),
+      name: jsonSerialization['name'] as String?,
+      country: jsonSerialization['country'] as String?,
+      timezone: jsonSerialization['timezone'] as String?,
     );
   }
 

@@ -17,7 +17,7 @@ class AnonymousUser {
     required String username,
     bool allowEmptyUsername = false,
   }) async {
-    final existingAccount = await session.dbNext.findFirstRow<auth.UserInfo>(
+    final existingAccount = await session.db.findFirstRow<auth.UserInfo>(
       where: auth.UserInfo.t.userIdentifier.equals(userIdentifier),
     );
 
@@ -83,11 +83,11 @@ class AnonymousUser {
     var tempSession = await session.serverpod.createSession(
       enableLogging: false,
     );
-    authKey = await tempSession.dbNext.insertRow<AuthKey>(authKey);
+    authKey = await tempSession.db.insertRow<AuthKey>(authKey);
     await tempSession.close();
 
     final now = DateTime.now();
-    await session.dbNext.insertRow<User>(
+    await session.db.insertRow<User>(
       User(
         id: userInfo.id!,
         userInfoId: userInfo.id!,

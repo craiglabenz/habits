@@ -33,7 +33,6 @@ server/build: server/generate
 
 server/generate:
 	cd habits_server && serverpod generate
-	cd habits_server && dart bin/adjust_protocol.dart
 
 server/migrations:
 	cd habits_server && serverpod create-migration

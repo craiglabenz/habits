@@ -11,7 +11,7 @@ library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixe
 
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
-import 'package:serverpod_auth_server/module.dart' as _i3;
+import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i3;
 import 'user.dart' as _i4;
 import 'package:habits_shared/habits_shared.dart' as _i5;
 export 'user.dart';
@@ -34,14 +34,14 @@ class Protocol extends _i1.SerializationManagerServer {
       columns: [
         _i2.ColumnDefinition(
           name: 'id',
-          columnType: _i2.ColumnType.integer,
+          columnType: _i2.ColumnType.bigint,
           isNullable: false,
           dartType: 'int?',
           columnDefault: 'nextval(\'user_id_seq\'::regclass)',
         ),
         _i2.ColumnDefinition(
           name: 'userInfoId',
-          columnType: _i2.ColumnType.integer,
+          columnType: _i2.ColumnType.bigint,
           isNullable: false,
           dartType: 'int',
         ),
@@ -151,10 +151,10 @@ class Protocol extends _i1.SerializationManagerServer {
       return customConstructors[t]!(data, this) as T;
     }
     if (t == _i4.User) {
-      return _i4.User.fromJson(data, this) as T;
+      return _i4.User.fromJson(data) as T;
     }
     if (t == _i1.getType<_i4.User?>()) {
-      return (data != null ? _i4.User.fromJson(data, this) : null) as T;
+      return (data != null ? _i4.User.fromJson(data) : null) as T;
     }
     if (t == _i5.UserFilter) {
       return _i5.UserFilter.fromJson(data) as T;

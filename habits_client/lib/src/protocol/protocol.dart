@@ -12,7 +12,7 @@ library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixe
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'user.dart' as _i2;
 import 'package:habits_shared/habits_shared.dart' as _i3;
-import 'package:serverpod_auth_client/module.dart' as _i4;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i4;
 export 'user.dart';
 export 'client.dart';
 
@@ -35,10 +35,10 @@ class Protocol extends _i1.SerializationManager {
       return customConstructors[t]!(data, this) as T;
     }
     if (t == _i2.User) {
-      return _i2.User.fromJson(data, this) as T;
+      return _i2.User.fromJson(data) as T;
     }
     if (t == _i1.getType<_i2.User?>()) {
-      return (data != null ? _i2.User.fromJson(data, this) : null) as T;
+      return (data != null ? _i2.User.fromJson(data) : null) as T;
     }
     if (t == _i3.UserFilter) {
       return _i3.UserFilter.fromJson(data) as T;

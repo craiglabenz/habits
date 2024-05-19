@@ -7,5 +7,5 @@ environment:
 dependencies:
   habits_shared:
     path: ../habits_shared
-  serverpod_auth_client: 1.2.6
-  serverpod_client: 1.2.6
+  serverpod_auth_client: 2.0.0-alpha.3
+  serverpod_client: 2.0.0-alpha.3
