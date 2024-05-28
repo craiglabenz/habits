@@ -33,11 +33,11 @@ void main() {
       act: (bloc) async {
         authRepo!.publishNewUser(user, false);
         await Future.delayed(const Duration(milliseconds: 1), () {});
-        authRepo!.publishNewUser(AuthUser.anonymous, false);
+        authRepo!.publishNewUser(AuthUser.unknown, false);
       },
       expect: () => const <AppState>[
         AppState(user: user),
-        AppState(user: AuthUser.anonymous),
+        AppState(user: AuthUser.unknown),
       ],
     );
   });

@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:get_it/get_it.dart';
 import 'package:habits_client/habits_client.dart';
 import 'package:serverpod_auth_client/module.dart' as serverpod_auth;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 
 /// {@template ServerpodAuthService}
@@ -29,18 +30,49 @@ class ServerpodAuthService<T, K> extends BaseRestAuth<T> {
   final AuthBindings<T, K> _bindings;
 
   @override
+  Future<UserOrError<T>> checkSession() async {
+    final st = DateTime.now();
+    final keyIdentifier = await _client.authenticationKeyManager?.get();
+    if (keyIdentifier == null) {
+      return Right(_bindings.unknownUser);
+    }
+    final authResponse = await _client.appAuth.checkSession(
+      keyIdentifier: keyIdentifier,
+    );
+    return _processResponse(authResponse, 'appAuth.checkSession', st);
+  }
+
+  @override
   Future<UserOrError<T>> login({
     required String email,
     required String password,
   }) async {
     final st = DateTime.now();
-    final keyIdentifier = await _client.authenticationKeyManager?.get();
-    print('keyIdentifier: $keyIdentifier');
-    // final authResponse =
-    //     await _client.modules.auth.email.authenticate(email, password);
-    final authResponse = await _client.appAuth.checkSession(
-      keyIdentifier: keyIdentifier ?? '',
+    final authResponse = await _client.modules.auth.email.authenticate(
+      email,
+      password,
     );
+    return _processResponse(authResponse, _client.modules.auth.email.name, st);
+  }
+
+  @override
+  Future<UserOrError<T>> createAnonymous({
+    required String firebaseUid,
+    required String username,
+  }) async {
+    final st = DateTime.now();
+    final authResponse = await _client.appAuth.createAnonymous(
+      userIdentifier: firebaseUid,
+      username: username,
+    );
+    return _processResponse(authResponse, 'appAuth.createAnonymous', st);
+  }
+
+  Future<UserOrError<T>> _processResponse(
+    AuthenticationResponse authResponse,
+    String url,
+    DateTime start,
+  ) async {
     if (authResponse.success) {
       await _sessionManager.registerSignedInUser(
         authResponse.userInfo!,
@@ -57,41 +89,8 @@ class ServerpodAuthService<T, K> extends BaseRestAuth<T> {
       return Left(
         authErrorFromServerpod(
           response: authResponse,
-          duration: DateTime.now().difference(st),
-          url: _client.modules.auth.email.name,
-        ),
-      );
-    }
-  }
-
-  @override
-  Future<UserOrError<T>> createAnonymous({
-    required String firebaseUid,
-    required String username,
-  }) async {
-    final st = DateTime.now();
-    final authResponse = await _client.appAuth.createAnonymous(
-      userIdentifier: firebaseUid,
-      username: username,
-    );
-    if (authResponse.success) {
-      await _sessionManager.registerSignedInUser(
-        authResponse.userInfo!,
-        authResponse.keyId!,
-        authResponse.key!,
-      );
-      return Right(
-        _bindings.fromServerpod(
-          authResponse.userInfo!,
-          authResponse.userInfo!.userIdentifier,
-        ),
-      );
-    } else {
-      return Left(
-        authErrorFromServerpod(
-          response: authResponse,
-          duration: DateTime.now().difference(st),
-          url: 'client.appAuth.createAnonymous',
+          duration: DateTime.now().difference(start),
+          url: url,
         ),
       );
     }
@@ -126,6 +125,9 @@ class ServerpodAuthService<T, K> extends BaseRestAuth<T> {
     //   );
     // }
   }
+
+  @override
+  Future<void> logOut() async => _client.authenticationKeyManager?.remove();
 }
 
 /// Converts a Serverpod [serverpod_auth.UserInfo] object into the app's

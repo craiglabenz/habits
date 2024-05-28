@@ -20,19 +20,10 @@ void main() {
         await tester.runAsync(() async {
           final expectation = expectLater(
             GetIt.I<AppRouter>().redirects,
-            emitsInOrder([
-              // First non-redirect for staying on the splash page
-              null,
-              // Redirect when the maintenance signal arrives
-              Routes.maintenance.path,
-              // Second non-redirect when the maintenance signal has stuck
-              null,
-            ]),
+            emitsInOrder([Routes.maintenance.path]),
           );
 
-          await tester.pumpWidget(
-            const AppView(),
-          );
+          await tester.pumpWidget(const AppView());
           GetIt.I<BaseAppConfigRepository>().publishRequiredMaintenance();
 
           await expectation;
@@ -51,19 +42,10 @@ void main() {
         await tester.runAsync(() async {
           final expectation = expectLater(
             GetIt.I<AppRouter>().redirects,
-            emitsInOrder([
-              // First non-redirect for staying on the splash page
-              null,
-              // Redirect when the upgrade signal arrives
-              Routes.upgrade.path,
-              // Second non-redirect when the upgrade signal has stuck
-              null,
-            ]),
+            emitsInOrder([Routes.upgrade.path]),
           );
 
-          await tester.pumpWidget(
-            const AppView(),
-          );
+          await tester.pumpWidget(const AppView());
           GetIt.I<BaseAppConfigRepository>()
               .publishUpgradeStatus(ForceUpgrade.yes('url'));
           await expectation;
@@ -77,37 +59,34 @@ void main() {
     );
 
     testWidgets(
-      'redirect to onboarding page when a new user is emitted',
+      'redirect to welcome page when an unknown user is detected',
       (tester) async {
         await tester.runAsync(() async {
           final expectation = expectLater(
             GetIt.I<AppRouter>().redirects,
-            emitsInOrder([
-              // First non-redirect for staying on the splash page
-              null,
-              // // Then to /welcome
-              Routes.welcome.path,
-              // Then to stay on /welcome
-              null,
-              // Then to /onboarding
-              Routes.onboarding.path,
-            ]),
-          );
-
-          await tester.pumpWidget(
-            const AppView(),
+            emitsInOrder([Routes.welcome.path]),
           );
 
           // Kick off a no-user situation
           (GetIt.I<BaseAuthRepository<AuthUser>>() as FakeAuthRepository)
               .setAsInitialized();
 
-          // Commenting out this section would remove the /welcome part of the
-          // redirection test
-          await tester.pumpWidget(
-            const AppView(),
+          await tester.pumpWidget(const AppView());
+          await expectation;
+        });
+      },
+    );
+
+    testWidgets(
+      'redirect to onboarding page when a new user is emitted',
+      (tester) async {
+        await tester.runAsync(() async {
+          final expectation = expectLater(
+            GetIt.I<AppRouter>().redirects,
+            emitsInOrder([Routes.onboarding.path]),
           );
 
+          await tester.pumpWidget(const AppView());
           (GetIt.I<BaseAuthRepository<AuthUser>>() as FakeAuthRepository)
               .publishNewUser(const AuthUser(id: 'id', apiKey: 'abc'), true);
 
@@ -123,31 +102,9 @@ void main() {
         await tester.runAsync(() async {
           final expectation = expectLater(
             GetIt.I<AppRouter>().redirects,
-            emitsInOrder([
-              // First non-redirect for staying on the splash page
-              null,
-              // // Then to /welcome
-              Routes.welcome.path,
-              // Then to stay on /welcome
-              null,
-              // Then to /onboarding
-              Routes.home.path,
-            ]),
+            emitsInOrder([Routes.home.path]),
           );
-
-          await tester.pumpWidget(
-            const AppView(),
-          );
-
-          // Kick off a no-user situation
-          (GetIt.I<BaseAuthRepository<AuthUser>>() as FakeAuthRepository)
-              .setAsInitialized();
-
-          // Commenting out this section would remove the /welcome part of the
-          // redirection test
-          await tester.pumpWidget(
-            const AppView(),
-          );
+          await tester.pumpWidget(const AppView());
 
           (GetIt.I<BaseAuthRepository<AuthUser>>() as FakeAuthRepository)
               .publishNewUser(const AuthUser(id: 'id', apiKey: 'abc'), false);

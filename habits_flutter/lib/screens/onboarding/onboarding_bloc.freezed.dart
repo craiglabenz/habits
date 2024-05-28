@@ -206,18 +206,21 @@ abstract class _OnboardingState extends OnboardingState {
 mixin _$OnboardingEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() createAccount,
     required TResult Function(String username) setUsername,
     required TResult Function() complete,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? createAccount,
     TResult? Function(String username)? setUsername,
     TResult? Function()? complete,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? createAccount,
     TResult Function(String username)? setUsername,
     TResult Function()? complete,
     required TResult orElse(),
@@ -225,18 +228,21 @@ mixin _$OnboardingEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(CreateAccountEvent value) createAccount,
     required TResult Function(SetUsernameEvent value) setUsername,
     required TResult Function(CompleteOnboarding value) complete,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateAccountEvent value)? createAccount,
     TResult? Function(SetUsernameEvent value)? setUsername,
     TResult? Function(CompleteOnboarding value)? complete,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateAccountEvent value)? createAccount,
     TResult Function(SetUsernameEvent value)? setUsername,
     TResult Function(CompleteOnboarding value)? complete,
     required TResult orElse(),
@@ -260,6 +266,114 @@ class _$OnboardingEventCopyWithImpl<$Res, $Val extends OnboardingEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$CreateAccountEventImplCopyWith<$Res> {
+  factory _$$CreateAccountEventImplCopyWith(_$CreateAccountEventImpl value,
+          $Res Function(_$CreateAccountEventImpl) then) =
+      __$$CreateAccountEventImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$CreateAccountEventImplCopyWithImpl<$Res>
+    extends _$OnboardingEventCopyWithImpl<$Res, _$CreateAccountEventImpl>
+    implements _$$CreateAccountEventImplCopyWith<$Res> {
+  __$$CreateAccountEventImplCopyWithImpl(_$CreateAccountEventImpl _value,
+      $Res Function(_$CreateAccountEventImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$CreateAccountEventImpl implements CreateAccountEvent {
+  const _$CreateAccountEventImpl();
+
+  @override
+  String toString() {
+    return 'OnboardingEvent.createAccount()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$CreateAccountEventImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() createAccount,
+    required TResult Function(String username) setUsername,
+    required TResult Function() complete,
+  }) {
+    return createAccount();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? createAccount,
+    TResult? Function(String username)? setUsername,
+    TResult? Function()? complete,
+  }) {
+    return createAccount?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? createAccount,
+    TResult Function(String username)? setUsername,
+    TResult Function()? complete,
+    required TResult orElse(),
+  }) {
+    if (createAccount != null) {
+      return createAccount();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(CreateAccountEvent value) createAccount,
+    required TResult Function(SetUsernameEvent value) setUsername,
+    required TResult Function(CompleteOnboarding value) complete,
+  }) {
+    return createAccount(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateAccountEvent value)? createAccount,
+    TResult? Function(SetUsernameEvent value)? setUsername,
+    TResult? Function(CompleteOnboarding value)? complete,
+  }) {
+    return createAccount?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateAccountEvent value)? createAccount,
+    TResult Function(SetUsernameEvent value)? setUsername,
+    TResult Function(CompleteOnboarding value)? complete,
+    required TResult orElse(),
+  }) {
+    if (createAccount != null) {
+      return createAccount(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class CreateAccountEvent implements OnboardingEvent {
+  const factory CreateAccountEvent() = _$CreateAccountEventImpl;
 }
 
 /// @nodoc
@@ -328,6 +442,7 @@ class _$SetUsernameEventImpl implements SetUsernameEvent {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() createAccount,
     required TResult Function(String username) setUsername,
     required TResult Function() complete,
   }) {
@@ -337,6 +452,7 @@ class _$SetUsernameEventImpl implements SetUsernameEvent {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? createAccount,
     TResult? Function(String username)? setUsername,
     TResult? Function()? complete,
   }) {
@@ -346,6 +462,7 @@ class _$SetUsernameEventImpl implements SetUsernameEvent {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? createAccount,
     TResult Function(String username)? setUsername,
     TResult Function()? complete,
     required TResult orElse(),
@@ -359,6 +476,7 @@ class _$SetUsernameEventImpl implements SetUsernameEvent {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(CreateAccountEvent value) createAccount,
     required TResult Function(SetUsernameEvent value) setUsername,
     required TResult Function(CompleteOnboarding value) complete,
   }) {
@@ -368,6 +486,7 @@ class _$SetUsernameEventImpl implements SetUsernameEvent {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateAccountEvent value)? createAccount,
     TResult? Function(SetUsernameEvent value)? setUsername,
     TResult? Function(CompleteOnboarding value)? complete,
   }) {
@@ -377,6 +496,7 @@ class _$SetUsernameEventImpl implements SetUsernameEvent {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateAccountEvent value)? createAccount,
     TResult Function(SetUsernameEvent value)? setUsername,
     TResult Function(CompleteOnboarding value)? complete,
     required TResult orElse(),
@@ -436,6 +556,7 @@ class _$CompleteOnboardingImpl implements CompleteOnboarding {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() createAccount,
     required TResult Function(String username) setUsername,
     required TResult Function() complete,
   }) {
@@ -445,6 +566,7 @@ class _$CompleteOnboardingImpl implements CompleteOnboarding {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? createAccount,
     TResult? Function(String username)? setUsername,
     TResult? Function()? complete,
   }) {
@@ -454,6 +576,7 @@ class _$CompleteOnboardingImpl implements CompleteOnboarding {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? createAccount,
     TResult Function(String username)? setUsername,
     TResult Function()? complete,
     required TResult orElse(),
@@ -467,6 +590,7 @@ class _$CompleteOnboardingImpl implements CompleteOnboarding {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(CreateAccountEvent value) createAccount,
     required TResult Function(SetUsernameEvent value) setUsername,
     required TResult Function(CompleteOnboarding value) complete,
   }) {
@@ -476,6 +600,7 @@ class _$CompleteOnboardingImpl implements CompleteOnboarding {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(CreateAccountEvent value)? createAccount,
     TResult? Function(SetUsernameEvent value)? setUsername,
     TResult? Function(CompleteOnboarding value)? complete,
   }) {
@@ -485,6 +610,7 @@ class _$CompleteOnboardingImpl implements CompleteOnboarding {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateAccountEvent value)? createAccount,
     TResult Function(SetUsernameEvent value)? setUsername,
     TResult Function(CompleteOnboarding value)? complete,
     required TResult orElse(),

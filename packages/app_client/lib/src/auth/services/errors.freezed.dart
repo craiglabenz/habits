@@ -26,7 +26,7 @@ mixin _$AuthenticationError {
     required TResult Function() logoutError,
     required TResult Function(bool missingEmail, bool missingPassword)
         missingCredentials,
-    required TResult Function(Set<LoginType> methods) wrongMethod,
+    required TResult Function(Set<AuthType> methods) wrongMethod,
     required TResult Function() unknownError,
   }) =>
       throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ mixin _$AuthenticationError {
     TResult? Function()? logoutError,
     TResult? Function(bool missingEmail, bool missingPassword)?
         missingCredentials,
-    TResult? Function(Set<LoginType> methods)? wrongMethod,
+    TResult? Function(Set<AuthType> methods)? wrongMethod,
     TResult? Function()? unknownError,
   }) =>
       throw _privateConstructorUsedError;
@@ -54,7 +54,7 @@ mixin _$AuthenticationError {
     TResult Function()? logoutError,
     TResult Function(bool missingEmail, bool missingPassword)?
         missingCredentials,
-    TResult Function(Set<LoginType> methods)? wrongMethod,
+    TResult Function(Set<AuthType> methods)? wrongMethod,
     TResult Function()? unknownError,
     required TResult orElse(),
   }) =>
@@ -168,7 +168,7 @@ class _$BadEmailPasswordErrorImpl extends BadEmailPasswordError {
     required TResult Function() logoutError,
     required TResult Function(bool missingEmail, bool missingPassword)
         missingCredentials,
-    required TResult Function(Set<LoginType> methods) wrongMethod,
+    required TResult Function(Set<AuthType> methods) wrongMethod,
     required TResult Function() unknownError,
   }) {
     return badEmailPassword();
@@ -185,7 +185,7 @@ class _$BadEmailPasswordErrorImpl extends BadEmailPasswordError {
     TResult? Function()? logoutError,
     TResult? Function(bool missingEmail, bool missingPassword)?
         missingCredentials,
-    TResult? Function(Set<LoginType> methods)? wrongMethod,
+    TResult? Function(Set<AuthType> methods)? wrongMethod,
     TResult? Function()? unknownError,
   }) {
     return badEmailPassword?.call();
@@ -202,7 +202,7 @@ class _$BadEmailPasswordErrorImpl extends BadEmailPasswordError {
     TResult Function()? logoutError,
     TResult Function(bool missingEmail, bool missingPassword)?
         missingCredentials,
-    TResult Function(Set<LoginType> methods)? wrongMethod,
+    TResult Function(Set<AuthType> methods)? wrongMethod,
     TResult Function()? unknownError,
     required TResult orElse(),
   }) {
@@ -321,7 +321,7 @@ class _$CancelledSocialAuthErrorImpl extends CancelledSocialAuthError {
     required TResult Function() logoutError,
     required TResult Function(bool missingEmail, bool missingPassword)
         missingCredentials,
-    required TResult Function(Set<LoginType> methods) wrongMethod,
+    required TResult Function(Set<AuthType> methods) wrongMethod,
     required TResult Function() unknownError,
   }) {
     return cancelledSocialAuth();
@@ -338,7 +338,7 @@ class _$CancelledSocialAuthErrorImpl extends CancelledSocialAuthError {
     TResult? Function()? logoutError,
     TResult? Function(bool missingEmail, bool missingPassword)?
         missingCredentials,
-    TResult? Function(Set<LoginType> methods)? wrongMethod,
+    TResult? Function(Set<AuthType> methods)? wrongMethod,
     TResult? Function()? unknownError,
   }) {
     return cancelledSocialAuth?.call();
@@ -355,7 +355,7 @@ class _$CancelledSocialAuthErrorImpl extends CancelledSocialAuthError {
     TResult Function()? logoutError,
     TResult Function(bool missingEmail, bool missingPassword)?
         missingCredentials,
-    TResult Function(Set<LoginType> methods)? wrongMethod,
+    TResult Function(Set<AuthType> methods)? wrongMethod,
     TResult Function()? unknownError,
     required TResult orElse(),
   }) {
@@ -470,7 +470,7 @@ class _$EmailTakenErrorImpl extends EmailTakenError {
     required TResult Function() logoutError,
     required TResult Function(bool missingEmail, bool missingPassword)
         missingCredentials,
-    required TResult Function(Set<LoginType> methods) wrongMethod,
+    required TResult Function(Set<AuthType> methods) wrongMethod,
     required TResult Function() unknownError,
   }) {
     return emailTaken();
@@ -487,7 +487,7 @@ class _$EmailTakenErrorImpl extends EmailTakenError {
     TResult? Function()? logoutError,
     TResult? Function(bool missingEmail, bool missingPassword)?
         missingCredentials,
-    TResult? Function(Set<LoginType> methods)? wrongMethod,
+    TResult? Function(Set<AuthType> methods)? wrongMethod,
     TResult? Function()? unknownError,
   }) {
     return emailTaken?.call();
@@ -504,7 +504,7 @@ class _$EmailTakenErrorImpl extends EmailTakenError {
     TResult Function()? logoutError,
     TResult Function(bool missingEmail, bool missingPassword)?
         missingCredentials,
-    TResult Function(Set<LoginType> methods)? wrongMethod,
+    TResult Function(Set<AuthType> methods)? wrongMethod,
     TResult Function()? unknownError,
     required TResult orElse(),
   }) {
@@ -620,7 +620,7 @@ class _$InvalidPasswordErrorImpl extends InvalidPasswordError {
     required TResult Function() logoutError,
     required TResult Function(bool missingEmail, bool missingPassword)
         missingCredentials,
-    required TResult Function(Set<LoginType> methods) wrongMethod,
+    required TResult Function(Set<AuthType> methods) wrongMethod,
     required TResult Function() unknownError,
   }) {
     return invalidPassword();
@@ -637,7 +637,7 @@ class _$InvalidPasswordErrorImpl extends InvalidPasswordError {
     TResult? Function()? logoutError,
     TResult? Function(bool missingEmail, bool missingPassword)?
         missingCredentials,
-    TResult? Function(Set<LoginType> methods)? wrongMethod,
+    TResult? Function(Set<AuthType> methods)? wrongMethod,
     TResult? Function()? unknownError,
   }) {
     return invalidPassword?.call();
@@ -654,7 +654,7 @@ class _$InvalidPasswordErrorImpl extends InvalidPasswordError {
     TResult Function()? logoutError,
     TResult Function(bool missingEmail, bool missingPassword)?
         missingCredentials,
-    TResult Function(Set<LoginType> methods)? wrongMethod,
+    TResult Function(Set<AuthType> methods)? wrongMethod,
     TResult Function()? unknownError,
     required TResult orElse(),
   }) {
@@ -769,7 +769,7 @@ class _$InvalidCodeErrorImpl extends InvalidCodeError {
     required TResult Function() logoutError,
     required TResult Function(bool missingEmail, bool missingPassword)
         missingCredentials,
-    required TResult Function(Set<LoginType> methods) wrongMethod,
+    required TResult Function(Set<AuthType> methods) wrongMethod,
     required TResult Function() unknownError,
   }) {
     return invalidCode();
@@ -786,7 +786,7 @@ class _$InvalidCodeErrorImpl extends InvalidCodeError {
     TResult? Function()? logoutError,
     TResult? Function(bool missingEmail, bool missingPassword)?
         missingCredentials,
-    TResult? Function(Set<LoginType> methods)? wrongMethod,
+    TResult? Function(Set<AuthType> methods)? wrongMethod,
     TResult? Function()? unknownError,
   }) {
     return invalidCode?.call();
@@ -803,7 +803,7 @@ class _$InvalidCodeErrorImpl extends InvalidCodeError {
     TResult Function()? logoutError,
     TResult Function(bool missingEmail, bool missingPassword)?
         missingCredentials,
-    TResult Function(Set<LoginType> methods)? wrongMethod,
+    TResult Function(Set<AuthType> methods)? wrongMethod,
     TResult Function()? unknownError,
     required TResult orElse(),
   }) {
@@ -918,7 +918,7 @@ class _$LogoutErrorImpl extends LogoutError {
     required TResult Function() logoutError,
     required TResult Function(bool missingEmail, bool missingPassword)
         missingCredentials,
-    required TResult Function(Set<LoginType> methods) wrongMethod,
+    required TResult Function(Set<AuthType> methods) wrongMethod,
     required TResult Function() unknownError,
   }) {
     return logoutError();
@@ -935,7 +935,7 @@ class _$LogoutErrorImpl extends LogoutError {
     TResult? Function()? logoutError,
     TResult? Function(bool missingEmail, bool missingPassword)?
         missingCredentials,
-    TResult? Function(Set<LoginType> methods)? wrongMethod,
+    TResult? Function(Set<AuthType> methods)? wrongMethod,
     TResult? Function()? unknownError,
   }) {
     return logoutError?.call();
@@ -952,7 +952,7 @@ class _$LogoutErrorImpl extends LogoutError {
     TResult Function()? logoutError,
     TResult Function(bool missingEmail, bool missingPassword)?
         missingCredentials,
-    TResult Function(Set<LoginType> methods)? wrongMethod,
+    TResult Function(Set<AuthType> methods)? wrongMethod,
     TResult Function()? unknownError,
     required TResult orElse(),
   }) {
@@ -1106,7 +1106,7 @@ class _$MissingCredentialsImpl extends MissingCredentials {
     required TResult Function() logoutError,
     required TResult Function(bool missingEmail, bool missingPassword)
         missingCredentials,
-    required TResult Function(Set<LoginType> methods) wrongMethod,
+    required TResult Function(Set<AuthType> methods) wrongMethod,
     required TResult Function() unknownError,
   }) {
     return missingCredentials(missingEmail, missingPassword);
@@ -1123,7 +1123,7 @@ class _$MissingCredentialsImpl extends MissingCredentials {
     TResult? Function()? logoutError,
     TResult? Function(bool missingEmail, bool missingPassword)?
         missingCredentials,
-    TResult? Function(Set<LoginType> methods)? wrongMethod,
+    TResult? Function(Set<AuthType> methods)? wrongMethod,
     TResult? Function()? unknownError,
   }) {
     return missingCredentials?.call(missingEmail, missingPassword);
@@ -1140,7 +1140,7 @@ class _$MissingCredentialsImpl extends MissingCredentials {
     TResult Function()? logoutError,
     TResult Function(bool missingEmail, bool missingPassword)?
         missingCredentials,
-    TResult Function(Set<LoginType> methods)? wrongMethod,
+    TResult Function(Set<AuthType> methods)? wrongMethod,
     TResult Function()? unknownError,
     required TResult orElse(),
   }) {
@@ -1223,7 +1223,7 @@ abstract class _$$WrongMethodImplCopyWith<$Res> {
           _$WrongMethodImpl value, $Res Function(_$WrongMethodImpl) then) =
       __$$WrongMethodImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({Set<LoginType> methods});
+  $Res call({Set<AuthType> methods});
 }
 
 /// @nodoc
@@ -1243,7 +1243,7 @@ class __$$WrongMethodImplCopyWithImpl<$Res>
       null == methods
           ? _value._methods
           : methods // ignore: cast_nullable_to_non_nullable
-              as Set<LoginType>,
+              as Set<AuthType>,
     ));
   }
 }
@@ -1251,13 +1251,13 @@ class __$$WrongMethodImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$WrongMethodImpl extends WrongMethod {
-  const _$WrongMethodImpl(final Set<LoginType> methods)
+  const _$WrongMethodImpl(final Set<AuthType> methods)
       : _methods = methods,
         super._();
 
-  final Set<LoginType> _methods;
+  final Set<AuthType> _methods;
   @override
-  Set<LoginType> get methods {
+  Set<AuthType> get methods {
     if (_methods is EqualUnmodifiableSetView) return _methods;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableSetView(_methods);
@@ -1297,7 +1297,7 @@ class _$WrongMethodImpl extends WrongMethod {
     required TResult Function() logoutError,
     required TResult Function(bool missingEmail, bool missingPassword)
         missingCredentials,
-    required TResult Function(Set<LoginType> methods) wrongMethod,
+    required TResult Function(Set<AuthType> methods) wrongMethod,
     required TResult Function() unknownError,
   }) {
     return wrongMethod(methods);
@@ -1314,7 +1314,7 @@ class _$WrongMethodImpl extends WrongMethod {
     TResult? Function()? logoutError,
     TResult? Function(bool missingEmail, bool missingPassword)?
         missingCredentials,
-    TResult? Function(Set<LoginType> methods)? wrongMethod,
+    TResult? Function(Set<AuthType> methods)? wrongMethod,
     TResult? Function()? unknownError,
   }) {
     return wrongMethod?.call(methods);
@@ -1331,7 +1331,7 @@ class _$WrongMethodImpl extends WrongMethod {
     TResult Function()? logoutError,
     TResult Function(bool missingEmail, bool missingPassword)?
         missingCredentials,
-    TResult Function(Set<LoginType> methods)? wrongMethod,
+    TResult Function(Set<AuthType> methods)? wrongMethod,
     TResult Function()? unknownError,
     required TResult orElse(),
   }) {
@@ -1396,10 +1396,10 @@ class _$WrongMethodImpl extends WrongMethod {
 }
 
 abstract class WrongMethod extends AuthenticationError {
-  const factory WrongMethod(final Set<LoginType> methods) = _$WrongMethodImpl;
+  const factory WrongMethod(final Set<AuthType> methods) = _$WrongMethodImpl;
   const WrongMethod._() : super._();
 
-  Set<LoginType> get methods;
+  Set<AuthType> get methods;
   @JsonKey(ignore: true)
   _$$WrongMethodImplCopyWith<_$WrongMethodImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1451,7 +1451,7 @@ class _$UnknownAuthErrorImpl extends UnknownAuthError {
     required TResult Function() logoutError,
     required TResult Function(bool missingEmail, bool missingPassword)
         missingCredentials,
-    required TResult Function(Set<LoginType> methods) wrongMethod,
+    required TResult Function(Set<AuthType> methods) wrongMethod,
     required TResult Function() unknownError,
   }) {
     return unknownError();
@@ -1468,7 +1468,7 @@ class _$UnknownAuthErrorImpl extends UnknownAuthError {
     TResult? Function()? logoutError,
     TResult? Function(bool missingEmail, bool missingPassword)?
         missingCredentials,
-    TResult? Function(Set<LoginType> methods)? wrongMethod,
+    TResult? Function(Set<AuthType> methods)? wrongMethod,
     TResult? Function()? unknownError,
   }) {
     return unknownError?.call();
@@ -1485,7 +1485,7 @@ class _$UnknownAuthErrorImpl extends UnknownAuthError {
     TResult Function()? logoutError,
     TResult Function(bool missingEmail, bool missingPassword)?
         missingCredentials,
-    TResult Function(Set<LoginType> methods)? wrongMethod,
+    TResult Function(Set<AuthType> methods)? wrongMethod,
     TResult Function()? unknownError,
     required TResult orElse(),
   }) {

@@ -9,6 +9,10 @@ abstract class AuthBindings<T, K> extends Bindings<T, K> {
   /// {@macro AuthBindings}
   const AuthBindings();
 
+  /// Value to return from methods where there is zero information about the
+  /// user.
+  T get unknownUser;
+
   /// Function which can return the [String] api key for the given user.
   String getApiKey(AuthUser user);
 

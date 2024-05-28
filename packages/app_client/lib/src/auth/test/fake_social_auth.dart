@@ -24,26 +24,28 @@ class FakeStreamAuth extends BaseSocialAuth {
   void prepareLoginError(AuthenticationError e) => error = e;
 
   @override
-  Future<Set<LoginType>> getAvailableMethods(String email) =>
-      Future.value(<LoginType>{});
+  Future<Set<AuthType>> getAvailableMethods(String email) =>
+      Future.value(<AuthType>{});
 
   @override
-  Future<FirebaseUserOrError> logInWithApple() async => _doLogin();
+  Future<FirebaseUserOrError> logInWithApple() async => _publishUser();
 
   @override
   Future<FirebaseUserOrError> logInWithEmailAndPassword({
     required String email,
     required String password,
   }) async =>
-      _doLogin();
+      _publishUser();
 
   @override
-  Future<FirebaseUserOrError> logInWithGoogle() async => _doLogin();
+  Future<FirebaseUserOrError> logInWithGoogle() async => _publishUser();
 
   @override
   Future<Either<AuthenticationError, LogoutSentinel>> logOut() async {
-    _user = null;
-    _controller.sink.add(_user);
+    if (_user != null) {
+      _user = null;
+      _controller.sink.add(_user);
+    }
     return const Right(LogoutSentinel());
   }
 
@@ -52,23 +54,29 @@ class FakeStreamAuth extends BaseSocialAuth {
     required String email,
     required String password,
   }) async =>
-      _doLogin();
+      _publishUser();
 
-  FirebaseUserOrError _doLogin() {
+  FirebaseUserOrError _publishUser() {
     if (error != null) {
-      final errorPtr = error!;
+      final errorCopy = error!;
       error = null;
-      return Left(errorPtr);
+      return Left(errorCopy);
     }
-    _controller.sink.add(_user);
+    emitUser(_user);
     return Right(
       FakeFirebaseUser(
-        uid: 'firebase-id',
+        uid: _user!.uid,
         displayName: _user!.email,
         email: _user?.email,
         isAnonymous: _user == null,
       ),
     );
+  }
+
+  /// Force the given user through the pipeline.
+  void emitUser(FirebaseUser? user) {
+    _user = user;
+    _controller.sink.add(user);
   }
 
   @override
@@ -78,6 +86,10 @@ class FakeStreamAuth extends BaseSocialAuth {
   Future<void> deleteUser(FirebaseUser user) async {}
 
   @override
-  Future<FirebaseUserOrError> signInAnonymously() async =>
-      const Right(FakeFirebaseUser(uid: 'firebase-id', isAnonymous: true));
+  Future<FirebaseUserOrError> signInAnonymously() async {
+    prepareLogin(
+      const FakeFirebaseUser(isAnonymous: true),
+    );
+    return _publishUser();
+  }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:habits_flutter/core/core.dart';
-import 'package:habits_flutter/screens/welcome/welcome.dart';
 
 /// {@template WelcomeScreen}
 /// Initial welcome screen for unknown sessions.
@@ -15,8 +14,6 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  final bloc = WelcomeBloc();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +23,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           TextButton(
-            onPressed: () => bloc.add(const CreateAccountEvent()),
+            onPressed: () => GetIt.I<AppRouter>().pushOnboarding(),
             child: Text(
               'Get started',
               textAlign: TextAlign.center,

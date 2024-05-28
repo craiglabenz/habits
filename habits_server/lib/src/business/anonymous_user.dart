@@ -107,11 +107,19 @@ class AnonymousUser {
     );
   }
 
+  /// Checks the validity of an existing session.
   static Future<auth.AuthenticationResponse> checkSession(
     Session session, {
     // "keyId:keyValue"
     required String keyIdentifier,
   }) async {
+    if (keyIdentifier == '') {
+      session.log('Unexpected empty keyIdentifier');
+      return auth.AuthenticationResponse(
+        success: false,
+        failReason: AuthenticationFailReason.invalidCredentials,
+      );
+    }
     final [String keyIdStr, String keyValue] = keyIdentifier.split(':');
 
     int? keyId = int.tryParse(keyIdStr);
@@ -138,7 +146,7 @@ class AnonymousUser {
     var signInSalt = session.passwords['authKeySalt'] ?? defaultAuthKeySalt;
     final hash = hashString(keyValue, signInSalt);
     if (authKey.hash != hash) {
-      session.log('Hash "$hash" is incorrect');
+      session.log('Hash "$hash" is incorrect for Key Id $keyId');
       return auth.AuthenticationResponse(
         success: false,
         failReason: AuthenticationFailReason.invalidCredentials,

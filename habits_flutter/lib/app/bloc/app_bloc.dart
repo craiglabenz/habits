@@ -25,7 +25,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         .listen(_onDownForMaintenanceStatusChanged);
     _userSubscription = _authRepository.user.listen(_onUserChanged);
     _authRepository.initialized.then((_) {
-      _onUserChanged(_authRepository.lastUser!);
+      _onUserChanged(_authRepository.lastUser);
     });
 
     on<AppEvent>(
@@ -56,8 +56,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   void _onForceUpgradeStatusChanged(ForceUpgrade forceUpgrade) =>
       add(AppEvent.forceUpgradeStatusChanged(forceUpgrade));
 
-  void _onUserChanged((AuthUser user, bool isNewUser) update) =>
-      add(AppEvent.userChanged(update.$1, isNewUser: update.$2));
+  void _onUserChanged((AuthUser user, bool isNewUser) update) {
+    // print('AppBloc._onUserChanged: ${update.$1}, isNewUser: ${update.$2}');
+    add(AppEvent.userChanged(update.$1, isNewUser: update.$2));
+  }
 
   void _logoutRequested(AppEventLogoutRequested event, Emitter<AppState> emit) {
     unawaited(_authRepository.logOut());
@@ -113,16 +115,16 @@ class AppState with _$AppState {
   factory AppState.initial([AuthUser? user]) => AppState(user: user);
   const AppState._();
 
-  /// Returns true if we have no knowledge of the current user. This usually
+  /// Returns false if we have no knowledge of the current user. This usually
   /// means the initial check for an existing session has not even completed.
-  bool get isUserUnknown => user == null;
+  bool get isSessionChecked => user != null;
 
   /// Returns true if the current user is known to be anonymous. This means the
   /// initial check for an existing user has completed but returned null.
-  bool get isAnonymous => user == AuthUser.anonymous;
+  bool get isUnknown => user == AuthUser.unknown;
 
   /// Returns true if the current user is logged in.
-  bool get isAuthenticated => !isUserUnknown && !isAnonymous;
+  bool get isAuthenticated => isSessionChecked && !isUnknown;
 
   /// Returns true if the user must upgrade their app.
   bool get isUpgradeRequired => forceUpgrade.isUpgradeRequired;
@@ -153,8 +155,8 @@ class AppEvent with _$AppEvent {
       AppEventForceUpgradeStatusChanged;
 
   /// Event which tells the rest of the app that the user authentication story
-  /// has changed. If [user] equals [AuthUser.anonymous] then this would imply
-  /// a successful logout. If [user] is not [AuthUser.anonymous], then
+  /// has changed. If [user] equals [AuthUser.unknown] then this would imply
+  /// a successful logout. If [user] is not [AuthUser.unknown], then
   /// [isNewUser] should be `true` if the account was just created.
   const factory AppEvent.userChanged(
     AuthUser user, {

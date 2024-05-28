@@ -23,6 +23,13 @@ abstract class BaseRestAuth<T> {
     required String password,
   });
 
+  /// Terminates any open session (probably by removing the User's api key from
+  /// local storage).
+  Future<void> logOut();
+
+  /// Pulls a user's API key out of storage and verifies their session.
+  Future<UserOrError<T>> checkSession();
+
   /// Attempts to register the new user with the given [email] and [password].
   Future<UserOrError<T>> register({
     required String email,
@@ -104,6 +111,18 @@ class RestAuth<T, K> implements BaseRestAuth<T> {
     required String username,
   }) {
     // TODO: implement createAnonymous
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<UserOrError<T>> checkSession() {
+    // TODO: implement checkSession
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> logOut() {
+    // TODO: implement logOut
     throw UnimplementedError();
   }
 }

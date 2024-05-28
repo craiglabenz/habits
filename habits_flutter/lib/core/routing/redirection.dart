@@ -41,7 +41,7 @@ class GoRouterRedirector {
     // AuthenticatedUsersAwayFromSignUp(),
     // AuthenticatedUsersAwayFromLogin(),
     // AuthenticatedUsersAwayFromOnboarding(),
-    AuthenticatedUsersAwayFromSplash(),
+    AuthenticatedUsersAwayFromSplashOrWelcome(),
   ]);
 
   /// Compares the current [RouteState] against the [AppState] and returns a
@@ -250,9 +250,10 @@ class UnauthenticatedToWelcome extends Redirector {
     AppState appState,
   ) =>
       !routeState.path.endsWith(Routes.welcome.path) &&
-      // !routeState.path.endsWith(Routes.login.path) &&
+      !routeState.path.endsWith(Routes.login.path) &&
+      !routeState.path.endsWith(Routes.onboarding.path) &&
       // !routeState.path.endsWith(Routes.signUp.path) &&
-      appState.isAnonymous;
+      appState.isUnknown;
 
   @override
   Uri? getNewUri(
@@ -269,24 +270,14 @@ class NewUsersToOnboarding extends Redirector {
   /// {@macro NewUsersToOnboarding}
   const NewUsersToOnboarding();
   @override
-  bool predicate(
-    RouteState routeState,
-    AppState appState,
-  ) {
-    GoRouterRedirector.log(
-      'appState.isNewUser::${appState.isNewUser}',
-      Level.FINEST,
-    );
+  bool predicate(RouteState routeState, AppState appState) {
     // Redirect authenticated but new users to the Onboarding page.
     return !routeState.path.contains(Routes.onboarding.path) &&
         appState.isNewUser;
   }
 
   @override
-  Uri? getNewUri(
-    RouteState routeState,
-    AppState appState,
-  ) =>
+  Uri? getNewUri(RouteState routeState, AppState appState) =>
       Uri(path: Routes.onboarding.path);
 }
 
@@ -367,12 +358,12 @@ class NewUsersToOnboarding extends Redirector {
 //       Uri(path: Routes.home.path);
 // }
 
-/// {@template AuthenticatedUsersAwayFromSplash}
+/// {@template AuthenticatedUsersAwayFromSplashOrWelcome}
 /// Moves authenticated users away from the Splash page and to the Home page.
 /// {@endtemplate}
-class AuthenticatedUsersAwayFromSplash extends Redirector {
-  /// {@macro AuthenticatedUsersAwayFromSplash}
-  const AuthenticatedUsersAwayFromSplash();
+class AuthenticatedUsersAwayFromSplashOrWelcome extends Redirector {
+  /// {@macro AuthenticatedUsersAwayFromSplashOrWelcome}
+  const AuthenticatedUsersAwayFromSplashOrWelcome();
   @override
   bool predicate(
     RouteState routeState,
@@ -380,7 +371,8 @@ class AuthenticatedUsersAwayFromSplash extends Redirector {
   ) =>
       appState.isAuthenticated &&
       !appState.isNewUser &&
-      routeState.path == Routes.splash.path;
+      (routeState.path == Routes.splash.path ||
+          routeState.path == Routes.welcome.path);
 
   @override
   Uri? getNewUri(

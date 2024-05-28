@@ -35,6 +35,6 @@ class AuthUser extends StringModel with _$AuthUser {
   /// Deserializes a raw data into an [AuthUser] instance.
   factory AuthUser.fromJson(Json json) => _$AuthUserFromJson(json);
 
-  /// Anonymous user which represents an unauthenticated user.
-  static const anonymous = AuthUser(id: 'anonymous', apiKey: 'anonymous');
+  /// Unknown user which represents an unauthenticated user.
+  static const unknown = AuthUser(id: 'unknown', apiKey: '---');
 }

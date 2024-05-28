@@ -35,4 +35,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       ),
     );
   }
+
+  @override
+  Future<void> dispose() async {
+    super.dispose();
+    await bloc.close();
+  }
 }

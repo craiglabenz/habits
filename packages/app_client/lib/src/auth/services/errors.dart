@@ -44,7 +44,7 @@ class AuthenticationError with _$AuthenticationError {
   ///
   /// The [methods] field stores the known/valid sign in methods for a given
   /// email address after a user attempts to sign in via the wrong method.
-  const factory AuthenticationError.wrongMethod(Set<LoginType> methods) =
+  const factory AuthenticationError.wrongMethod(Set<AuthType> methods) =
       WrongMethod;
 
   /// Auth error indicating the attempt failed for an unknown reason.
@@ -110,7 +110,7 @@ class AuthenticationError with _$AuthenticationError {
         missingCredentials: (_) => 'Must supply an email and password',
         wrongMethod: (err) {
           final methods = err.methods
-              .map<String>((LoginType type) => _title(type.name))
+              .map<String>((AuthType type) => _title(type.name))
               .join(', or ');
           return 'Account already exists. Login with $methods';
         },

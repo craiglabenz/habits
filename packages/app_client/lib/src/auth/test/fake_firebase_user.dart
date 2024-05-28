@@ -8,7 +8,7 @@ class FakeFirebaseUser with EquatableMixin implements FirebaseUser {
   const FakeFirebaseUser({
     bool isAnonymous = false,
     bool isEmailVerified = true,
-    String uid = 'some_random_id',
+    String uid = defaultUid,
     String? email,
     String? displayName,
     String? phoneNumber,
@@ -82,4 +82,23 @@ class FakeFirebaseUser with EquatableMixin implements FirebaseUser {
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+
+  /// Default faked Firebase Uid for this user unless another is specified.
+  static const String defaultUid = 'some_random_id';
+}
+
+/// Produces a faked FirebaseUser.
+FirebaseUser buildFirebaseUser({
+  Duration? accountAge,
+  String? email,
+  bool nullEmail = false,
+}) {
+  final now = DateTime.now().toUtc();
+  return FakeFirebaseUser(
+    email: nullEmail ? null : email ?? 'user@domain.com',
+    metadata: firebase_auth.UserMetadata(
+      now.subtract(accountAge ?? Duration.zero).millisecondsSinceEpoch,
+      now.millisecondsSinceEpoch,
+    ),
+  );
 }

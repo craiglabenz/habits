@@ -4,11 +4,13 @@ import 'package:app_client/src/auth/test/test.dart';
 import 'package:app_shared/app_shared.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:habits_client/habits_client.dart';
 
 /// Bootstraps a runtime for unit tests.
 Future<void> setUpTestingDI({
   RequestDelegate? requestDelegate,
   TargetPlatform? targetPlatform,
+  Client? client,
 }) async {
   await GetIt.I.reset();
   GetIt.I.registerSingleton<BaseSocialAuth>(FakeStreamAuth());

@@ -62,4 +62,7 @@ class FakeAuthUserBindings extends AuthBindings<AuthUser, String> {
 
   @override
   Json toJson(AuthUser obj) => obj.toJson();
+
+  @override
+  AuthUser get unknownUser => AuthUser.unknown;
 }

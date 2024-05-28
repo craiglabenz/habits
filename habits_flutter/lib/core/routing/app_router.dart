@@ -22,7 +22,7 @@ class AppRouter {
         Routes.upgrade,
         Routes.home,
       ],
-      refreshListenable: GoRouterRefreshStream(_appBloc.stream),
+      // refreshListenable: GoRouterRefreshStream(_appBloc.stream),
       initialLocation: initialRoute.path,
       redirect: (context, GoRouterState state) {
         // print('Calling redirect with GoRouterState:');
@@ -40,19 +40,26 @@ class AppRouter {
         return _redirect(_appBloc.state);
       },
     );
-    // _appBloc.stream.listen((appState) {
-    //   final redirection = _redirect(appState);
-    //   if (redirection != null) {
-    //     goTo(redirection);
-    //   }
-    // });
+    _appBloc.stream.listen((appState) {
+      // print('AppRouter.appState: $appState');
+      final redirection = _redirect(appState);
+      if (redirection != null) {
+        goTo(redirection);
+      }
+    });
   }
 
-  final _redirects = StreamController<String?>.broadcast();
+  final _redirections = StreamController<String?>.broadcast();
 
   /// Emits redirection decisions
   @visibleForTesting
-  Stream<String?> get redirects => _redirects.stream;
+  Stream<String?> get allRedirects => _redirections.stream;
+
+  /// Same as [allRedirects], but with `null` values removed.
+  @visibleForTesting
+  Stream<String> get redirects => allRedirects
+      .where((String? val) => val != null)
+      .map<String>((String? val) => val!);
 
   String? _redirect(AppState appState) {
     final routeState = RouteState.fromGoRouterState(lastGoRouterState);
@@ -60,7 +67,7 @@ class AppRouter {
       routeState: routeState,
       appState: appState,
     );
-    _redirects.add(redirect);
+    _redirections.add(redirect);
     return redirect;
   }
 

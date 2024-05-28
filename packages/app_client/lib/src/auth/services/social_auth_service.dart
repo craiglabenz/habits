@@ -66,7 +66,7 @@ abstract class BaseSocialAuth {
 
   /// Returns the set of Firebase login methods a user may to resume their
   /// session.
-  Future<Set<LoginType>> getAvailableMethods(String email);
+  Future<Set<AuthType>> getAvailableMethods(String email);
 }
 
 /// Executes real session actions with Firebase.
@@ -86,7 +86,7 @@ class FirebaseAuthService extends BaseSocialAuth {
   final GetAppleCredentials _getAppleCredentials;
 
   @override
-  Future<Set<LoginType>> getAvailableMethods(String email) async =>
+  Future<Set<AuthType>> getAvailableMethods(String email) async =>
       loginTypesFromStrings(
         // ignore: deprecated_member_use
         await _firebaseAuth.fetchSignInMethodsForEmail(email),
@@ -255,18 +255,18 @@ class FirebaseAuthService extends BaseSocialAuth {
   }
 }
 
-/// Converts raw Firebase login type strings to [LoginType] enum values.
-Set<LoginType> loginTypesFromStrings(List<String> methods) {
-  final types = <LoginType>{};
+/// Converts raw Firebase login type strings to [AuthType] enum values.
+Set<AuthType> loginTypesFromStrings(List<String> methods) {
+  final types = <AuthType>{};
 
   for (final method in methods) {
     switch (method) {
       case 'google.com':
-        types.add(LoginType.google);
+        types.add(AuthType.google);
       case 'apple.com':
-        types.add(LoginType.apple);
+        types.add(AuthType.apple);
       case 'email':
-        types.add(LoginType.email);
+        types.add(AuthType.email);
       default:
         _log.shout('Invalid Firebase auth method: $method');
     }

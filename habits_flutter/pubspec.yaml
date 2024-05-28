@@ -60,6 +60,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   freezed: ^2.5.2
+  mockito: ^5.4.4
   mocktail: ^1.0.3
   very_good_analysis: ^5.1.0
 
