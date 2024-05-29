@@ -9,7 +9,9 @@ environment:
 dependencies:
   dartz: ^0.10.1
   freezed_annotation: ^2.4.1
+  logging: ^1.2.0
   meta: ^1.14.0
+  timezone: ^0.9.2
 
 dev_dependencies:
   build_runner: ^2.4.9
