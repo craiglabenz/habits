@@ -19,6 +19,8 @@ void setUpLiveDI({
   GetIt.I.registerSingleton<IAppConfigService>(FakeAppConfigService());
   GetIt.I.registerSingleton<AppDetails>(AppDetails.fake());
 
+  GetIt.I.registerLazySingleton<TimezoneRepository>(TimezoneRepository.new);
+
   // SERVERPOD
   GetIt.I.registerSingleton<Client>(
     Client(

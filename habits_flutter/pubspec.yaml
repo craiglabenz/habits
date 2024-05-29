@@ -22,6 +22,7 @@ environment:
   flutter: ">=3.10.0"
 
 dependencies:
+  animated_custom_dropdown: ^3.0.0
   app_client:
     path: ../packages/app_client
   app_shared:

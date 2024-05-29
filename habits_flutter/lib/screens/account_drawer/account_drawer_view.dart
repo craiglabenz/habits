@@ -1,3 +1,4 @@
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:app_client/app_client.dart';
 import 'package:app_shared/app_shared.dart';
 import 'package:flutter/material.dart';
@@ -24,12 +25,41 @@ class AccountDrawer extends StatelessWidget {
             ),
             child: Text(user.id),
           ),
+          const ListTile(
+            title: Text('Timezone'),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: _TimezoneDropdown(),
+          ),
           ListTile(
             title: const Text('Logout'),
             onTap: authRepo.logOut,
           ),
         ],
       ),
+    );
+  }
+}
+
+class _TimezoneDropdown extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final timezoneRepository = GetIt.I<TimezoneRepository>();
+
+    return CustomDropdown<Timezone>.search(
+      hintText: 'Select timezone',
+      items: timezoneRepository.timezones,
+      overlayHeight: 342,
+      onChanged: (value) {
+        print('SearchDropdown onChanged value: $value');
+      },
+      listItemBuilder: (context, timezone, isSelected, onItemSelect) {
+        return Text(timezone.display);
+      },
+      headerBuilder: (context, timezone) {
+        return Text(timezone.displayName);
+      },
     );
   }
 }

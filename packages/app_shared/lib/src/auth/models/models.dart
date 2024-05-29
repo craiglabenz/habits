@@ -1,2 +1,2 @@
 export 'auth_user.dart';
-export 'user.dart';
+export 'base_user.dart';

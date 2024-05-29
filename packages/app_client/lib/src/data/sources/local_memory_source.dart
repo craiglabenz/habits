@@ -8,7 +8,7 @@ import 'package:uuid/uuid.dart';
 /// On-device, in-memory store which caches previously loaded data for
 /// instantaneous retrieval. Does not persist any data across sessions.
 /// {@endtemplate}
-class LocalMemorySource<T, K> extends Source<T, K> {
+class LocalMemorySource<T, K> extends LocalSource<T, K> {
   /// {@macro LocalMemorySource}
   LocalMemorySource({this.canSetIds = false});
 
@@ -27,9 +27,6 @@ class LocalMemorySource<T, K> extends Source<T, K> {
 
   /// Map of request hashes to the Ids they returned.
   Map<int, Set<K>> requestCache = {};
-
-  @override
-  SourceType get sourceType => SourceType.local;
 
   /// If false, `setItem` will require that new objects have non-null `id`
   /// values.
@@ -206,5 +203,12 @@ class LocalMemorySource<T, K> extends Source<T, K> {
       setItem(item, details);
     }
     return Future.value(Right(BulkWriteSuccess<T>(items, details: details)));
+  }
+
+  @override
+  void clear() {
+    items.clear();
+    knownEmptySets.clear();
+    requestCache.clear();
   }
 }

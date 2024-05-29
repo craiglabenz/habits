@@ -37,4 +37,10 @@ class AuthUser extends StringModel with _$AuthUser {
 
   /// Unknown user which represents an unauthenticated user.
   static const unknown = AuthUser(id: 'unknown', apiKey: '---');
+
+  /// True if this [AuthUser] is [AuthUser.unknown].
+  bool get isUnknown => this == unknown;
+
+  /// True is this [AuthUser] is not [AuthUser.unknown].
+  bool get isKnown => this != unknown;
 }

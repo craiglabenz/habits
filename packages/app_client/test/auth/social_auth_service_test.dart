@@ -1,6 +1,5 @@
+// ignore_for_file: deprecated_member_use
 import 'package:app_client/app_client.dart';
-import 'package:app_client/src/auth/test/test.dart';
-import 'package:app_shared/app_shared.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_sign_in/google_sign_in.dart';

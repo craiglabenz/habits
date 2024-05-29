@@ -27,10 +27,6 @@ abstract class DataContract<T, K> {
   Future<WriteListResult<T>> setItems(List<T> items, RequestDetails<T> details);
 }
 
-/// Converter between arbitrary data types and [DataContract]-specific
-/// assumptions.
-abstract class DataBindings<T, K> {}
-
 // /// Function signature for [DataContract.getById].
 // typedef GetById<T> = Future<ReadResult<T>> Function(
 //   String id,

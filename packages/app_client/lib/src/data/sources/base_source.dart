@@ -50,6 +50,15 @@ abstract class Source<T, K> extends DataContract<T, K> {
   String toString() => '$runtimeType()';
 }
 
+/// Type of [Source] which holds onto local memory and which can be reset.
+abstract class LocalSource<T, K> extends Source<T, K> {
+  @override
+  SourceType sourceType = SourceType.local;
+
+  /// Deletes all information held in memory.
+  void clear();
+}
+
 /// Classifier for a given [Source] instance's primary data location.
 enum SourceType {
   /// Indicates a given [Source] retrieves its data from an on-device store.

@@ -4,15 +4,15 @@ import 'package:serverpod_client/serverpod_client.dart';
 
 /// {@template ServerpodSource}
 /// {@endtemplate}
-abstract class ServerpodSource<T extends Model<K>, K> extends Source<T, K> {
+abstract class ServerpodSource<T, K> extends Source<T, K> {
   /// {@macro ServerpodSource}
-  ServerpodSource({required this.client, required this.endpoint});
+  ServerpodSource({required this.client});
 
   /// Reference to the main generated Serverpod client.
   final ServerpodClient client;
 
   /// Specific handler to this model's primary endpoint.
-  final EndpointRef endpoint;
+  // final EndpointRef endpoint;
 
   @override
   SourceType sourceType = SourceType.remote;

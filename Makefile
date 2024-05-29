@@ -16,7 +16,7 @@ app_client/build:
 	cd packages/app_client && dart run build_runner build --delete-conflicting-outputs
 
 habits_shared/build:
-	cd habits_shared && flutter pub run build_runner build --delete-conflicting-outputs
+	cd habits_shared && dart run build_runner build --delete-conflicting-outputs
 
 packages/build: app_shared/build app_client/build habits_shared/build
 
