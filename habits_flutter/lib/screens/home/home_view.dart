@@ -1,8 +1,6 @@
-import 'package:app_client/app_client.dart';
-import 'package:app_shared/app_shared.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:habits_flutter/screens/home/home.dart';
+import 'package:habits_flutter/widgets/widgets.dart';
 
 /// {@template HomeScreen}
 /// Initial Home screen for unknown sessions.
@@ -22,18 +20,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Home')),
-      body: Column(
+      drawer: const AccountDrawer(),
+      body: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          TextButton(
-            onPressed: () => GetIt.I<BaseAuthRepository<AuthUser>>().logOut(),
-            child: Text(
-              'Logout',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-          ),
+          Center(child: Text('Home')),
         ],
       ),
     );
