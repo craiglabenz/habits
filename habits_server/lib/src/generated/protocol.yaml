@@ -1,3 +1,6 @@
 appAuth:
   - createAnonymous:
   - checkSession:
+user:
+  - getForSession:
+  - update:

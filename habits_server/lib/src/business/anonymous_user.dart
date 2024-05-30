@@ -2,9 +2,8 @@ import 'dart:math';
 
 import 'package:habits_server/src/generated/protocol.dart';
 import 'package:serverpod/serverpod.dart';
-import 'package:serverpod/protocol.dart';
 // ignore: implementation_imports
-import 'package:serverpod/src/authentication/util.dart';
+import 'package:serverpod_auth_server/src/business/authentication_util.dart';
 import 'package:serverpod_auth_server/module.dart' as auth;
 import 'package:serverpod_auth_server/serverpod_auth_server.dart';
 
@@ -74,7 +73,7 @@ class AnonymousUser {
     AuthKey authKey = AuthKey(
       userId: userInfo.id!,
       key: key,
-      hash: hashString(key, signInSalt),
+      hash: hashString(signInSalt, key),
       method: AnonymousUser.methodName,
       scopeNames: [],
     );
@@ -144,7 +143,7 @@ class AnonymousUser {
     }
 
     var signInSalt = session.passwords['authKeySalt'] ?? defaultAuthKeySalt;
-    final hash = hashString(keyValue, signInSalt);
+    final hash = hashString(signInSalt, keyValue);
     if (authKey.hash != hash) {
       session.log('Hash "$hash" is incorrect for Key Id $keyId');
       return auth.AuthenticationResponse(

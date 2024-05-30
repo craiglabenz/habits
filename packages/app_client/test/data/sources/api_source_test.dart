@@ -41,7 +41,7 @@ void main() {
           );
         },
       );
-      final result = await src.getById('abc', RequestDetails<TestModel>());
+      final result = await src.getById('abc', RequestDetails());
       expect(result, isRight);
       expect(
         result.getOrRaise().item,
@@ -60,7 +60,7 @@ void main() {
         },
         timer: BatchTimer(),
       );
-      final result = await src.getById('abc', RequestDetails<TestModel>());
+      final result = await src.getById('abc', RequestDetails());
       expect(result, isRight);
       expect(
         result.getOrRaise().item,
@@ -80,7 +80,7 @@ void main() {
             );
           },
         );
-        final result = await src.getById('abc', RequestDetails<TestModel>());
+        final result = await src.getById('abc', RequestDetails());
         expect(result, isRight);
         expect(result.getOrRaise().item, null);
       },
@@ -106,8 +106,7 @@ void main() {
           );
         },
       );
-      final result =
-          await src.getByIds({'abc', 'xyz'}, RequestDetails<TestModel>());
+      final result = await src.getByIds({'abc', 'xyz'}, RequestDetails());
       expect(result.isRight(), isTrue);
       final items = result.getOrRaise().items;
       expect(items.first, const TestModel(id: 'abc', msg: 'amazing'));
@@ -130,8 +129,7 @@ void main() {
           );
         },
       );
-      final result =
-          await src.getByIds({'abc', 'xyz'}, RequestDetails<TestModel>());
+      final result = await src.getByIds({'abc', 'xyz'}, RequestDetails());
       expect(result.isRight(), isTrue);
       final items = result.getOrRaise().items;
       expect(items.first, const TestModel(id: 'abc', msg: 'amazing'));
@@ -148,8 +146,7 @@ void main() {
           );
         },
       );
-      final result =
-          await src.getByIds({'abc', 'xyz'}, RequestDetails<TestModel>());
+      final result = await src.getByIds({'abc', 'xyz'}, RequestDetails());
       expect(result.isRight(), isTrue);
       final items = result.getOrRaise().items;
       expect(items, isEmpty);
@@ -167,8 +164,7 @@ void main() {
           );
         },
       );
-      final result =
-          await src.getByIds({'abc', 'xyz'}, RequestDetails<TestModel>());
+      final result = await src.getByIds({'abc', 'xyz'}, RequestDetails());
       expect(result.isLeft(), isTrue);
     });
 
@@ -184,7 +180,7 @@ void main() {
       );
       final response = await src.setItem(
         TestModel.fromJson({'msg': 'new message'}),
-        RequestDetails<TestModel>(),
+        RequestDetails(),
       );
       expect(response.isLeft(), isTrue);
     });

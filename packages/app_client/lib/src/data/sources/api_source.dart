@@ -38,7 +38,7 @@ class ApiSource<T extends Model<K>, K> extends Source<T, K> {
   SourceType sourceType = SourceType.remote;
 
   @override
-  Future<ReadResult<T>> getById(K id, RequestDetails<T> details) async {
+  Future<ReadResult<T>> getById(K id, RequestDetails details) async {
     if (!loadedItems.containsKey(id) || !loadedItems[id]!.isCompleted) {
       queueId(id);
     }
@@ -48,7 +48,7 @@ class ApiSource<T extends Model<K>, K> extends Source<T, K> {
   }
 
   @override
-  Future<ReadListResult<T, K>> getItems(RequestDetails<T> details) async {
+  Future<ReadListResult<T, K>> getItems(RequestDetails details) async {
     // final Params params = <String, String>{};
     // if (details.minId != null) {
     //   params['id__gt'] = details.minId;
@@ -80,7 +80,7 @@ class ApiSource<T extends Model<K>, K> extends Source<T, K> {
   @override
   Future<ReadListResult<T, K>> getByIds(
     Set<K> ids,
-    RequestDetails<T> details,
+    RequestDetails details,
   ) async {
     assert(
       details.isEmpty,
@@ -162,7 +162,7 @@ class ApiSource<T extends Model<K>, K> extends Source<T, K> {
     queuedIds.clear();
     final byIds = await getByIds(
       ids,
-      RequestDetails<T>(),
+      RequestDetails(),
     );
     byIds.fold(
       (ReadFailure<T> l) {
@@ -195,7 +195,7 @@ class ApiSource<T extends Model<K>, K> extends Source<T, K> {
   }
 
   @override
-  Future<WriteResult<T>> setItem(T item, RequestDetails<T> details) async {
+  Future<WriteResult<T>> setItem(T item, RequestDetails details) async {
     final request = WriteApiRequest(
       url: bindings.getId(item) == null //
           ? bindings.getListUrl()
@@ -226,7 +226,7 @@ class ApiSource<T extends Model<K>, K> extends Source<T, K> {
   @override
   Future<WriteListResult<T>> setItems(
     List<T> items,
-    RequestDetails<T> details,
+    RequestDetails details,
   ) =>
       throw Exception('Cannot save items in bulk');
 

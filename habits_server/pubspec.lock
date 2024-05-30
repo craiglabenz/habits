@@ -18,7 +18,7 @@ packages:
     source: hosted
     version: "0.4.2"
   app_shared:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../packages/app_shared"
       relative: true
@@ -442,50 +442,50 @@ packages:
     dependency: "direct main"
     description:
       name: serverpod
-      sha256: e370f1afbe2e061b85f8520f0b4905157bfd4d5d85d712a83d3e804d4c2fc3ac
+      sha256: "353f4d6c18791064aefdb1b3e7a940e20e044d9eb6d981b8df3861c7c8dea865"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0-alpha.3"
+    version: "2.0.0"
   serverpod_auth_client:
     dependency: transitive
     description:
       name: serverpod_auth_client
-      sha256: d4e847dbe59e8906fe5377ba105c45676b2b169922c5c7b8bd48c69c45313390
+      sha256: "429d508605a09e3799287e8a671992ad313630be8d4ab7f959f044306ff0732e"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0-alpha.3"
+    version: "2.0.0"
   serverpod_auth_server:
     dependency: "direct main"
     description:
       name: serverpod_auth_server
-      sha256: "982f7e618895d1f9c46612556aeb4ed8ee7596b86733f8923ee5a02875f4da09"
+      sha256: "3a7a96a3a1133fb3934b662e4b2142842f4992b8dd4f6aa501ea55afe7328b0d"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0-alpha.3"
+    version: "2.0.0"
   serverpod_client:
     dependency: transitive
     description:
       name: serverpod_client
-      sha256: "4d2a51403099494b8bb5c45bd37b54ffc42ab0a615036b753b6f29cb986689c5"
+      sha256: f5c464c7d37c81bb59a7c9a242ab1700ff802360ee8e763f2acfe4a37fa5e1bb
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0-alpha.3"
+    version: "2.0.0"
   serverpod_serialization:
     dependency: "direct main"
     description:
       name: serverpod_serialization
-      sha256: "2af229218741be8f4a55cc99b2b8b89b012c63382bb8e1188ec4654aea5d8b57"
+      sha256: e042c85bbd8ec11f4a24bd31e49de9fd5e7fa79ccdb61a896fa7c9b5d47c613c
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0-alpha.3"
+    version: "2.0.0"
   serverpod_shared:
     dependency: transitive
     description:
       name: serverpod_shared
-      sha256: d80ec0c45441b7c5d3a5da8b6fcd1d1f8fbedaad7f0932c6731b3a4e1f383a5b
+      sha256: "2c7df5d47b11c94edc6102bd519271711bfd53515c33f8624efad0aa02800e7a"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0-alpha.3"
+    version: "2.0.0"
   sortedmap:
     dependency: transitive
     description:

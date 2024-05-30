@@ -1,9 +1,9 @@
+// ignore_for_file: avoid_redundant_argument_values
+import 'package:app_shared/app_shared.dart' as app_shared;
 import 'package:go_router/go_router.dart';
 import 'package:habits_flutter/app/app.dart';
 import 'package:habits_flutter/core/core.dart';
 import 'package:logging/logging.dart';
-
-final _log = Logger('Redirection');
 
 /// {@template GoRouterRedirector}
 /// Validates that the user's current location within the app is allowed by
@@ -22,11 +22,14 @@ class GoRouterRedirector {
     Routes.upgrade.path,
   ];
 
+  /// Logger.
+  static final _logger = app_shared.AppLogger('Redirection');
+
   /// Logging wrapper to easily turn on logging during tests.
-  static void log(String message, [Level level = Level.INFO]) {
+  static void log(String message, [Level level = Level.FINEST]) {
     // ignore: avoid_print
     // print('[${_log.name}][${level.name}] $message');
-    _log.log(level, message);
+    _logger.log(message, level);
   }
 
   /// Singleton instance of the [GoRouterRedirector]. This class is always
@@ -40,7 +43,7 @@ class GoRouterRedirector {
     // AuthenticatedUsersAwayFromWelcome(),
     // AuthenticatedUsersAwayFromSignUp(),
     // AuthenticatedUsersAwayFromLogin(),
-    // AuthenticatedUsersAwayFromOnboarding(),
+    AuthenticatedUsersAwayFromOnboarding(),
     AuthenticatedUsersAwayFromSplashOrWelcome(),
   ]);
 
@@ -338,25 +341,29 @@ class NewUsersToOnboarding extends Redirector {
 //           : Uri(path: Routes.home.path);
 // }
 
-// class AuthenticatedUsersAwayFromOnboarding extends Redirector {
-//   const AuthenticatedUsersAwayFromOnboarding();
-//   @override
-//   bool predicate(
-//     RouteState routeState,
-//     AppState appState,
-//   ) =>
-//       // false &&
-//       appState.isAuthenticated &&
-//       !appState.isNewUser &&
-//       routeState.path! == Routes.onboardingStart.path;
+/// {@template AuthenticatedUsersAwayFromOnboarding}
+/// Moves users to the home page after completing onboarding.
+/// {@endtemplate}
+class AuthenticatedUsersAwayFromOnboarding extends Redirector {
+  /// {@macro AuthenticatedUsersAwayFromOnboarding}
+  const AuthenticatedUsersAwayFromOnboarding();
+  @override
+  bool predicate(
+    RouteState routeState,
+    AppState appState,
+  ) =>
+      // false &&
+      appState.isAuthenticated &&
+      !appState.isNewUser &&
+      routeState.path == Routes.onboarding.path;
 
-//   @override
-//   Uri? getNewUri(
-//     RouteState routeState,
-//     AppState appState,
-//   ) =>
-//       Uri(path: Routes.home.path);
-// }
+  @override
+  Uri? getNewUri(
+    RouteState routeState,
+    AppState appState,
+  ) =>
+      Uri(path: Routes.home.path);
+}
 
 /// {@template AuthenticatedUsersAwayFromSplashOrWelcome}
 /// Moves authenticated users away from the Splash page and to the Home page.

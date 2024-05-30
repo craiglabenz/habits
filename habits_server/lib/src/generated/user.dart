@@ -21,8 +21,8 @@ abstract class User extends _i1.TableRow implements _i1.ProtocolSerialization {
     this.name,
     this.country,
     this.timezone,
-    this.createdAt,
-    this.updatedAt,
+    required this.createdAt,
+    required this.updatedAt,
   }) : super(id);
 
   factory User({
@@ -33,8 +33,8 @@ abstract class User extends _i1.TableRow implements _i1.ProtocolSerialization {
     String? name,
     String? country,
     String? timezone,
-    DateTime? createdAt,
-    DateTime? updatedAt,
+    required DateTime createdAt,
+    required DateTime updatedAt,
   }) = _UserImpl;
 
   factory User.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -49,12 +49,10 @@ abstract class User extends _i1.TableRow implements _i1.ProtocolSerialization {
       name: jsonSerialization['name'] as String?,
       country: jsonSerialization['country'] as String?,
       timezone: jsonSerialization['timezone'] as String?,
-      createdAt: jsonSerialization['createdAt'] == null
-          ? null
-          : _i1.DateTimeJsonExtension.fromJson(jsonSerialization['createdAt']),
-      updatedAt: jsonSerialization['updatedAt'] == null
-          ? null
-          : _i1.DateTimeJsonExtension.fromJson(jsonSerialization['updatedAt']),
+      createdAt:
+          _i1.DateTimeJsonExtension.fromJson(jsonSerialization['createdAt']),
+      updatedAt:
+          _i1.DateTimeJsonExtension.fromJson(jsonSerialization['updatedAt']),
     );
   }
 
@@ -74,9 +72,9 @@ abstract class User extends _i1.TableRow implements _i1.ProtocolSerialization {
 
   String? timezone;
 
-  DateTime? createdAt;
+  DateTime createdAt;
 
-  DateTime? updatedAt;
+  DateTime updatedAt;
 
   @override
   _i1.Table get table => t;
@@ -102,22 +100,14 @@ abstract class User extends _i1.TableRow implements _i1.ProtocolSerialization {
       if (name != null) 'name': name,
       if (country != null) 'country': country,
       if (timezone != null) 'timezone': timezone,
-      if (createdAt != null) 'createdAt': createdAt?.toJson(),
-      if (updatedAt != null) 'updatedAt': updatedAt?.toJson(),
+      'createdAt': createdAt.toJson(),
+      'updatedAt': updatedAt.toJson(),
     };
   }
 
   @override
   Map<String, dynamic> toJsonForProtocol() {
-    return {
-      if (id != null) 'id': id,
-      'userInfoId': userInfoId,
-      if (userInfo != null) 'userInfo': userInfo?.toJsonForProtocol(),
-      'uid': uid.toJson(),
-      if (name != null) 'name': name,
-      if (country != null) 'country': country,
-      if (timezone != null) 'timezone': timezone,
-    };
+    return {if (id != null) 'id': id};
   }
 
   static UserInclude include({_i2.UserInfoInclude? userInfo}) {
@@ -143,6 +133,11 @@ abstract class User extends _i1.TableRow implements _i1.ProtocolSerialization {
       include: include,
     );
   }
+
+  @override
+  String toString() {
+    return _i1.SerializationManager.encode(this);
+  }
 }
 
 class _Undefined {}
@@ -156,8 +151,8 @@ class _UserImpl extends User {
     String? name,
     String? country,
     String? timezone,
-    DateTime? createdAt,
-    DateTime? updatedAt,
+    required DateTime createdAt,
+    required DateTime updatedAt,
   }) : super._(
           id: id,
           userInfoId: userInfoId,
@@ -179,8 +174,8 @@ class _UserImpl extends User {
     Object? name = _Undefined,
     Object? country = _Undefined,
     Object? timezone = _Undefined,
-    Object? createdAt = _Undefined,
-    Object? updatedAt = _Undefined,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) {
     return User(
       id: id is int? ? id : this.id,
@@ -191,8 +186,8 @@ class _UserImpl extends User {
       name: name is String? ? name : this.name,
       country: country is String? ? country : this.country,
       timezone: timezone is String? ? timezone : this.timezone,
-      createdAt: createdAt is DateTime? ? createdAt : this.createdAt,
-      updatedAt: updatedAt is DateTime? ? updatedAt : this.updatedAt,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 }

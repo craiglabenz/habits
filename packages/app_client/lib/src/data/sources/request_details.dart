@@ -9,10 +9,10 @@ import 'package:equatable/src/equatable_utils.dart';
 /// data.
 /// {@endtemplate}
 // ignore: must_be_immutable
-abstract class RequestDetails<T> extends Equatable {
+abstract class RequestDetails extends Equatable {
   /// {@macro RequestDetails}
   factory RequestDetails({
-    List<BaseFilter<T>>? filters,
+    List<BaseFilter>? filters,
     Pagination? pagination,
     RequestType? requestType,
     bool? shouldOverwrite,
@@ -25,9 +25,35 @@ abstract class RequestDetails<T> extends Equatable {
     this.shouldOverwrite = defaultShouldOverwrite,
   });
 
+  /// A refresh-only request.
+  factory RequestDetails.refresh({
+    List<BaseFilter>? filters,
+    Pagination? pagination,
+    bool? shouldOverwrite,
+  }) =>
+      RequestDetails(
+        requestType: RequestType.refresh,
+        filters: filters,
+        pagination: pagination,
+        shouldOverwrite: shouldOverwrite,
+      );
+
+  /// A local-only request.
+  factory RequestDetails.local({
+    List<BaseFilter>? filters,
+    Pagination? pagination,
+    bool? shouldOverwrite,
+  }) =>
+      RequestDetails(
+        requestType: RequestType.local,
+        filters: filters,
+        pagination: pagination,
+        shouldOverwrite: shouldOverwrite,
+      );
+
   /// Optional list of filters for this read request. Filters are only used
   /// during writes to local sources and reads from any source.
-  final List<BaseFilter<T>> filters;
+  final List<BaseFilter> filters;
 
   /// Optional pagination for this request. Pagination details are only used
   /// for local sources - of course this has no impact when writing to the
@@ -42,8 +68,8 @@ abstract class RequestDetails<T> extends Equatable {
 
   /// Returns a new [RequestDetails] with any passed fields overwritten with the
   /// new values.
-  RequestDetails<T> copyWith({
-    List<BaseFilter<T>>? filters,
+  RequestDetails copyWith({
+    List<BaseFilter>? filters,
     Pagination? pagination,
     RequestType? requestType,
     bool? shouldOverwrite,
@@ -56,7 +82,7 @@ abstract class RequestDetails<T> extends Equatable {
   bool get isNotEmpty => !isEmpty;
 
   /// Returns the [isEmpty] version of this [RequestDetails] object.
-  RequestDetails<T> get empty => RequestDetails<T>(requestType: requestType);
+  RequestDetails get empty => RequestDetails(requestType: requestType);
 
   /// Asserts that this instance [isEmpty]. The lone string parameter is useful
   /// for easily seeing where this assertion was called.
@@ -93,9 +119,9 @@ abstract class RequestDetails<T> extends Equatable {
 }
 
 // ignore: must_be_immutable
-class _RequestDetailsImpl<T> extends RequestDetails<T> {
+class _RequestDetailsImpl<Filter extends BaseFilter> extends RequestDetails {
   _RequestDetailsImpl({
-    List<BaseFilter<T>>? filters,
+    List<BaseFilter>? filters,
     super.pagination,
     RequestType? requestType,
     bool? shouldOverwrite,
@@ -106,14 +132,14 @@ class _RequestDetailsImpl<T> extends RequestDetails<T> {
         );
 
   @override
-  RequestDetails<T> copyWith({
+  RequestDetails copyWith({
     Object? filters = _Undefined,
     Object? pagination = _Undefined,
     Object? requestType = _Undefined,
     Object? shouldOverwrite = _Undefined,
   }) {
-    return RequestDetails<T>(
-      filters: filters is List<BaseFilter<T>>? ? filters : this.filters,
+    return RequestDetails(
+      filters: filters is List<BaseFilter>? ? filters : this.filters,
       pagination: pagination is Pagination? ? pagination : this.pagination,
       requestType: requestType is RequestType? ? requestType : this.requestType,
       shouldOverwrite:
@@ -203,7 +229,7 @@ class _Undefined {}
 // /// Container for meta-information a [Source] will use to return the desired
 // /// data.
 // /// {@endtemplate}
-// // class RequestDetails<T> extends Equatable {
+// // class RequestDetails extends Equatable {
 // //   /// {@macro RequestDetails}
 // //   RequestDetails({
 // //     this.filters = const [],
@@ -288,7 +314,7 @@ class _Undefined {}
 // //   /// Copy of this RequestDetails without any filters, pagination, or other
 // //   /// do-dads which would segment up a data set. This is used for saving the
 // //   /// global list alongside any sliced / filtered lists.
-// //   RequestDetails<T> get empty => RequestDetails<T>(requestType: requestType);
+// //   RequestDetails get empty => RequestDetails(requestType: requestType);
 
 // //   @override
 // //   String toString() => 'RequestDetails(requestType: $requestType, filters: '

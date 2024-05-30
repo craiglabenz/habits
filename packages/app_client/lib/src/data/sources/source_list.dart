@@ -54,7 +54,7 @@ class SourceList<T, K> extends DataContract<T, K> {
   Future<void> _cacheItem(
     T item,
     List<Source<T, K>> emptySources,
-    RequestDetails<T> details,
+    RequestDetails details,
   ) async {
     for (final source in emptySources) {
       await source.setItem(item, details);
@@ -64,7 +64,7 @@ class SourceList<T, K> extends DataContract<T, K> {
   Future<void> _cacheItems(
     List<T> items,
     List<Source<T, K>> emptySources,
-    RequestDetails<T> details,
+    RequestDetails details,
   ) async {
     for (final source in emptySources) {
       await source.setItems(items, details);
@@ -72,7 +72,7 @@ class SourceList<T, K> extends DataContract<T, K> {
   }
 
   @override
-  Future<ReadResult<T>> getById(K id, RequestDetails<T> details) async {
+  Future<ReadResult<T>> getById(K id, RequestDetails details) async {
     details.assertEmpty('getById');
     final emptySources = <Source<T, K>>[];
     for (final matchedSource in getSources(requestType: details.requestType)) {
@@ -100,7 +100,7 @@ class SourceList<T, K> extends DataContract<T, K> {
   @override
   Future<ReadListResult<T, K>> getByIds(
     Set<K> ids,
-    RequestDetails<T> details,
+    RequestDetails details,
   ) async {
     details.assertEmpty('getByIds');
     final items = <K, T>{};
@@ -165,7 +165,7 @@ class SourceList<T, K> extends DataContract<T, K> {
   }
 
   @override
-  Future<ReadListResult<T, K>> getItems(RequestDetails<T> details) async {
+  Future<ReadListResult<T, K>> getItems(RequestDetails details) async {
     final emptySources = <Source<T, K>>[];
     for (final matchedSource in getSources(requestType: details.requestType)) {
       if (matchedSource.unmatched) {
@@ -193,7 +193,7 @@ class SourceList<T, K> extends DataContract<T, K> {
   }
 
   @override
-  Future<WriteResult<T>> setItem(T item, RequestDetails<T> details) async {
+  Future<WriteResult<T>> setItem(T item, RequestDetails details) async {
     var itemDup = bindings.copy(item);
     for (final ms in getSources(
       requestType: details.requestType,
@@ -224,7 +224,7 @@ class SourceList<T, K> extends DataContract<T, K> {
   @override
   Future<WriteListResult<T>> setItems(
     List<T> items,
-    RequestDetails<T> details,
+    RequestDetails details,
   ) async {
     // assert(
     //   details.requestType == RequestType.local,

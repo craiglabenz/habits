@@ -1,7 +1,6 @@
 import 'package:app_client/app_client.dart';
 import 'package:app_shared/app_shared.dart';
 import 'package:dartz/dartz.dart';
-import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 
 /// {@template LocalMemorySource}
@@ -12,7 +11,7 @@ class LocalMemorySource<T, K> extends LocalSource<T, K> {
   /// {@macro LocalMemorySource}
   LocalMemorySource({this.canSetIds = false});
 
-  final _log = Logger('LocalMemorySource<$T, $K>');
+  final _log = AppLogger('LocalMemorySource<$T, $K>', Level.INFO);
 
   /// Map of the stored items, with database primary keys as map keys.
   Map<K, T> items = {};
@@ -35,7 +34,7 @@ class LocalMemorySource<T, K> extends LocalSource<T, K> {
   /// Returns the object with the given `id`, as long as the item is associated
   /// with the given setName in `details`.
   @override
-  Future<ReadResult<T>> getById(K id, RequestDetails<T> details) {
+  Future<ReadResult<T>> getById(K id, RequestDetails details) {
     T? item;
     if (!requestCache.containsKey(details.cacheKey)) {
       item = null;
@@ -51,7 +50,7 @@ class LocalMemorySource<T, K> extends LocalSource<T, K> {
 
   /// Used for bulk read methods that neither want inner futures nor
   /// ReadResults.
-  T? _getByIdSync(K id, RequestDetails<T> details) {
+  T? _getByIdSync(K id, RequestDetails details) {
     if (!requestCache.containsKey(details.cacheKey)) return null;
     if (!requestCache[details.cacheKey]!.contains(id)) return null;
     return items[id];
@@ -62,7 +61,7 @@ class LocalMemorySource<T, K> extends LocalSource<T, K> {
   @override
   Future<ReadListResult<T, K>> getByIds(
     Set<K> ids,
-    RequestDetails<T> details,
+    RequestDetails details,
   ) async {
     details.assertEmpty('getByIds');
     final itemsById = <K, T>{};
@@ -78,7 +77,7 @@ class LocalMemorySource<T, K> extends LocalSource<T, K> {
   }
 
   @override
-  Future<ReadListResult<T, K>> getItems(RequestDetails<T> details) async {
+  Future<ReadListResult<T, K>> getItems(RequestDetails details) async {
     if (knownEmptySets.contains(details.cacheKey)) {
       _log.finer('Requested data from known empty set: $details');
       return Right(ReadListSuccess<T, K>.empty(details));
@@ -96,7 +95,9 @@ class LocalMemorySource<T, K> extends LocalSource<T, K> {
     final itemsIter =
         requestCache[details.cacheKey]!.map<T>((K id) => items[id]!);
 
-    final filteredItemsIter = details.filters.applyToList(itemsIter);
+    final filteredItemsIter = details.filters.applyToList(
+      itemsIter as Iterable<Object>,
+    );
     // final filteredItemsIter = itemsIter.where(
     //   (T obj) => details.filters.predicates(obj),
     // );
@@ -125,7 +126,7 @@ class LocalMemorySource<T, K> extends LocalSource<T, K> {
     );
   }
 
-  ReadListResult<T, K> _applyFirstTimeRequest(RequestDetails<T> details) {
+  ReadListResult<T, K> _applyFirstTimeRequest(RequestDetails details) {
     // Unseen requests with pagination cannot be fulfilled, as we cannot know we
     // have all the results for that page. Returning an empty result here will
     // force the [SourceList] to make a complete request to the server, which
@@ -136,7 +137,10 @@ class LocalMemorySource<T, K> extends LocalSource<T, K> {
 
     return Right(
       ReadListSuccess.fromList(
-        details.filters.applyToList(items.values).toList(),
+        details.filters
+            .applyToList(items.values.cast<Object>())
+            .toList()
+            .cast<T>(),
         details,
         bindings.getId,
       ),
@@ -162,14 +166,14 @@ class LocalMemorySource<T, K> extends LocalSource<T, K> {
   }
 
   @override
-  Future<WriteResult<T>> setItem(T item, RequestDetails<T> details) async {
+  Future<WriteResult<T>> setItem(T item, RequestDetails details) async {
     assert(
       canSetIds || bindings.getId(item) != null,
       'LocalMemorySource can only persist items with an Id. To allow this '
       'source to set Ids, set `canSetIds` to true.',
     );
 
-    var itemCopy = bindings.copy(item);
+    T itemCopy = bindings.copy(item);
 
     if (bindings.getId(itemCopy) == null) {
       itemCopy = setId(itemCopy);
@@ -177,7 +181,13 @@ class LocalMemorySource<T, K> extends LocalSource<T, K> {
 
     final itemCopyId = bindings.getId(itemCopy) as K;
 
-    if (details.shouldOverwrite || !items.containsKey(itemCopyId)) {
+    if (items.containsKey(itemCopyId) && !details.shouldOverwrite) {
+      _log.info(
+        'Not overwriting ${item.runtimeType} Id ${bindings.getId(item)} '
+        'because item already exists and shouldOvewrite is set to false.',
+      );
+    } else {
+      _log.finest('Persisting $itemCopy');
       items[itemCopyId] = itemCopy;
     }
     if (!requestCache.containsKey(details.cacheKey)) {
@@ -197,7 +207,7 @@ class LocalMemorySource<T, K> extends LocalSource<T, K> {
   @override
   Future<WriteListResult<T>> setItems(
     List<T> items,
-    RequestDetails<T> details,
+    RequestDetails details,
   ) {
     for (final item in items) {
       setItem(item, details);

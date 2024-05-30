@@ -1,13 +1,14 @@
 class: User
 table: user
+serverOnly: true
 fields:
   userInfo: module:auth:UserInfo?, relation
   uid: UuidValue
   name: String?
   country: String?
   timezone: String?
-  createdAt: DateTime?, scope=serverOnly
-  updatedAt: DateTime?, scope=serverOnly
+  createdAt: DateTime
+  updatedAt: DateTime
 indexes:
   user_info_id_unique_idx:
     fields: userInfoId

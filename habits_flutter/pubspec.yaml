@@ -48,10 +48,10 @@ dependencies:
   logging: ^1.2.0
   platform: ^3.1.4
   provider: ^6.1.2
-  serverpod_auth_client: 2.0.0-alpha.3
-  serverpod_auth_email_flutter: 2.0.0-alpha.3
-  serverpod_auth_shared_flutter: 2.0.0-alpha.3
-  serverpod_flutter: 2.0.0-alpha.3
+  serverpod_auth_client: 2.0.0
+  serverpod_auth_email_flutter: 2.0.0
+  serverpod_auth_shared_flutter: 2.0.0
+  serverpod_flutter: 2.0.0
   timezone: ^0.9.2
 
 dev_dependencies:

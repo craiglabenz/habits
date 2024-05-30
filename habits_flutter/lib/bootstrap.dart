@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
+// import 'package:habits_client/habits_client.dart';
 import 'package:habits_flutter/app_config/app_config.dart';
 import 'package:habits_flutter/core/core.dart';
 import 'package:habits_flutter/firebase_options.dart';
@@ -27,7 +28,7 @@ class AppBlocObserver extends BlocObserver {
   @override
   void onEvent(Bloc<dynamic, dynamic> bloc, Object? event) {
     super.onEvent(bloc, event);
-    print('onEvent($event)');
+    log('onEvent($event)');
   }
 
   @override
@@ -46,10 +47,10 @@ Future<void> bootstrap({
   WidgetsFlutterBinding.ensureInitialized();
   initLogging(
     switch (env) {
-      Environment.dev => Level.FINER,
-      Environment.qa => Level.FINE,
+      Environment.dev => Level.FINE,
+      Environment.qa => Level.INFO,
       Environment.prod => Level.WARNING,
-      Environment.test => Level.SHOUT,
+      Environment.test => Level.SEVERE,
     },
   );
   await Firebase.initializeApp(

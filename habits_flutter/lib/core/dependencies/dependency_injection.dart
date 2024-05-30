@@ -6,6 +6,7 @@ import 'package:habits_flutter/app/app.dart';
 import 'package:habits_flutter/app_config/app_config.dart';
 import 'package:habits_flutter/auth/auth.dart';
 import 'package:habits_flutter/core/core.dart';
+import 'package:habits_flutter/data/data.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
@@ -20,6 +21,9 @@ void setUpLiveDI({
   GetIt.I.registerSingleton<AppDetails>(AppDetails.fake());
 
   GetIt.I.registerLazySingleton<TimezoneRepository>(TimezoneRepository.new);
+  GetIt.I.registerLazySingleton<SessionUserRepository>(
+    SessionUserRepository.new,
+  );
 
   // SERVERPOD
   GetIt.I.registerSingleton<Client>(

@@ -114,5 +114,29 @@ void main() {
       },
       timeout: const Timeout(Duration(seconds: 1)),
     );
+
+    testWidgets(
+      'redirect to home page when onboarding is completed',
+      (tester) async {
+        await tester.runAsync(() async {
+          final expectation = expectLater(
+            GetIt.I<AppRouter>().redirects,
+            emitsInOrder([
+              Routes.onboarding.path,
+              Routes.home.path,
+            ]),
+          );
+          await tester.pumpWidget(const AppView());
+          (GetIt.I<BaseAuthRepository<AuthUser>>() as FakeAuthRepository)
+              .publishNewUser(const AuthUser(id: 'id', apiKey: 'abc'), true);
+          await tester.pumpWidget(const AppView());
+          (GetIt.I<BaseAuthRepository<AuthUser>>() as FakeAuthRepository)
+              .publishNewUser(const AuthUser(id: 'id', apiKey: 'abc'), false);
+
+          await expectation;
+        });
+      },
+      timeout: const Timeout(Duration(seconds: 1)),
+    );
   });
 }

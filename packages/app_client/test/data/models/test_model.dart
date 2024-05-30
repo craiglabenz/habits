@@ -73,8 +73,7 @@ class FakeSourceList<T, K> extends SourceList<T, K> {
   void addObj(T obj) => objs.add(obj);
 
   @override
-  Future<ReadResult<T>> getById(K id, RequestDetails<T> details) =>
-      Future.value(
+  Future<ReadResult<T>> getById(K id, RequestDetails details) => Future.value(
         Right(
           ReadSuccess<T>(
             objs.firstWhere((o) => bindings.getId(o) == id),
@@ -86,7 +85,7 @@ class FakeSourceList<T, K> extends SourceList<T, K> {
   @override
   Future<ReadListResult<T, K>> getByIds(
     Set<K> ids,
-    RequestDetails<T> details,
+    RequestDetails details,
   ) =>
       Future.value(
         Right(
@@ -99,15 +98,14 @@ class FakeSourceList<T, K> extends SourceList<T, K> {
       );
 
   @override
-  Future<ReadListResult<T, K>> getItems(RequestDetails<T> details) =>
-      Future.value(
+  Future<ReadListResult<T, K>> getItems(RequestDetails details) => Future.value(
         Right(
           ReadListSuccess<T, K>.fromList([objs.first], details, bindings.getId),
         ),
       );
 
   @override
-  Future<WriteResult<T>> setItem(T item, RequestDetails<T> details) => //
+  Future<WriteResult<T>> setItem(T item, RequestDetails details) => //
       Future.value(
         Right(
           WriteSuccess<T>(objs.first, details: details),
@@ -117,7 +115,7 @@ class FakeSourceList<T, K> extends SourceList<T, K> {
   @override
   Future<WriteListResult<T>> setItems(
     List<T> items,
-    RequestDetails<T> details,
+    RequestDetails details,
   ) =>
       Future.value(
         Right(
@@ -127,7 +125,7 @@ class FakeSourceList<T, K> extends SourceList<T, K> {
 }
 
 @Freezed()
-class TestModelFilter extends BaseFilter<TestModel> with _$TestModelFilter {
+class TestModelFilter extends BaseFilter with _$TestModelFilter {
   const TestModelFilter._();
   const factory TestModelFilter.messageEquals(String match) =
       TestModelMessageEquals;
@@ -141,7 +139,7 @@ class TestModelFilter extends BaseFilter<TestModel> with _$TestModelFilter {
       );
 
   @override
-  bool apply(TestModel obj) => map(
+  bool apply(covariant TestModel obj) => map(
         messageEquals: (filter) => obj.msg == filter.match,
         messageStartsWith: (filter) => obj.msg.startsWith(filter.match),
       );

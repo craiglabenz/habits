@@ -19,6 +19,8 @@ class ServerpodAuthService<T, K> extends BaseRestAuth<T> {
         _bindings = bindings ?? GetIt.I<AuthBindings<T, K>>(),
         _sessionManager = sessionManager ?? GetIt.I<SessionManager>();
 
+  final _logger = AppLogger('ServerpodAuthService', Level.INFO);
+
   /// Generated Serverpod client.
   final Client _client;
 
@@ -33,6 +35,7 @@ class ServerpodAuthService<T, K> extends BaseRestAuth<T> {
   Future<UserOrError<T>> checkSession() async {
     final st = DateTime.now();
     final keyIdentifier = await _client.authenticationKeyManager?.get();
+    _logger.finest('KeyIdentifier :: $keyIdentifier');
     if (keyIdentifier == null) {
       return Right(_bindings.unknownUser);
     }
@@ -74,11 +77,17 @@ class ServerpodAuthService<T, K> extends BaseRestAuth<T> {
     DateTime start,
   ) async {
     if (authResponse.success) {
+      _logger
+        ..fine('AuthResponse success')
+        ..finest('• AuthResponse.userInfo: ${authResponse.userInfo!}')
+        ..finest('• AuthResponse.keyId: ${authResponse.keyId!}')
+        ..finest('• AuthResponse.key: ${authResponse.key!}');
       await _sessionManager.registerSignedInUser(
         authResponse.userInfo!,
         authResponse.keyId!,
         authResponse.key!,
       );
+
       return Right(
         _bindings.fromServerpod(
           authResponse.userInfo!,

@@ -15,15 +15,13 @@ const detailResponseBody2 = '{"id": "$id2", "msg": "Flintstone"}';
 final obj1 = TestModel.fromJson(jsonDecode(detailResponseBody) as Json);
 final obj2 = TestModel.fromJson(jsonDecode(detailResponseBody2) as Json);
 
-final details = RequestDetails<TestModel>();
-final localDetails = RequestDetails<TestModel>(requestType: RequestType.local);
-final refreshDetails = RequestDetails<TestModel>(
-  requestType: RequestType.refresh,
-);
-final abcDetails = RequestDetails<TestModel>(
+final details = RequestDetails();
+final localDetails = RequestDetails.local();
+final refreshDetails = RequestDetails.refresh();
+final abcDetails = RequestDetails(
   filters: const [TestModelFilter.messageStartsWith('abc')],
 );
-final localAbcDetails = RequestDetails<TestModel>(
+final localAbcDetails = RequestDetails(
   filters: const [TestModelFilter.messageStartsWith('abc')],
   requestType: RequestType.local,
 );
@@ -32,7 +30,7 @@ class FakeRemoteSource extends LocalMemorySource<TestModel, String> {
   FakeRemoteSource() : super(canSetIds: true);
 
   @override
-  SourceType sourceType = SourceType.remote;
+  SourceType get sourceType => SourceType.remote;
 }
 
 SourceList<TestModel, String> getSourceList() => SourceList<TestModel, String>(
@@ -201,7 +199,7 @@ void main() {
       expect(localReadResult.getOrRaise().items.length, 2);
 
       final filteredReadResult = await sl.getItems(
-        RequestDetails<TestModel>(
+        RequestDetails(
           filters: const [TestModelFilter.messageStartsWith('abc')],
           requestType: RequestType.local,
         ),
@@ -217,7 +215,7 @@ void main() {
       final localReadResult = await sl.getItems(localDetails);
       expect(localReadResult.getOrRaise().items.length, 1);
 
-      final localMsgFlintstoneDetails = RequestDetails<TestModel>(
+      final localMsgFlintstoneDetails = RequestDetails(
         filters: const [TestModelFilter.messageEquals('Flintstone')],
         requestType: RequestType.local,
       );
@@ -226,7 +224,7 @@ void main() {
       expect(localReadResult2.getOrRaise().items.length, 1);
       expect(localReadResult2.getOrRaise().items.first.msg, 'Flintstone');
 
-      final localMsgFredDetails = RequestDetails<TestModel>(
+      final localMsgFredDetails = RequestDetails(
         filters: const [TestModelFilter.messageEquals('Fred')],
         requestType: RequestType.local,
       );
@@ -234,7 +232,7 @@ void main() {
       final localReadResult3 = await sl.getItems(localMsgFredDetails);
       expect(localReadResult3.getOrRaise().items, isEmpty);
 
-      final globalMsgFredDetails = RequestDetails<TestModel>(
+      final globalMsgFredDetails = RequestDetails(
         filters: const [TestModelFilter.messageEquals('Flintstone')],
       );
 
@@ -242,7 +240,7 @@ void main() {
       expect(globalResults.getOrRaise().items.length, 1);
       expect(globalResults.getOrRaise().items.first.msg, 'Flintstone');
 
-      final refreshMsgFredDetails = RequestDetails<TestModel>(
+      final refreshMsgFredDetails = RequestDetails(
         filters: const [TestModelFilter.messageEquals('Fred')],
         requestType: RequestType.refresh,
       );

@@ -105,6 +105,7 @@ class TimezoneRepository {
       }
       knownTimezones.add(timezone.hashCode);
       timezones.add(Timezone.fromTz(timezone, location));
+      _nameCache[location.name] = timezones.last;
     }
     timezones.sort((a, b) => a.offset.compareTo(b.offset));
     _log.fine('Timezones ready after ${DateTime.now().difference(st)}');
@@ -113,15 +114,22 @@ class TimezoneRepository {
   /// All available time zones.
   final timezones = <Timezone>[];
 
-  final _cache = <String, List<Timezone>>{};
+  /// Search cache.
+  final _searchCache = <String, List<Timezone>>{};
+
+  /// By name cache.
+  final _nameCache = <String, Timezone>{};
+
+  /// Returns a [Timezone] by its location name (e.g, "America/Los_Angeles").
+  Timezone? findByName(String name) => _nameCache[name];
 
   /// Returns matching [Timezone] objects.
   List<Timezone> search(String query) {
     final lowerCaseQuery = query.toLowerCase();
-    if (!_cache.containsKey(lowerCaseQuery)) {
-      _cache[lowerCaseQuery] = _search(lowerCaseQuery);
+    if (!_searchCache.containsKey(lowerCaseQuery)) {
+      _searchCache[lowerCaseQuery] = _search(lowerCaseQuery);
     }
-    return _cache[lowerCaseQuery]!;
+    return _searchCache[lowerCaseQuery]!;
   }
 
   List<Timezone> _search(String query) {

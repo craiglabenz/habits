@@ -1,0 +1,5 @@
+exception: NotFoundException
+fields:
+  field: String
+  value: String
+  model: Model

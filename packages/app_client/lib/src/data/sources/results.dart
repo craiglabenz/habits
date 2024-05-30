@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:app_client/app_client.dart';
+import 'package:app_shared/app_shared.dart';
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:habits_client/habits_client.dart';
 import 'package:logging/logging.dart';
 
 part 'results.freezed.dart';
@@ -26,7 +28,7 @@ class WriteSuccess<T> with _$WriteSuccess<T> {
   /// should return the object it was given.
   /// It is assumed that, at a minimum, if the write request generated a new
   /// ID for the object, that [item] will have that ID assigned.
-  const factory WriteSuccess(T item, {required RequestDetails<T> details}) =
+  const factory WriteSuccess(T item, {required RequestDetails details}) =
       _WriteSuccess;
 }
 
@@ -38,7 +40,7 @@ class BulkWriteSuccess<T> with _$BulkWriteSuccess<T> {
   /// {@macro BulkWriteSuccess}
   const factory BulkWriteSuccess(
     List<T> items, {
-    required RequestDetails<T> details,
+    required RequestDetails details,
   }) = _BulkWriteSuccess;
 }
 
@@ -61,6 +63,10 @@ class WriteFailure<T> with _$WriteFailure<T> {
 
   /// Container for a write request that failed to a problem with the request.
   const factory WriteFailure.badRequest(String message) = _WriteClientError;
+
+  /// Container for a write request that failed due to missing data.
+  factory WriteFailure.notFoundException(NotFoundException e) =>
+      WriteFailure.serverError('Not found: ${e.model.name.capitalize()}');
 
   /// Constructor which converts an [ApiSuccess] into the appropriate flavor of
   /// [WriteFailure]. This likely occurred because the API responded with a
@@ -117,7 +123,7 @@ class ReadSuccess<T> with _$ReadSuccess<T> {
   /// {@macro ReadSuccess}
   const factory ReadSuccess(
     T? item, {
-    required RequestDetails<T> details,
+    required RequestDetails details,
   }) = _ReadSuccess;
 }
 
@@ -131,12 +137,12 @@ class ReadListSuccess<T, K> with _$ReadListSuccess<T, K> {
   const factory ReadListSuccess({
     required List<T> items,
     required Map<K, T> itemsMap,
-    required RequestDetails<T> details,
+    required RequestDetails details,
   }) = _ReadListSuccess;
   const ReadListSuccess._();
 
   /// Convenience constructor for empty read results.
-  factory ReadListSuccess.empty(RequestDetails<T> details) => ReadListSuccess(
+  factory ReadListSuccess.empty(RequestDetails details) => ReadListSuccess(
         items: [],
         itemsMap: {},
         details: details,
@@ -145,7 +151,7 @@ class ReadListSuccess<T, K> with _$ReadListSuccess<T, K> {
   /// Map-friendly constructor.
   factory ReadListSuccess.fromMap(
     Map<K, T> map,
-    RequestDetails<T> details,
+    RequestDetails details,
   ) =>
       ReadListSuccess(
         items: map.values.toList(),
@@ -156,7 +162,7 @@ class ReadListSuccess<T, K> with _$ReadListSuccess<T, K> {
   /// List-friendly constructor.
   factory ReadListSuccess.fromList(
     List<T> items,
-    RequestDetails<T> details,
+    RequestDetails details,
     K? Function(T) getId,
   ) {
     final map = <K, T>{};
@@ -179,11 +185,15 @@ class ReadListSuccess<T, K> with _$ReadListSuccess<T, K> {
 /// list read.
 @Freezed()
 class ReadFailure<T> with _$ReadFailure<T> {
-  /// Container for a write request that failed to a problem on the server.
+  /// Container for a read request that failed to a problem on the server.
   const factory ReadFailure.serverError(String message) = _ReadServerError;
 
-  /// Container for a write request that failed to a problem with the request.
+  /// Container for a read request that failed to a problem with the request.
   const factory ReadFailure.badRequest(String message) = _ReadClientError;
+
+  /// Container for a read request that failed due to missing data.
+  factory ReadFailure.notFoundException(NotFoundException e) =>
+      ReadFailure.serverError('Not found: ${e.model.name.capitalize()}');
 
   /// Constructor which turns an [ApiError] instance into the appropriate flavor
   /// of [ReadFailure].

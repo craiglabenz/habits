@@ -25,7 +25,7 @@ abstract class Source<T, K> extends DataContract<T, K> {
   /// Hydrates a new created item or returns a failure.
   Either<WriteFailure<T>, WriteSuccess<T>> createdItemOr(
     T item,
-    RequestDetails<T> details,
+    RequestDetails details,
   ) =>
       bindings.getId(item) == null
           ? Left(WriteFailure<T>.serverError('Failed to save item'))
@@ -34,7 +34,7 @@ abstract class Source<T, K> extends DataContract<T, K> {
   /// Returns a loaded item if it was found.
   Either<ReadFailure<T>, ReadSuccess<T>> itemOr(
     T? item,
-    RequestDetails<T> details,
+    RequestDetails details,
   ) {
     return Right(ReadSuccess<T>(item, details: details));
   }
@@ -42,7 +42,7 @@ abstract class Source<T, K> extends DataContract<T, K> {
   /// Converts a map of items into a [ReadListSuccess].
   Either<ReadFailure<T>, ReadListSuccess<T, K>> mapOr(
     Map<K, T>? items,
-    RequestDetails<T> details,
+    RequestDetails details,
   ) =>
       Right(ReadListSuccess<T, K>.fromMap(items ?? {}, details));
 

@@ -1,19 +1,19 @@
 import 'package:app_shared/app_shared.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:habits_client/habits_client.dart';
+import 'package:habits_shared/habits_shared.dart';
 
 part 'filters.freezed.dart';
 part 'filters.g.dart';
 
 /// Wrapper around all filters for this actual app.
-sealed class Filter<T> extends BaseFilter<T> {
+sealed class Filter extends BaseFilter {
   const Filter();
 }
 
 /// Helper to apply client or server-side filters to collections of [User]
 /// objects.
 @Freezed()
-class UserFilter extends Filter<User> with _$UserFilter {
+class UserFilter extends Filter with _$UserFilter {
   const UserFilter._();
 
   /// Combines multiple [UserFilter] objects with AND boolean logic.
@@ -30,9 +30,9 @@ class UserFilter extends Filter<User> with _$UserFilter {
   factory UserFilter.fromJson(Json json) => _$UserFilterFromJson(json);
 
   @override
-  bool apply(User obj) => map(
+  bool apply(covariant User obj) => map(
         and: (f) => f.children.every((child) => child.apply(obj)),
         or: (f) => f.children.any((child) => child.apply(obj)),
-        uidEquals: (f) => obj.uid.uuid == f.uid,
+        uidEquals: (f) => obj.uid == f.uid,
       );
 }

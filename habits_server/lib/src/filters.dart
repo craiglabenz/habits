@@ -1,18 +1,19 @@
 import 'package:habits_server/src/generated/protocol.dart';
-import 'package:habits_shared/habits_shared.dart';
+import 'package:habits_server/src/generated/user.dart';
+import 'package:habits_shared/habits_shared.dart' as habits_shared;
 import 'package:serverpod/serverpod.dart';
 
 enum BooleanLogic { and, or }
 
-extension FilterExpression on Filter {
+extension FilterExpression on habits_shared.Filter {
   Expression get expression {
     return switch (this) {
-      UserFilter f => f.expression,
+      habits_shared.UserFilter f => f.expression,
     };
   }
 }
 
-Expression combine(List<Filter> filters, BooleanLogic operator) {
+Expression combine(List<habits_shared.Filter> filters, BooleanLogic operator) {
   Expression? expression;
   for (final filter in filters) {
     if (expression == null) {
@@ -27,7 +28,7 @@ Expression combine(List<Filter> filters, BooleanLogic operator) {
   return expression!;
 }
 
-extension on UserFilter {
+extension on habits_shared.UserFilter {
   Expression get expression => map(
         and: (f) => combine(f.children, BooleanLogic.and),
         or: (f) => combine(f.children, BooleanLogic.or),

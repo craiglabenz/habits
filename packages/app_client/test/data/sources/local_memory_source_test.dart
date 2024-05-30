@@ -2,8 +2,8 @@ import 'package:app_client/app_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 import '../models/test_model.dart';
 
-final details = RequestDetails<TestModel>();
-final abcDetails = RequestDetails<TestModel>(
+final details = RequestDetails();
+final abcDetails = RequestDetails(
   filters: const [TestModelFilter.messageStartsWith('abc')],
 );
 
@@ -57,13 +57,13 @@ void main() {
       fullyContains(mem, item);
 
       const itemTake2 = TestModel(id: 'item 1', msg: 'different');
-      mem.setItem(itemTake2, RequestDetails<TestModel>(shouldOverwrite: false));
+      mem.setItem(itemTake2, RequestDetails(shouldOverwrite: false));
       fullyContains(mem, item);
       expect(mem.itemIds.length, equals(1));
     });
 
     test('cache pagination info', () {
-      final deets = RequestDetails<TestModel>(
+      final deets = RequestDetails(
         pagination: const Pagination.page(2),
       );
       final item = TestModel.randomId();
@@ -157,10 +157,10 @@ void main() {
     });
 
     test('honor pagination', () async {
-      final page1Deets = RequestDetails<TestModel>(
+      final page1Deets = RequestDetails(
         pagination: const Pagination.page(1),
       );
-      final page2Deets = RequestDetails<TestModel>(
+      final page2Deets = RequestDetails(
         pagination: const Pagination.page(2),
       );
       final item = TestModel.randomId();
@@ -337,10 +337,10 @@ void main() {
     });
 
     test('honor pagination', () async {
-      final page1Deets = RequestDetails<TestModel>(
+      final page1Deets = RequestDetails(
         pagination: const Pagination.page(1),
       );
-      final page2Deets = RequestDetails<TestModel>(
+      final page2Deets = RequestDetails(
         pagination: const Pagination.page(2),
       );
 

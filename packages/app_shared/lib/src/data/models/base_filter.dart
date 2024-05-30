@@ -3,15 +3,15 @@ import 'package:app_shared/app_shared.dart';
 /// {@template Filter}
 /// Base class for applying logical filters to sets of objects.
 /// {@endtemplate}
-abstract class BaseFilter<T> {
+abstract class BaseFilter {
   /// {@macro Filter}
   const BaseFilter();
 
   /// Returns true if the given object satisfies the requirements.
-  bool apply(T obj);
+  bool apply(Object obj);
 
   /// Returns the (sub)set of the given objects which satisfy the requirements.
-  Iterable<T> applyToList(Iterable<T> objs) => objs.where(apply);
+  Iterable<Object> applyToList(Iterable<Object> objs) => objs.where(apply);
 
   /// Converts a filter to the details needed for a given Rest API. Because not
   /// all filters will be used with such APIs, this method is not required to be
@@ -26,17 +26,17 @@ abstract class BaseFilter<T> {
 }
 
 /// Convenience rules for applying lists of filters to objects.
-extension FilterList<T> on Iterable<BaseFilter<T>> {
+extension FilterList on Iterable<BaseFilter> {
   /// Applies filters to the in-memory object, requiring that all pass
   /// successfully.
-  bool apply(T obj) => every((f) => f.apply(obj));
+  bool apply(Object obj) => every((f) => f.apply(obj));
 
   /// Applies filters to the in-memory object, requiring that at least one
   /// passes successfully.
-  bool applyAny(T obj) => any((f) => f.apply(obj));
+  bool applyAny(Object obj) => any((f) => f.apply(obj));
 
   /// Applies all filters to the in-memory object.
-  Iterable<T> applyToList(Iterable<T> items) => items.where(apply);
+  Iterable<Object> applyToList(Iterable<Object> items) => items.where(apply);
 
   /// Collapses all filters into a single [Map] suitable for GET query
   /// parameters.

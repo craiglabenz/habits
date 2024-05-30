@@ -15,28 +15,28 @@ class Repository<T, K> extends DataContract<T, K> {
   final SourceList<T, K> sourceList;
 
   @override
-  Future<ReadResult<T>> getById(K id, RequestDetails<T> details) =>
+  Future<ReadResult<T>> getById(K id, RequestDetails details) =>
       sourceList.getById(id, details);
 
   @override
   Future<ReadListResult<T, K>> getByIds(
     Set<K> ids,
-    RequestDetails<T> details,
+    RequestDetails details,
   ) =>
       sourceList.getByIds(ids, details);
 
   @override
-  Future<ReadListResult<T, K>> getItems(RequestDetails<T> details) =>
+  Future<ReadListResult<T, K>> getItems(RequestDetails details) =>
       sourceList.getItems(details);
 
   @override
-  Future<WriteResult<T>> setItem(T item, RequestDetails<T> details) =>
+  Future<WriteResult<T>> setItem(T item, RequestDetails details) =>
       sourceList.setItem(item, details);
 
   @override
   Future<WriteListResult<T>> setItems(
     List<T> items,
-    RequestDetails<T> details,
+    RequestDetails details,
   ) =>
       sourceList.setItems(items, details);
 }

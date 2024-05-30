@@ -12,16 +12,18 @@ library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixe
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
 import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i3;
-import 'user.dart' as _i4;
-import 'package:habits_shared/habits_shared.dart' as _i5;
+import 'model_enum.dart' as _i4;
+import 'not_found_exception.dart' as _i5;
+import 'user.dart' as _i6;
+import 'package:habits_shared/habits_shared.dart' as _i7;
+export 'model_enum.dart';
+export 'not_found_exception.dart';
 export 'user.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
   Protocol._();
 
   factory Protocol() => _instance;
-
-  static final Map<Type, _i1.constructor> customConstructors = {};
 
   static final Protocol _instance = Protocol._();
 
@@ -72,14 +74,14 @@ class Protocol extends _i1.SerializationManagerServer {
         _i2.ColumnDefinition(
           name: 'createdAt',
           columnType: _i2.ColumnType.timestampWithoutTimeZone,
-          isNullable: true,
-          dartType: 'DateTime?',
+          isNullable: false,
+          dartType: 'DateTime',
         ),
         _i2.ColumnDefinition(
           name: 'updatedAt',
           columnType: _i2.ColumnType.timestampWithoutTimeZone,
-          isNullable: true,
-          dartType: 'DateTime?',
+          isNullable: false,
+          dartType: 'DateTime',
         ),
       ],
       foreignKeys: [
@@ -147,27 +149,42 @@ class Protocol extends _i1.SerializationManagerServer {
     Type? t,
   ]) {
     t ??= T;
-    if (customConstructors.containsKey(t)) {
-      return customConstructors[t]!(data, this) as T;
+    if (t == _i4.Model) {
+      return _i4.Model.fromJson(data) as T;
     }
-    if (t == _i4.User) {
-      return _i4.User.fromJson(data) as T;
+    if (t == _i5.NotFoundException) {
+      return _i5.NotFoundException.fromJson(data) as T;
     }
-    if (t == _i1.getType<_i4.User?>()) {
-      return (data != null ? _i4.User.fromJson(data) : null) as T;
+    if (t == _i6.User) {
+      return _i6.User.fromJson(data) as T;
     }
-    if (t == _i5.UserFilter) {
-      return _i5.UserFilter.fromJson(data) as T;
+    if (t == _i1.getType<_i4.Model?>()) {
+      return (data != null ? _i4.Model.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i5.UserFilter?>()) {
-      return (data != null ? _i5.UserFilter.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i5.NotFoundException?>()) {
+      return (data != null ? _i5.NotFoundException.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i6.User?>()) {
+      return (data != null ? _i6.User.fromJson(data) : null) as T;
+    }
+    if (t == _i7.User) {
+      return _i7.User.fromJson(data) as T;
+    }
+    if (t == _i7.UserFilter) {
+      return _i7.UserFilter.fromJson(data) as T;
+    }
+    if (t == _i1.getType<_i7.User?>()) {
+      return (data != null ? _i7.User.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i7.UserFilter?>()) {
+      return (data != null ? _i7.UserFilter.fromJson(data) : null) as T;
     }
     try {
       return _i3.Protocol().deserialize<T>(data, t);
-    } catch (_) {}
+    } on _i1.DeserializationTypeNotFoundException catch (_) {}
     try {
       return _i2.Protocol().deserialize<T>(data, t);
-    } catch (_) {}
+    } on _i1.DeserializationTypeNotFoundException catch (_) {}
     return super.deserialize<T>(data, t);
   }
 
@@ -178,10 +195,19 @@ class Protocol extends _i1.SerializationManagerServer {
     if (className != null) {
       return 'serverpod_auth.$className';
     }
-    if (data is _i5.UserFilter) {
+    if (data is _i7.User) {
+      return 'User';
+    }
+    if (data is _i7.UserFilter) {
       return 'UserFilter';
     }
-    if (data is _i4.User) {
+    if (data is _i4.Model) {
+      return 'Model';
+    }
+    if (data is _i5.NotFoundException) {
+      return 'NotFoundException';
+    }
+    if (data is _i6.User) {
       return 'User';
     }
     return super.getClassNameForObject(data);
@@ -193,11 +219,20 @@ class Protocol extends _i1.SerializationManagerServer {
       data['className'] = data['className'].substring(15);
       return _i3.Protocol().deserializeByClassName(data);
     }
+    if (data['className'] == 'User') {
+      return deserialize<_i7.User>(data['data']);
+    }
     if (data['className'] == 'UserFilter') {
-      return deserialize<_i5.UserFilter>(data['data']);
+      return deserialize<_i7.UserFilter>(data['data']);
+    }
+    if (data['className'] == 'Model') {
+      return deserialize<_i4.Model>(data['data']);
+    }
+    if (data['className'] == 'NotFoundException') {
+      return deserialize<_i5.NotFoundException>(data['data']);
     }
     if (data['className'] == 'User') {
-      return deserialize<_i4.User>(data['data']);
+      return deserialize<_i6.User>(data['data']);
     }
     return super.deserializeByClassName(data);
   }
@@ -217,8 +252,8 @@ class Protocol extends _i1.SerializationManagerServer {
       }
     }
     switch (t) {
-      case _i4.User:
-        return _i4.User.t;
+      case _i6.User:
+        return _i6.User.t;
     }
     return null;
   }
