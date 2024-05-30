@@ -19,7 +19,7 @@ class ServerpodAuthService<T, K> extends BaseRestAuth<T> {
         _bindings = bindings ?? GetIt.I<AuthBindings<T, K>>(),
         _sessionManager = sessionManager ?? GetIt.I<SessionManager>();
 
-  final _logger = AppLogger('ServerpodAuthService', Level.INFO);
+  final _logger = AppLogger('ServerpodAuthService');
 
   /// Generated Serverpod client.
   final Client _client;
@@ -59,14 +59,10 @@ class ServerpodAuthService<T, K> extends BaseRestAuth<T> {
   }
 
   @override
-  Future<UserOrError<T>> createAnonymous({
-    required String firebaseUid,
-    required String username,
-  }) async {
+  Future<UserOrError<T>> createAnonymous({required String firebaseUid}) async {
     final st = DateTime.now();
     final authResponse = await _client.appAuth.createAnonymous(
       userIdentifier: firebaseUid,
-      username: username,
     );
     return _processResponse(authResponse, 'appAuth.createAnonymous', st);
   }

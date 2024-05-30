@@ -38,10 +38,7 @@ abstract class BaseRestAuth<T> {
 
   /// Creates a new anonymous account that the user may or may not one day
   /// upgrade.
-  Future<UserOrError<T>> createAnonymous({
-    required String firebaseUid,
-    required String username,
-  });
+  Future<UserOrError<T>> createAnonymous({required String firebaseUid});
 }
 
 /// {@template RestAuth}
@@ -106,10 +103,7 @@ class RestAuth<T, K> implements BaseRestAuth<T> {
   }
 
   @override
-  Future<UserOrError<T>> createAnonymous({
-    required String firebaseUid,
-    required String username,
-  }) {
+  Future<UserOrError<T>> createAnonymous({required String firebaseUid}) {
     // TODO: implement createAnonymous
     throw UnimplementedError();
   }

@@ -56,7 +56,7 @@ class GoRouterRedirector {
   }) {
     GoRouterRedirector.log(
       'Considering redirect for ${routeState.path} with user ${appState.user}',
-      Level.FINE,
+      Level.FINER,
     );
     if (GoRouterRedirector.doNotLeave.contains(routeState.path)) {
       GoRouterRedirector.log(
@@ -90,7 +90,7 @@ class GoRouterRedirector {
           // ignore: avoid_print
           GoRouterRedirector.log(
             '$redirect redirecting from $current to $uriString',
-            Level.FINE,
+            Level.FINER,
           );
           return uriString;
         }

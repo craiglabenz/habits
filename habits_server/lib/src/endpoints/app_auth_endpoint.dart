@@ -8,13 +8,10 @@ class AppAuthEndpoint extends Endpoint {
   Future<auth.AuthenticationResponse> createAnonymous(
     Session session, {
     required String userIdentifier,
-    required String username,
   }) async {
     return await AnonymousUser.createAccount(
       session,
       userIdentifier: userIdentifier,
-      username: username,
-      allowEmptyUsername: true,
     );
   }
 

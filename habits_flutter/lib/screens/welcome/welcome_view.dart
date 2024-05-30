@@ -18,27 +18,34 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Welcome')),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          TextButton(
-            onPressed: () => GetIt.I<AppRouter>().pushOnboarding(),
-            child: Text(
-              'Get started',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyLarge,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            FilledButton(
+              onPressed: () => GetIt.I<AppRouter>().pushOnboarding(),
+              child: Text(
+                'Get started',
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(color: Colors.white),
+              ),
             ),
-          ),
-          TextButton(
-            onPressed: () => GetIt.I<AppRouter>().pushLogin(),
-            child: Text(
-              'Login',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyLarge,
+            FilledButton(
+              onPressed: () => GetIt.I<AppRouter>().pushLogin(),
+              child: Text(
+                'Login',
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(color: Colors.white),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

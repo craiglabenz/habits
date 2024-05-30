@@ -5,8 +5,8 @@ import 'package:app_shared/app_shared.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get_it/get_it.dart';
-import 'package:habits_client/habits_client.dart';
 import 'package:habits_flutter/app/app.dart';
+import 'package:habits_flutter/data/data.dart';
 
 part 'onboarding_bloc.freezed.dart';
 
@@ -16,9 +16,9 @@ typedef _Emit = Emitter<OnboardingState>;
 /// {@endtemplate}
 class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
   /// {@macro OnboardingBloc}
-  OnboardingBloc({Client? client})
+  OnboardingBloc()
       : _auth = GetIt.I<BaseAuthRepository<AuthUser>>(),
-        _client = client ?? GetIt.I<Client>(),
+        _user = GetIt.I<SessionUserRepository>(),
         super(OnboardingState.initial()) {
     on<OnboardingEvent>(
       (event, _Emit emit) => event.map(
@@ -27,36 +27,46 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
         complete: (e) => _onCompleteOnboarding(e, emit),
       ),
     );
-    _auth.initialized.then(
-      (_) {
-        if (_auth.lastUser.$1 != AuthUser.unknown) {
-          _authUser.complete(_auth.lastUser.$1);
-        } else {
-          add(const CreateAccountEvent());
-        }
-      },
-    );
   }
 
   final BaseAuthRepository<AuthUser> _auth;
-  final Client _client;
+  final SessionUserRepository _user;
   final Completer<AuthUser> _authUser = Completer<AuthUser>();
 
   Future<void> _onCreateAccount(CreateAccountEvent e, _Emit emit) async {
     emit(state.copyWith(error: null));
-    final result = await _auth.signInAnonymously('');
+    final result = await _auth.signInAnonymously();
 
     if (result.isLeft()) {
       final authError = result.leftOrRaise();
       emit(state.copyWith(error: authError.toDisplay()));
     } else {
       _authUser.complete(result.getOrRaise());
+      // Save the initial username
+      unawaited(_saveUsername(state.username));
     }
   }
 
   Future<void> _onSetUsername(SetUsernameEvent e, _Emit emit) async {
-    await _authUser.future;
-    // _client;
+    emit(state.copyWith(username: e.username));
+
+    // In practice, [_user.isReady] means the account has already been created,
+    // which happens when the user leaves the Username screen (which creates an
+    // account), then navigates back to the Username screen and changes what
+    // they wrote.
+    if (_user.isReady) {
+      unawaited(_saveUsername(e.username));
+    }
+  }
+
+  Future<void> _saveUsername(String username) async {
+    if (await _user.ready) {
+      unawaited(
+        _user.save(
+          _user.loadedUser.copyWith(name: username),
+        ),
+      );
+    }
   }
 
   Future<void> _onCompleteOnboarding(CompleteOnboarding e, _Emit emit) async {
@@ -78,7 +88,7 @@ class OnboardingState with _$OnboardingState {
 
     /// The user's username, to be provided on this screen. Probably their first
     /// name.
-    String? username,
+    @Default('') String username,
 
     /// Error message to show the user if the app failed to create an anonymous
     /// session.

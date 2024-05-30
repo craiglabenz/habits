@@ -24,7 +24,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     _isDownForMaintenanceSubscription = appConfigRepository.isDownForMaintenance
         .listen(_onDownForMaintenanceStatusChanged);
     _userSubscription = _authRepository.user.listen(_onUserChanged);
-    _authRepository.initialized.then((_) {
+    _authRepository.ready.then((_) {
       _onUserChanged(_authRepository.lastUser);
     });
 

@@ -5,11 +5,10 @@ import 'package:app_shared/app_shared.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 // import 'package:networking/networking.dart';
 
-final _log = Logger('app_client.auth.AuthRepository');
+final _log = AppLogger('app_client.auth.AuthRepository', Level.WARNING);
 
 /// Flavor of user auth action taking place.
 enum AuthType {
@@ -25,25 +24,6 @@ enum AuthType {
   /// Creating an anonymous session which cannot be restored without being
   /// upgraded.
   anonymous,
-
-  // /// Calls the appropriate method for this type.
-  // T map<T>({
-  //   required T Function() google,
-  //   required T Function() apple,
-  //   required T Function() emailLogin,
-  //   required T Function() emailRegistration,
-  //   required T Function() anonymous,
-  //   required T Function() checkSession,
-  // }) {
-  //   return switch (this) {
-  //     AuthType.google => google(),
-  //     AuthType.apple => apple(),
-  //     AuthType.emailLogin => emailLogin(),
-  //     AuthType.emailRegistration => emailRegistration(),
-  //     AuthType.anonymous => anonymous(),
-  //     AuthType.checkSession => checkSession(),
-  //   };
-  // }
 }
 
 /// {@template AuthRepository}
@@ -52,7 +32,7 @@ enum AuthType {
 abstract interface class BaseAuthRepository<T> {
   /// Placeholder for the last [T] emitted from the Firebase auth stream.
   /// A value of `null` indicates that we have not yet completed initial checks
-  /// and should probably show the `SplashPage`. Once [initialized] resolves,
+  /// and should probably show the `SplashPage`. Once [ready] resolves,
   /// this value should never again be `null`. At that time, the most least
   /// information this should contain is `(AuthUser.unknown, false)`.
   (T, bool) get lastUser;
@@ -60,7 +40,7 @@ abstract interface class BaseAuthRepository<T> {
   /// Indicates whether initial checks for an existing session have been
   /// completed. While this value is still `false`, no authorization information
   /// on this repository means anything.
-  Future<bool> get initialized;
+  Future<bool> get ready;
 
   /// Stream of ([T], `bool`) which will emit the current user when the
   /// authentication state changes and a boolean for whether that user's account
@@ -91,7 +71,7 @@ abstract interface class BaseAuthRepository<T> {
   /// Creates a fresh anonymous session for a new user.
   ///
   /// Returns an [AuthenticationError] if an exception occurs.
-  Future<UserOrError<T>> signInAnonymously(String username);
+  Future<UserOrError<T>> signInAnonymously();
 
   /// Signs in with the provided [email] and [password].
   ///
@@ -148,7 +128,7 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
   final Completer<bool> _initializedCompleter;
 
   @override
-  Future<bool> get initialized => _initializedCompleter.future;
+  Future<bool> get ready => _initializedCompleter.future;
 
   @override
   Stream<(AuthUser, bool)> get user => _authUserController.stream;
@@ -159,7 +139,7 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
   /// which means it is automatically invoked every time the Firebase Auth
   /// system thinks our user's session status has changed.
   Future<void> onNewFirebaseUser(FirebaseUser? firebaseUser) async {
-    log('New FirebaseUser: $firebaseUser', Level.FINEST);
+    log('New FirebaseUser: $firebaseUser');
     if (!_initializedCompleter.isCompleted) {
       // This is SocialAuth's first emitted user
       if (firebaseUser == null) {
@@ -259,7 +239,7 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
   /// account), [_restCheckSession] will discover their [_restAuthService] API
   /// credentials in local storage and restore the account directly.
   @override
-  Future<UserOrError<AuthUser>> signInAnonymously(String username) {
+  Future<UserOrError<AuthUser>> signInAnonymously() {
     log('Signing in anonymously', Level.FINER);
     return _completeAuthorization(
       isUserNew: true,
@@ -267,7 +247,6 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
       syncToRest: (FirebaseUser user) {
         return _restAuthService.createAnonymous(
           firebaseUid: user.uid,
-          username: username,
         );
       },
     );
@@ -364,7 +343,7 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
     }
 
     // This is the final, correct user.
-    _authUserController.sink.add((restUser, isUserNew ?? firebaseUser.isNew));
+    _publishNewUser(restUser, isUserNew ?? firebaseUser.isNew);
     return Right(restUser);
   }
 
@@ -398,7 +377,7 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
   void log(String message, [Level level = Level.INFO]) {
     // ignore: avoid_print
     // print('[${_log.name}][${level.name}] $message');
-    _log.log(level, message);
+    _log.log(message, level);
   }
 }
 
@@ -451,8 +430,7 @@ class FakeAuthRepository implements BaseAuthRepository<AuthUser> {
   }
 
   @override
-  Future<UserOrError<AuthUser>> signInAnonymously(String username) =>
-      throw Exception(
+  Future<UserOrError<AuthUser>> signInAnonymously() => throw Exception(
         'Do not call real methods on FakeAuthRepository. '
         'Only call `publishNewUser`.',
       );
@@ -498,10 +476,10 @@ class FakeAuthRepository implements BaseAuthRepository<AuthUser> {
   final _initializedCompleter = Completer<bool>();
 
   @override
-  Future<bool> get initialized => _initializedCompleter.future;
+  Future<bool> get ready => _initializedCompleter.future;
 
   /// Test-only function to move this fake AuthRepository into active mode.
-  /// Without calling this function, [initialized] will never complete, which
+  /// Without calling this function, [ready] will never complete, which
   /// may or may not be what you want depending on the test.
   @visibleForTesting
   void setAsInitialized([(AuthUser, bool)? newLastUser]) {

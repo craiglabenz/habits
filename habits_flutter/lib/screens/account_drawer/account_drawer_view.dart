@@ -28,20 +28,24 @@ class _AccountDrawerState extends State<AccountDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    final authRepo = GetIt.I<BaseAuthRepository<AuthUser>>();
-    final user = authRepo.lastUser.$1;
     return Drawer(
       child: BlocBuilder<AccountDrawerBloc, AccountDrawerState>(
         bloc: bloc,
         builder: (context, state) {
+          final authRepo = GetIt.I<BaseAuthRepository<AuthUser>>();
           return ListView(
             padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
-                decoration: const BoxDecoration(
-                  color: Colors.blue,
+                decoration: BoxDecoration(
+                  color: Colors.blue[100],
                 ),
-                child: Text(user.id),
+                child: Text(
+                  state.user?.name ?? '',
+                  style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                        color: Colors.blue[800],
+                      ),
+                ),
               ),
               const ListTile(
                 title: Text('Timezone'),
@@ -54,7 +58,10 @@ class _AccountDrawerState extends State<AccountDrawer> {
                 ),
               ),
               ListTile(
-                title: const Text('Logout'),
+                title: const Text(
+                  'Logout',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 onTap: authRepo.logOut,
               ),
             ],

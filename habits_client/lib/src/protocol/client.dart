@@ -23,17 +23,12 @@ class EndpointAppAuth extends _i1.EndpointRef {
 
   /// Creates an initial anonymous account which a user may or may not later
   /// upgrade.
-  _i2.Future<_i3.AuthenticationResponse> createAnonymous({
-    required String userIdentifier,
-    required String username,
-  }) =>
+  _i2.Future<_i3.AuthenticationResponse> createAnonymous(
+          {required String userIdentifier}) =>
       caller.callServerEndpoint<_i3.AuthenticationResponse>(
         'appAuth',
         'createAnonymous',
-        {
-          'userIdentifier': userIdentifier,
-          'username': username,
-        },
+        {'userIdentifier': userIdentifier},
       );
 
   _i2.Future<_i3.AuthenticationResponse> checkSession(

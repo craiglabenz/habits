@@ -43,7 +43,7 @@ void main() {
         socialAuth
           ..emitUser(null)
           ..prepareLogin(buildFirebaseUser());
-        final result = await authRepo.signInAnonymously('');
+        final result = await authRepo.signInAnonymously();
         expect(result, isRight);
         await userStreamExpectation;
       },
@@ -401,5 +401,25 @@ void main() {
       },
       timeout: const Timeout(Duration(seconds: 1)),
     );
+
+    test('lastUser updated after signInAnonymously', () async {
+      restAuth = FakeRestAuth(
+        createAnonymousUserResults: Queue.from(
+          <UserOrError<AuthUser>>[const Right(user)],
+        ),
+        checkSessionResults: Queue.from(
+          <UserOrError<AuthUser>>[const Right(user)],
+        ),
+      );
+      final socialAuth = FakeStreamAuth()..prepareLogin(buildFirebaseUser());
+      authRepo = AuthRepository(
+        socialAuthService: socialAuth,
+        restAuthService: restAuth,
+      );
+      socialAuth.emitUser(null);
+      await authRepo.signInAnonymously();
+      await authRepo.ready;
+      expect(authRepo.lastUser.$1.isKnown, isTrue);
+    });
   });
 }

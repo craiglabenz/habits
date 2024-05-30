@@ -14,6 +14,7 @@ class SessionUserRepository extends Repository<User, String> {
   SessionUserRepository()
       : client = GetIt.I<Client>(),
         super(SourceList<User, String>.empty(const UserBindings())) {
+    _setUpInitializer();
     final authRepo = GetIt.I<BaseAuthRepository<AuthUser>>();
     _authSubscription = authRepo.user.listen(
       ((AuthUser, bool) data) => updateForNewUser(data.$1),
@@ -21,10 +22,25 @@ class SessionUserRepository extends Repository<User, String> {
     updateForNewUser(authRepo.lastUser.$1);
   }
 
-  Completer<bool> _initialized = Completer<bool>();
+  void _setUpInitializer() {
+    _success = false;
+    _loadedUser = null;
+    _initialized = Completer<bool>();
+    _initialized.future.then((result) => _success = result);
+  }
+
+  bool _success = false;
+
+  late Completer<bool> _initialized;
 
   /// Ready checker. Resolves once [loadedUser] is ready.
   Future<bool> get ready => _initialized.future;
+
+  /// Synchronous getter for readiness.
+  bool get isReady => _initialized.isCompleted && _success;
+
+  /// Synchronous getter for unreadiness.
+  bool get isNotReady => !isReady;
 
   /// Logger.
   final AppLogger logger = AppLogger('SessionUserRepository');
@@ -32,29 +48,47 @@ class SessionUserRepository extends Repository<User, String> {
   /// Serverpod [Client].
   late Client client;
 
+  User? _loadedUser;
+
   /// The ready-to-go [User] object pre-loaded whenever the [AuthUser] changes.
-  late User loadedUser;
+  User get loadedUser {
+    if (!_initialized.isCompleted) {
+      logger.severe(
+        'Accessed SessionUserRepository.loadedUser while unready. '
+        'Be sure to `await userRepository.ready` before accessing '
+        '`userRepository.loadedUser`.',
+      );
+      throw Exception(
+        'Accessed SessionUserRepository.loadedUser while unready',
+      );
+    }
+    if (!_success) {
+      logger.severe(
+        'SessionUserRepository ready check resolved without loading user',
+      );
+      throw Exception(
+        'SessionUserRepository ready check resolved without loading user',
+      );
+    }
+    return _loadedUser!;
+  }
+
   late StreamSubscription<(AuthUser, bool)> _authSubscription;
 
   /// Resyncs this repository's [LocalMemorySource] data every time the active
   /// user changes.
   Future<void> updateForNewUser(AuthUser user) async {
-    if (!_initialized.isCompleted) {
-      _initialized.complete(false);
-      _initialized = Completer<bool>();
+    logger.finest('Updating loadedUser for $user');
+    if (_initialized.isCompleted) {
+      // Delete local data whenever the authentication story changes
+      _setUpInitializer();
     }
-    logger.info('Updating loadedUser for $user');
-    // Delete local data whenever the authentication story changes
-    for (final source in sourceList.sources) {
-      if (source is LocalSource<User, String>) {
-        source.clear();
-      }
-    }
+
     // If the new user is someone we know about, load their data.
     if (user.isKnown) {
       try {
-        loadedUser = await client.user.getForSession();
-        logger.info('Set loadedUser to $loadedUser');
+        _loadedUser = await client.user.getForSession();
+        logger.finest('Set loadedUser to $_loadedUser');
         _initialized.complete(true);
       } on NotFoundException catch (e) {
         logger.severe('Error loading User for session: $e');
@@ -66,7 +100,7 @@ class SessionUserRepository extends Repository<User, String> {
   /// Persists the latest [User] info to the server.
   Future<WriteResult<User>> save(User user) async {
     try {
-      loadedUser = await client.user.update(user);
+      _loadedUser = await client.user.update(user);
       return Right(WriteSuccess<User>(user, details: RequestDetails()));
     } on NotFoundException catch (e) {
       logger.severe('Error saving User for session: $e');

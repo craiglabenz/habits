@@ -42,12 +42,7 @@ class Endpoints extends _i1.EndpointDispatch {
               name: 'userIdentifier',
               type: _i1.getType<String>(),
               nullable: false,
-            ),
-            'username': _i1.ParameterDescription(
-              name: 'username',
-              type: _i1.getType<String>(),
-              nullable: false,
-            ),
+            )
           },
           call: (
             _i1.Session session,
@@ -56,7 +51,6 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['appAuth'] as _i2.AppAuthEndpoint).createAnonymous(
             session,
             userIdentifier: params['userIdentifier'],
-            username: params['username'],
           ),
         ),
         'checkSession': _i1.MethodConnector(

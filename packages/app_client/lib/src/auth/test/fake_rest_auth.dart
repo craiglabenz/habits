@@ -47,10 +47,7 @@ class FakeRestAuth<T> implements BaseRestAuth<T> {
       Future.value(registerResults.removeFirst());
 
   @override
-  Future<UserOrError<T>> createAnonymous({
-    required String firebaseUid,
-    required String username,
-  }) =>
+  Future<UserOrError<T>> createAnonymous({required String firebaseUid}) =>
       Future.value(createAnonymousUserResults.removeFirst());
 
   @override

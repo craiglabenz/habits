@@ -14,8 +14,6 @@ class AnonymousUser {
   static Future<auth.AuthenticationResponse> createAccount(
     Session session, {
     required String userIdentifier,
-    required String username,
-    bool allowEmptyUsername = false,
   }) async {
     final existingAccount = await session.db.findFirstRow<auth.UserInfo>(
       where: auth.UserInfo.t.userIdentifier.equals(userIdentifier),
@@ -33,22 +31,13 @@ class AnonymousUser {
       );
     }
 
-    username = username.trim();
-    if (!allowEmptyUsername && username.isEmpty) {
-      session.log('Username must not be empty', level: LogLevel.error);
-      return auth.AuthenticationResponse(
-        success: false,
-        failReason: auth.AuthenticationFailReason.invalidCredentials,
-      );
-    }
-
     final userInfo = await auth.Users.createUser(
       session,
       auth.UserInfo(
         // FirebaseUser.uid
         userIdentifier: userIdentifier,
         // Name of the person, which will be saved after this account is ready.
-        userName: username,
+        userName: '',
         created: DateTime.now(),
         scopeNames: [],
         blocked: false,
@@ -92,7 +81,7 @@ class AnonymousUser {
         id: userInfo.id!,
         userInfoId: userInfo.id!,
         uid: UuidValue.fromString(Uuid().v4()),
-        name: username,
+        name: '',
         createdAt: now,
         updatedAt: now,
       ),

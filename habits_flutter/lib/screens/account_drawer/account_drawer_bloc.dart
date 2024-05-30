@@ -26,8 +26,10 @@ class AccountDrawerBloc extends Bloc<AccountDrawerEvent, AccountDrawerState> {
   final SessionUserRepository _userRepository;
 
   Future<void> _onInitialize(InitializeEvent e, _Emit emit) async {
-    await _userRepository.ready;
-    emit(state.copyWith(user: _userRepository.loadedUser));
+    final hasUser = await _userRepository.ready;
+    emit(
+      state.copyWith(user: hasUser ? _userRepository.loadedUser : null),
+    );
   }
 
   Future<void> _onSetTimezone(SetTimezoneEvent e, _Emit emit) async {

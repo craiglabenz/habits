@@ -23,7 +23,7 @@ mixin _$OnboardingState {
 
   /// The user's username, to be provided on this screen. Probably their first
   /// name.
-  String? get username => throw _privateConstructorUsedError;
+  String get username => throw _privateConstructorUsedError;
 
   /// Error message to show the user if the app failed to create an anonymous
   /// session.
@@ -40,7 +40,7 @@ abstract class $OnboardingStateCopyWith<$Res> {
           OnboardingState value, $Res Function(OnboardingState) then) =
       _$OnboardingStateCopyWithImpl<$Res, OnboardingState>;
   @useResult
-  $Res call({bool isAuthenticating, String? username, String? error});
+  $Res call({bool isAuthenticating, String username, String? error});
 }
 
 /// @nodoc
@@ -57,7 +57,7 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
   @override
   $Res call({
     Object? isAuthenticating = null,
-    Object? username = freezed,
+    Object? username = null,
     Object? error = freezed,
   }) {
     return _then(_value.copyWith(
@@ -65,10 +65,10 @@ class _$OnboardingStateCopyWithImpl<$Res, $Val extends OnboardingState>
           ? _value.isAuthenticating
           : isAuthenticating // ignore: cast_nullable_to_non_nullable
               as bool,
-      username: freezed == username
+      username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -85,7 +85,7 @@ abstract class _$$OnboardingStateImplCopyWith<$Res>
       __$$OnboardingStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isAuthenticating, String? username, String? error});
+  $Res call({bool isAuthenticating, String username, String? error});
 }
 
 /// @nodoc
@@ -100,7 +100,7 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isAuthenticating = null,
-    Object? username = freezed,
+    Object? username = null,
     Object? error = freezed,
   }) {
     return _then(_$OnboardingStateImpl(
@@ -108,10 +108,10 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
           ? _value.isAuthenticating
           : isAuthenticating // ignore: cast_nullable_to_non_nullable
               as bool,
-      username: freezed == username
+      username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -124,7 +124,7 @@ class __$$OnboardingStateImplCopyWithImpl<$Res>
 
 class _$OnboardingStateImpl extends _OnboardingState {
   const _$OnboardingStateImpl(
-      {this.isAuthenticating = false, this.username, this.error})
+      {this.isAuthenticating = false, this.username = '', this.error})
       : super._();
 
   /// True if we are currently awaiting responses on any authentication
@@ -137,7 +137,8 @@ class _$OnboardingStateImpl extends _OnboardingState {
   /// The user's username, to be provided on this screen. Probably their first
   /// name.
   @override
-  final String? username;
+  @JsonKey()
+  final String username;
 
   /// Error message to show the user if the app failed to create an anonymous
   /// session.
@@ -176,7 +177,7 @@ class _$OnboardingStateImpl extends _OnboardingState {
 abstract class _OnboardingState extends OnboardingState {
   const factory _OnboardingState(
       {final bool isAuthenticating,
-      final String? username,
+      final String username,
       final String? error}) = _$OnboardingStateImpl;
   const _OnboardingState._() : super._();
 
@@ -190,7 +191,7 @@ abstract class _OnboardingState extends OnboardingState {
 
   /// The user's username, to be provided on this screen. Probably their first
   /// name.
-  String? get username;
+  String get username;
   @override
 
   /// Error message to show the user if the app failed to create an anonymous
