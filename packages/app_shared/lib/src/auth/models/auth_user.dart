@@ -14,7 +14,7 @@ part 'auth_user.g.dart';
 /// extension method may look like this:
 ///
 /// ```dart
-/// RelatedUser get user => RelatedModel<User>(id, repository: ...);
+/// RelatedUser get user => RelatedModel<User>(id);
 /// ```
 ///
 /// See also:
@@ -27,6 +27,14 @@ class AuthUser extends StringModel with _$AuthUser {
   const factory AuthUser({
     required String id,
     required String apiKey,
+
+    /// Auth mechanism used to create and restore this session. Allowed values
+    /// are from [AuthType].
+    required AuthType method,
+
+    /// All active mechanisms used for this account. Allowed values are from
+    /// [AuthType].
+    @Default([]) List<AuthType> allMethods,
     String? email,
   }) = _AuthUser;
 
@@ -36,7 +44,11 @@ class AuthUser extends StringModel with _$AuthUser {
   factory AuthUser.fromJson(Json json) => _$AuthUserFromJson(json);
 
   /// Unknown user which represents an unauthenticated user.
-  static const unknown = AuthUser(id: 'unknown', apiKey: '---');
+  static const unknown = AuthUser(
+    id: 'unknown',
+    apiKey: '---',
+    method: AuthType.anonymous,
+  );
 
   /// True if this [AuthUser] is [AuthUser.unknown].
   bool get isUnknown => this == unknown;

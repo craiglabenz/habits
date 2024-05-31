@@ -50,12 +50,18 @@ class ServerpodAuthService<T, K> extends BaseRestAuth<T> {
     required String email,
     required String password,
   }) async {
-    final st = DateTime.now();
-    final authResponse = await _client.modules.auth.email.authenticate(
-      email,
-      password,
-    );
-    return _processResponse(authResponse, _client.modules.auth.email.name, st);
+    /// TODO: Replicate email.authenticate endpoint to return AppAuthResponse
+    throw UnimplementedError();
+    // final st = DateTime.now();
+    // final authResponse = await _client.modules.auth.email.authenticate(
+    //   email,
+    //   password,
+    // );
+    // return _processResponse(
+    //    authResponse,
+    //    _client.modules.auth.email.name,
+    //    st,
+    // );
   }
 
   @override
@@ -68,37 +74,33 @@ class ServerpodAuthService<T, K> extends BaseRestAuth<T> {
   }
 
   Future<UserOrError<T>> _processResponse(
-    AuthenticationResponse authResponse,
+    AppAuthResponse authResponse,
     String url,
     DateTime start,
   ) async {
-    if (authResponse.success) {
+    if (authResponse is AppAuthSuccess) {
+      final userInfo = UserInfo.fromJson(authResponse.userInfoData);
       _logger
         ..fine('AuthResponse success')
-        ..finest('• AuthResponse.userInfo: ${authResponse.userInfo!}')
-        ..finest('• AuthResponse.keyId: ${authResponse.keyId!}')
-        ..finest('• AuthResponse.key: ${authResponse.key!}');
+        ..finest('• AuthResponse.keyId: ${authResponse.keyId}')
+        ..finest('• AuthResponse.key: ${authResponse.key}')
+        ..finest('• AuthResponse.userInfo: $userInfo');
       await _sessionManager.registerSignedInUser(
-        authResponse.userInfo!,
-        authResponse.keyId!,
-        authResponse.key!,
+        userInfo,
+        authResponse.keyId,
+        authResponse.key,
       );
 
       return Right(
         _bindings.fromServerpod(
-          authResponse.userInfo!,
-          authResponse.key!,
+          userInfo,
+          authResponse.key,
         ),
       );
-    } else {
-      return Left(
-        authErrorFromServerpod(
-          response: authResponse,
-          duration: DateTime.now().difference(start),
-          url: url,
-        ),
-      );
+    } else if (authResponse is AppAuthFailure) {
+      return Left(authResponse.reason);
     }
+    throw Exception('Unexpected type of authResponse: $authResponse');
   }
 
   @override
@@ -145,43 +147,5 @@ AuthUser authUserFromServerpod(
       id: serverpodUser.userIdentifier,
       apiKey: apiKey,
       email: serverpodUser.email,
+      method: AuthType.anonymous,
     );
-
-/// Converts a Serverpod [serverpod_auth.AuthenticationResponse] object into
-/// the app's authentication error class, [AuthenticationError].
-AuthenticationError authErrorFromServerpod({
-  required serverpod_auth.AuthenticationResponse response,
-  required Duration duration,
-  required String url,
-}) {
-  assert(
-    !response.success,
-    'Cannot convert successful AuthenticationResponse into an error',
-  );
-  return switch (response.failReason!) {
-    serverpod_auth.AuthenticationFailReason.invalidCredentials =>
-      const AuthenticationError.badEmailPassword(),
-    serverpod_auth.AuthenticationFailReason.userCreationDenied =>
-      const AuthenticationError.emailTaken(),
-    serverpod_auth.AuthenticationFailReason.internalError =>
-      AuthenticationError.fromApiError(
-        ApiError(
-          error: const ErrorMessage.fromString('Internal server error'),
-          statusCode: 500,
-          responseTime: duration,
-          url: url,
-        ),
-      ),
-    serverpod_auth.AuthenticationFailReason.tooManyFailedAttempts =>
-      AuthenticationError.fromApiError(
-        ApiError(
-          error: const ErrorMessage.fromString('Too many failed attempts'),
-          statusCode: 500,
-          responseTime: duration,
-          url: url,
-        ),
-      ),
-    serverpod_auth.AuthenticationFailReason.blocked =>
-      const AuthenticationError.unknownError(),
-  };
-}

@@ -7,5 +7,6 @@ modules:
 client_package_path: ../habits_client
 
 extraClasses:
+  - package:app_shared/app_shared.dart:AppAuthResponse
   - package:habits_shared/habits_shared.dart:User
   - package:habits_shared/habits_shared.dart:UserFilter

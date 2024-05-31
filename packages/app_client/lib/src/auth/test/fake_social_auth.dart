@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:app_client/app_client.dart';
 import 'package:app_client/src/auth/test/test.dart';
+import 'package:app_shared/app_shared.dart';
 import 'package:dartz/dartz.dart';
 
 /// Pass-thru implementation of [BaseSocialAuth] with scriptable results.

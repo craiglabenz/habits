@@ -22,6 +22,14 @@ AuthUser _$AuthUserFromJson(Map<String, dynamic> json) {
 mixin _$AuthUser {
   String get id => throw _privateConstructorUsedError;
   String get apiKey => throw _privateConstructorUsedError;
+
+  /// Auth mechanism used to create and restore this session. Allowed values
+  /// are from [AuthType].
+  AuthType get method => throw _privateConstructorUsedError;
+
+  /// All active mechanisms used for this account. Allowed values are from
+  /// [AuthType].
+  List<AuthType> get allMethods => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,7 +43,12 @@ abstract class $AuthUserCopyWith<$Res> {
   factory $AuthUserCopyWith(AuthUser value, $Res Function(AuthUser) then) =
       _$AuthUserCopyWithImpl<$Res, AuthUser>;
   @useResult
-  $Res call({String id, String apiKey, String? email});
+  $Res call(
+      {String id,
+      String apiKey,
+      AuthType method,
+      List<AuthType> allMethods,
+      String? email});
 }
 
 /// @nodoc
@@ -53,6 +66,8 @@ class _$AuthUserCopyWithImpl<$Res, $Val extends AuthUser>
   $Res call({
     Object? id = null,
     Object? apiKey = null,
+    Object? method = null,
+    Object? allMethods = null,
     Object? email = freezed,
   }) {
     return _then(_value.copyWith(
@@ -64,6 +79,14 @@ class _$AuthUserCopyWithImpl<$Res, $Val extends AuthUser>
           ? _value.apiKey
           : apiKey // ignore: cast_nullable_to_non_nullable
               as String,
+      method: null == method
+          ? _value.method
+          : method // ignore: cast_nullable_to_non_nullable
+              as AuthType,
+      allMethods: null == allMethods
+          ? _value.allMethods
+          : allMethods // ignore: cast_nullable_to_non_nullable
+              as List<AuthType>,
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -80,7 +103,12 @@ abstract class _$$AuthUserImplCopyWith<$Res>
       __$$AuthUserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String apiKey, String? email});
+  $Res call(
+      {String id,
+      String apiKey,
+      AuthType method,
+      List<AuthType> allMethods,
+      String? email});
 }
 
 /// @nodoc
@@ -96,6 +124,8 @@ class __$$AuthUserImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? apiKey = null,
+    Object? method = null,
+    Object? allMethods = null,
     Object? email = freezed,
   }) {
     return _then(_$AuthUserImpl(
@@ -107,6 +137,14 @@ class __$$AuthUserImplCopyWithImpl<$Res>
           ? _value.apiKey
           : apiKey // ignore: cast_nullable_to_non_nullable
               as String,
+      method: null == method
+          ? _value.method
+          : method // ignore: cast_nullable_to_non_nullable
+              as AuthType,
+      allMethods: null == allMethods
+          ? _value._allMethods
+          : allMethods // ignore: cast_nullable_to_non_nullable
+              as List<AuthType>,
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -118,8 +156,14 @@ class __$$AuthUserImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$AuthUserImpl extends _AuthUser {
-  const _$AuthUserImpl({required this.id, required this.apiKey, this.email})
-      : super._();
+  const _$AuthUserImpl(
+      {required this.id,
+      required this.apiKey,
+      required this.method,
+      final List<AuthType> allMethods = const [],
+      this.email})
+      : _allMethods = allMethods,
+        super._();
 
   factory _$AuthUserImpl.fromJson(Map<String, dynamic> json) =>
       _$$AuthUserImplFromJson(json);
@@ -128,12 +172,32 @@ class _$AuthUserImpl extends _AuthUser {
   final String id;
   @override
   final String apiKey;
+
+  /// Auth mechanism used to create and restore this session. Allowed values
+  /// are from [AuthType].
+  @override
+  final AuthType method;
+
+  /// All active mechanisms used for this account. Allowed values are from
+  /// [AuthType].
+  final List<AuthType> _allMethods;
+
+  /// All active mechanisms used for this account. Allowed values are from
+  /// [AuthType].
+  @override
+  @JsonKey()
+  List<AuthType> get allMethods {
+    if (_allMethods is EqualUnmodifiableListView) return _allMethods;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_allMethods);
+  }
+
   @override
   final String? email;
 
   @override
   String toString() {
-    return 'AuthUser(id: $id, apiKey: $apiKey, email: $email)';
+    return 'AuthUser(id: $id, apiKey: $apiKey, method: $method, allMethods: $allMethods, email: $email)';
   }
 
   @override
@@ -143,12 +207,16 @@ class _$AuthUserImpl extends _AuthUser {
             other is _$AuthUserImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.apiKey, apiKey) || other.apiKey == apiKey) &&
+            (identical(other.method, method) || other.method == method) &&
+            const DeepCollectionEquality()
+                .equals(other._allMethods, _allMethods) &&
             (identical(other.email, email) || other.email == email));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, apiKey, email);
+  int get hashCode => Object.hash(runtimeType, id, apiKey, method,
+      const DeepCollectionEquality().hash(_allMethods), email);
 
   @JsonKey(ignore: true)
   @override
@@ -168,6 +236,8 @@ abstract class _AuthUser extends AuthUser {
   const factory _AuthUser(
       {required final String id,
       required final String apiKey,
+      required final AuthType method,
+      final List<AuthType> allMethods,
       final String? email}) = _$AuthUserImpl;
   const _AuthUser._() : super._();
 
@@ -178,6 +248,16 @@ abstract class _AuthUser extends AuthUser {
   String get id;
   @override
   String get apiKey;
+  @override
+
+  /// Auth mechanism used to create and restore this session. Allowed values
+  /// are from [AuthType].
+  AuthType get method;
+  @override
+
+  /// All active mechanisms used for this account. Allowed values are from
+  /// [AuthType].
+  List<AuthType> get allMethods;
   @override
   String? get email;
   @override

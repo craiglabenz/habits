@@ -10,22 +10,6 @@ import 'package:meta/meta.dart';
 
 final _log = AppLogger('app_client.auth.AuthRepository', Level.WARNING);
 
-/// Flavor of user auth action taking place.
-enum AuthType {
-  /// Sessions powered by Google SSO.
-  google,
-
-  /// Sessions powered by Apple SSO.
-  apple,
-
-  /// Sessions powered by email and password.
-  email,
-
-  /// Creating an anonymous session which cannot be restored without being
-  /// upgraded.
-  anonymous,
-}
-
 /// {@template AuthRepository}
 /// Repository which manages user authentication.
 /// {@endtemplate}

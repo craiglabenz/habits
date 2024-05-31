@@ -15,6 +15,7 @@ dependencies:
   habits_client:
     path: ../habits_client
   json_annotation: ^4.8.1
+  serverpod_auth_client: 2.0.0
 
 dev_dependencies:
   build_runner: ^2.4.9

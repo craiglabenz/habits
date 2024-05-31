@@ -88,7 +88,10 @@ void main() {
 
           await tester.pumpWidget(const AppView());
           (GetIt.I<BaseAuthRepository<AuthUser>>() as FakeAuthRepository)
-              .publishNewUser(const AuthUser(id: 'id', apiKey: 'abc'), true);
+              .publishNewUser(
+            const AuthUser(id: 'id', apiKey: 'abc', method: AuthType.anonymous),
+            true,
+          );
 
           await expectation;
         });
@@ -107,7 +110,10 @@ void main() {
           await tester.pumpWidget(const AppView());
 
           (GetIt.I<BaseAuthRepository<AuthUser>>() as FakeAuthRepository)
-              .publishNewUser(const AuthUser(id: 'id', apiKey: 'abc'), false);
+              .publishNewUser(
+            const AuthUser(id: 'id', apiKey: 'abc', method: AuthType.anonymous),
+            false,
+          );
 
           await expectation;
         });
@@ -128,10 +134,16 @@ void main() {
           );
           await tester.pumpWidget(const AppView());
           (GetIt.I<BaseAuthRepository<AuthUser>>() as FakeAuthRepository)
-              .publishNewUser(const AuthUser(id: 'id', apiKey: 'abc'), true);
+              .publishNewUser(
+            const AuthUser(id: 'id', apiKey: 'abc', method: AuthType.anonymous),
+            true,
+          );
           await tester.pumpWidget(const AppView());
           (GetIt.I<BaseAuthRepository<AuthUser>>() as FakeAuthRepository)
-              .publishNewUser(const AuthUser(id: 'id', apiKey: 'abc'), false);
+              .publishNewUser(
+            const AuthUser(id: 'id', apiKey: 'abc', method: AuthType.anonymous),
+            false,
+          );
 
           await expectation;
         });

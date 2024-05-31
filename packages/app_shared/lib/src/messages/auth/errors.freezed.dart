@@ -12,19 +12,50 @@ part of 'errors.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+AuthenticationError _$AuthenticationErrorFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'accountExists':
+      return AccountExistsError.fromJson(json);
+    case 'badEmailPassword':
+      return BadEmailPasswordError.fromJson(json);
+    case 'badApiKey':
+      return BadApiKeyError.fromJson(json);
+    case 'cancelledSocialAuth':
+      return CancelledSocialAuthError.fromJson(json);
+    case 'invalidPassword':
+      return InvalidPasswordError.fromJson(json);
+    case 'invalidCode':
+      return InvalidCodeError.fromJson(json);
+    case 'logoutError':
+      return LogoutError.fromJson(json);
+    case 'missingCredentials':
+      return MissingCredentials.fromJson(json);
+    case 'wrongMethod':
+      return WrongMethod.fromJson(json);
+    case 'unknownError':
+      return UnknownAuthError.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'runtimeType', 'AuthenticationError',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
 
 /// @nodoc
 mixin _$AuthenticationError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String fieldName, String value) accountExists,
     required TResult Function() badEmailPassword,
+    required TResult Function() badApiKey,
     required TResult Function() cancelledSocialAuth,
-    required TResult Function() emailTaken,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
     required TResult Function() logoutError,
-    required TResult Function(bool missingEmail, bool missingPassword)
+    required TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)
         missingCredentials,
     required TResult Function(Set<AuthType> methods) wrongMethod,
     required TResult Function() unknownError,
@@ -32,13 +63,15 @@ mixin _$AuthenticationError {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String fieldName, String value)? accountExists,
     TResult? Function()? badEmailPassword,
+    TResult? Function()? badApiKey,
     TResult? Function()? cancelledSocialAuth,
-    TResult? Function()? emailTaken,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
     TResult? Function()? logoutError,
-    TResult? Function(bool missingEmail, bool missingPassword)?
+    TResult? Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
         missingCredentials,
     TResult? Function(Set<AuthType> methods)? wrongMethod,
     TResult? Function()? unknownError,
@@ -46,13 +79,15 @@ mixin _$AuthenticationError {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String fieldName, String value)? accountExists,
     TResult Function()? badEmailPassword,
+    TResult Function()? badApiKey,
     TResult Function()? cancelledSocialAuth,
-    TResult Function()? emailTaken,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
     TResult Function()? logoutError,
-    TResult Function(bool missingEmail, bool missingPassword)?
+    TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
         missingCredentials,
     TResult Function(Set<AuthType> methods)? wrongMethod,
     TResult Function()? unknownError,
@@ -61,10 +96,11 @@ mixin _$AuthenticationError {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(AccountExistsError value) accountExists,
     required TResult Function(BadEmailPasswordError value) badEmailPassword,
+    required TResult Function(BadApiKeyError value) badApiKey,
     required TResult Function(CancelledSocialAuthError value)
         cancelledSocialAuth,
-    required TResult Function(EmailTakenError value) emailTaken,
     required TResult Function(InvalidPasswordError value) invalidPassword,
     required TResult Function(InvalidCodeError value) invalidCode,
     required TResult Function(LogoutError value) logoutError,
@@ -75,9 +111,10 @@ mixin _$AuthenticationError {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AccountExistsError value)? accountExists,
     TResult? Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult? Function(BadApiKeyError value)? badApiKey,
     TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
-    TResult? Function(EmailTakenError value)? emailTaken,
     TResult? Function(InvalidPasswordError value)? invalidPassword,
     TResult? Function(InvalidCodeError value)? invalidCode,
     TResult? Function(LogoutError value)? logoutError,
@@ -88,9 +125,10 @@ mixin _$AuthenticationError {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(AccountExistsError value)? accountExists,
     TResult Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult Function(BadApiKeyError value)? badApiKey,
     TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
-    TResult Function(EmailTakenError value)? emailTaken,
     TResult Function(InvalidPasswordError value)? invalidPassword,
     TResult Function(InvalidCodeError value)? invalidCode,
     TResult Function(LogoutError value)? logoutError,
@@ -100,6 +138,7 @@ mixin _$AuthenticationError {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -121,6 +160,228 @@ class _$AuthenticationErrorCopyWithImpl<$Res, $Val extends AuthenticationError>
 }
 
 /// @nodoc
+abstract class _$$AccountExistsErrorImplCopyWith<$Res> {
+  factory _$$AccountExistsErrorImplCopyWith(_$AccountExistsErrorImpl value,
+          $Res Function(_$AccountExistsErrorImpl) then) =
+      __$$AccountExistsErrorImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String fieldName, String value});
+}
+
+/// @nodoc
+class __$$AccountExistsErrorImplCopyWithImpl<$Res>
+    extends _$AuthenticationErrorCopyWithImpl<$Res, _$AccountExistsErrorImpl>
+    implements _$$AccountExistsErrorImplCopyWith<$Res> {
+  __$$AccountExistsErrorImplCopyWithImpl(_$AccountExistsErrorImpl _value,
+      $Res Function(_$AccountExistsErrorImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fieldName = null,
+    Object? value = null,
+  }) {
+    return _then(_$AccountExistsErrorImpl(
+      fieldName: null == fieldName
+          ? _value.fieldName
+          : fieldName // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AccountExistsErrorImpl extends AccountExistsError {
+  const _$AccountExistsErrorImpl(
+      {required this.fieldName, required this.value, final String? $type})
+      : $type = $type ?? 'accountExists',
+        super._();
+
+  factory _$AccountExistsErrorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AccountExistsErrorImplFromJson(json);
+
+  @override
+  final String fieldName;
+  @override
+  final String value;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'AuthenticationError.accountExists(fieldName: $fieldName, value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AccountExistsErrorImpl &&
+            (identical(other.fieldName, fieldName) ||
+                other.fieldName == fieldName) &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, fieldName, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AccountExistsErrorImplCopyWith<_$AccountExistsErrorImpl> get copyWith =>
+      __$$AccountExistsErrorImplCopyWithImpl<_$AccountExistsErrorImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String fieldName, String value) accountExists,
+    required TResult Function() badEmailPassword,
+    required TResult Function() badApiKey,
+    required TResult Function() cancelledSocialAuth,
+    required TResult Function() invalidPassword,
+    required TResult Function() invalidCode,
+    required TResult Function() logoutError,
+    required TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)
+        missingCredentials,
+    required TResult Function(Set<AuthType> methods) wrongMethod,
+    required TResult Function() unknownError,
+  }) {
+    return accountExists(fieldName, value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String fieldName, String value)? accountExists,
+    TResult? Function()? badEmailPassword,
+    TResult? Function()? badApiKey,
+    TResult? Function()? cancelledSocialAuth,
+    TResult? Function()? invalidPassword,
+    TResult? Function()? invalidCode,
+    TResult? Function()? logoutError,
+    TResult? Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
+        missingCredentials,
+    TResult? Function(Set<AuthType> methods)? wrongMethod,
+    TResult? Function()? unknownError,
+  }) {
+    return accountExists?.call(fieldName, value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String fieldName, String value)? accountExists,
+    TResult Function()? badEmailPassword,
+    TResult Function()? badApiKey,
+    TResult Function()? cancelledSocialAuth,
+    TResult Function()? invalidPassword,
+    TResult Function()? invalidCode,
+    TResult Function()? logoutError,
+    TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
+        missingCredentials,
+    TResult Function(Set<AuthType> methods)? wrongMethod,
+    TResult Function()? unknownError,
+    required TResult orElse(),
+  }) {
+    if (accountExists != null) {
+      return accountExists(fieldName, value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AccountExistsError value) accountExists,
+    required TResult Function(BadEmailPasswordError value) badEmailPassword,
+    required TResult Function(BadApiKeyError value) badApiKey,
+    required TResult Function(CancelledSocialAuthError value)
+        cancelledSocialAuth,
+    required TResult Function(InvalidPasswordError value) invalidPassword,
+    required TResult Function(InvalidCodeError value) invalidCode,
+    required TResult Function(LogoutError value) logoutError,
+    required TResult Function(MissingCredentials value) missingCredentials,
+    required TResult Function(WrongMethod value) wrongMethod,
+    required TResult Function(UnknownAuthError value) unknownError,
+  }) {
+    return accountExists(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AccountExistsError value)? accountExists,
+    TResult? Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult? Function(BadApiKeyError value)? badApiKey,
+    TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult? Function(InvalidPasswordError value)? invalidPassword,
+    TResult? Function(InvalidCodeError value)? invalidCode,
+    TResult? Function(LogoutError value)? logoutError,
+    TResult? Function(MissingCredentials value)? missingCredentials,
+    TResult? Function(WrongMethod value)? wrongMethod,
+    TResult? Function(UnknownAuthError value)? unknownError,
+  }) {
+    return accountExists?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AccountExistsError value)? accountExists,
+    TResult Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult Function(BadApiKeyError value)? badApiKey,
+    TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult Function(InvalidPasswordError value)? invalidPassword,
+    TResult Function(InvalidCodeError value)? invalidCode,
+    TResult Function(LogoutError value)? logoutError,
+    TResult Function(MissingCredentials value)? missingCredentials,
+    TResult Function(WrongMethod value)? wrongMethod,
+    TResult Function(UnknownAuthError value)? unknownError,
+    required TResult orElse(),
+  }) {
+    if (accountExists != null) {
+      return accountExists(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AccountExistsErrorImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class AccountExistsError extends AuthenticationError {
+  const factory AccountExistsError(
+      {required final String fieldName,
+      required final String value}) = _$AccountExistsErrorImpl;
+  const AccountExistsError._() : super._();
+
+  factory AccountExistsError.fromJson(Map<String, dynamic> json) =
+      _$AccountExistsErrorImpl.fromJson;
+
+  String get fieldName;
+  String get value;
+  @JsonKey(ignore: true)
+  _$$AccountExistsErrorImplCopyWith<_$AccountExistsErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 abstract class _$$BadEmailPasswordErrorImplCopyWith<$Res> {
   factory _$$BadEmailPasswordErrorImplCopyWith(
           _$BadEmailPasswordErrorImpl value,
@@ -138,9 +399,17 @@ class __$$BadEmailPasswordErrorImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$BadEmailPasswordErrorImpl extends BadEmailPasswordError {
-  const _$BadEmailPasswordErrorImpl() : super._();
+  const _$BadEmailPasswordErrorImpl({final String? $type})
+      : $type = $type ?? 'badEmailPassword',
+        super._();
+
+  factory _$BadEmailPasswordErrorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BadEmailPasswordErrorImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -148,25 +417,28 @@ class _$BadEmailPasswordErrorImpl extends BadEmailPasswordError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BadEmailPasswordErrorImpl);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String fieldName, String value) accountExists,
     required TResult Function() badEmailPassword,
+    required TResult Function() badApiKey,
     required TResult Function() cancelledSocialAuth,
-    required TResult Function() emailTaken,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
     required TResult Function() logoutError,
-    required TResult Function(bool missingEmail, bool missingPassword)
+    required TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)
         missingCredentials,
     required TResult Function(Set<AuthType> methods) wrongMethod,
     required TResult Function() unknownError,
@@ -177,13 +449,15 @@ class _$BadEmailPasswordErrorImpl extends BadEmailPasswordError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String fieldName, String value)? accountExists,
     TResult? Function()? badEmailPassword,
+    TResult? Function()? badApiKey,
     TResult? Function()? cancelledSocialAuth,
-    TResult? Function()? emailTaken,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
     TResult? Function()? logoutError,
-    TResult? Function(bool missingEmail, bool missingPassword)?
+    TResult? Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
         missingCredentials,
     TResult? Function(Set<AuthType> methods)? wrongMethod,
     TResult? Function()? unknownError,
@@ -194,13 +468,15 @@ class _$BadEmailPasswordErrorImpl extends BadEmailPasswordError {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String fieldName, String value)? accountExists,
     TResult Function()? badEmailPassword,
+    TResult Function()? badApiKey,
     TResult Function()? cancelledSocialAuth,
-    TResult Function()? emailTaken,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
     TResult Function()? logoutError,
-    TResult Function(bool missingEmail, bool missingPassword)?
+    TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
         missingCredentials,
     TResult Function(Set<AuthType> methods)? wrongMethod,
     TResult Function()? unknownError,
@@ -215,10 +491,11 @@ class _$BadEmailPasswordErrorImpl extends BadEmailPasswordError {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(AccountExistsError value) accountExists,
     required TResult Function(BadEmailPasswordError value) badEmailPassword,
+    required TResult Function(BadApiKeyError value) badApiKey,
     required TResult Function(CancelledSocialAuthError value)
         cancelledSocialAuth,
-    required TResult Function(EmailTakenError value) emailTaken,
     required TResult Function(InvalidPasswordError value) invalidPassword,
     required TResult Function(InvalidCodeError value) invalidCode,
     required TResult Function(LogoutError value) logoutError,
@@ -232,9 +509,10 @@ class _$BadEmailPasswordErrorImpl extends BadEmailPasswordError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AccountExistsError value)? accountExists,
     TResult? Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult? Function(BadApiKeyError value)? badApiKey,
     TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
-    TResult? Function(EmailTakenError value)? emailTaken,
     TResult? Function(InvalidPasswordError value)? invalidPassword,
     TResult? Function(InvalidCodeError value)? invalidCode,
     TResult? Function(LogoutError value)? logoutError,
@@ -248,9 +526,10 @@ class _$BadEmailPasswordErrorImpl extends BadEmailPasswordError {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(AccountExistsError value)? accountExists,
     TResult Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult Function(BadApiKeyError value)? badApiKey,
     TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
-    TResult Function(EmailTakenError value)? emailTaken,
     TResult Function(InvalidPasswordError value)? invalidPassword,
     TResult Function(InvalidCodeError value)? invalidCode,
     TResult Function(LogoutError value)? logoutError,
@@ -264,11 +543,198 @@ class _$BadEmailPasswordErrorImpl extends BadEmailPasswordError {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$BadEmailPasswordErrorImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class BadEmailPasswordError extends AuthenticationError {
   const factory BadEmailPasswordError() = _$BadEmailPasswordErrorImpl;
   const BadEmailPasswordError._() : super._();
+
+  factory BadEmailPasswordError.fromJson(Map<String, dynamic> json) =
+      _$BadEmailPasswordErrorImpl.fromJson;
+}
+
+/// @nodoc
+abstract class _$$BadApiKeyErrorImplCopyWith<$Res> {
+  factory _$$BadApiKeyErrorImplCopyWith(_$BadApiKeyErrorImpl value,
+          $Res Function(_$BadApiKeyErrorImpl) then) =
+      __$$BadApiKeyErrorImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$BadApiKeyErrorImplCopyWithImpl<$Res>
+    extends _$AuthenticationErrorCopyWithImpl<$Res, _$BadApiKeyErrorImpl>
+    implements _$$BadApiKeyErrorImplCopyWith<$Res> {
+  __$$BadApiKeyErrorImplCopyWithImpl(
+      _$BadApiKeyErrorImpl _value, $Res Function(_$BadApiKeyErrorImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$BadApiKeyErrorImpl extends BadApiKeyError {
+  const _$BadApiKeyErrorImpl({final String? $type})
+      : $type = $type ?? 'badApiKey',
+        super._();
+
+  factory _$BadApiKeyErrorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BadApiKeyErrorImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'AuthenticationError.badApiKey()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$BadApiKeyErrorImpl);
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String fieldName, String value) accountExists,
+    required TResult Function() badEmailPassword,
+    required TResult Function() badApiKey,
+    required TResult Function() cancelledSocialAuth,
+    required TResult Function() invalidPassword,
+    required TResult Function() invalidCode,
+    required TResult Function() logoutError,
+    required TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)
+        missingCredentials,
+    required TResult Function(Set<AuthType> methods) wrongMethod,
+    required TResult Function() unknownError,
+  }) {
+    return badApiKey();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String fieldName, String value)? accountExists,
+    TResult? Function()? badEmailPassword,
+    TResult? Function()? badApiKey,
+    TResult? Function()? cancelledSocialAuth,
+    TResult? Function()? invalidPassword,
+    TResult? Function()? invalidCode,
+    TResult? Function()? logoutError,
+    TResult? Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
+        missingCredentials,
+    TResult? Function(Set<AuthType> methods)? wrongMethod,
+    TResult? Function()? unknownError,
+  }) {
+    return badApiKey?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String fieldName, String value)? accountExists,
+    TResult Function()? badEmailPassword,
+    TResult Function()? badApiKey,
+    TResult Function()? cancelledSocialAuth,
+    TResult Function()? invalidPassword,
+    TResult Function()? invalidCode,
+    TResult Function()? logoutError,
+    TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
+        missingCredentials,
+    TResult Function(Set<AuthType> methods)? wrongMethod,
+    TResult Function()? unknownError,
+    required TResult orElse(),
+  }) {
+    if (badApiKey != null) {
+      return badApiKey();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AccountExistsError value) accountExists,
+    required TResult Function(BadEmailPasswordError value) badEmailPassword,
+    required TResult Function(BadApiKeyError value) badApiKey,
+    required TResult Function(CancelledSocialAuthError value)
+        cancelledSocialAuth,
+    required TResult Function(InvalidPasswordError value) invalidPassword,
+    required TResult Function(InvalidCodeError value) invalidCode,
+    required TResult Function(LogoutError value) logoutError,
+    required TResult Function(MissingCredentials value) missingCredentials,
+    required TResult Function(WrongMethod value) wrongMethod,
+    required TResult Function(UnknownAuthError value) unknownError,
+  }) {
+    return badApiKey(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AccountExistsError value)? accountExists,
+    TResult? Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult? Function(BadApiKeyError value)? badApiKey,
+    TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult? Function(InvalidPasswordError value)? invalidPassword,
+    TResult? Function(InvalidCodeError value)? invalidCode,
+    TResult? Function(LogoutError value)? logoutError,
+    TResult? Function(MissingCredentials value)? missingCredentials,
+    TResult? Function(WrongMethod value)? wrongMethod,
+    TResult? Function(UnknownAuthError value)? unknownError,
+  }) {
+    return badApiKey?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AccountExistsError value)? accountExists,
+    TResult Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult Function(BadApiKeyError value)? badApiKey,
+    TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult Function(InvalidPasswordError value)? invalidPassword,
+    TResult Function(InvalidCodeError value)? invalidCode,
+    TResult Function(LogoutError value)? logoutError,
+    TResult Function(MissingCredentials value)? missingCredentials,
+    TResult Function(WrongMethod value)? wrongMethod,
+    TResult Function(UnknownAuthError value)? unknownError,
+    required TResult orElse(),
+  }) {
+    if (badApiKey != null) {
+      return badApiKey(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$BadApiKeyErrorImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class BadApiKeyError extends AuthenticationError {
+  const factory BadApiKeyError() = _$BadApiKeyErrorImpl;
+  const BadApiKeyError._() : super._();
+
+  factory BadApiKeyError.fromJson(Map<String, dynamic> json) =
+      _$BadApiKeyErrorImpl.fromJson;
 }
 
 /// @nodoc
@@ -291,9 +757,17 @@ class __$$CancelledSocialAuthErrorImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$CancelledSocialAuthErrorImpl extends CancelledSocialAuthError {
-  const _$CancelledSocialAuthErrorImpl() : super._();
+  const _$CancelledSocialAuthErrorImpl({final String? $type})
+      : $type = $type ?? 'cancelledSocialAuth',
+        super._();
+
+  factory _$CancelledSocialAuthErrorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CancelledSocialAuthErrorImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -301,25 +775,28 @@ class _$CancelledSocialAuthErrorImpl extends CancelledSocialAuthError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CancelledSocialAuthErrorImpl);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String fieldName, String value) accountExists,
     required TResult Function() badEmailPassword,
+    required TResult Function() badApiKey,
     required TResult Function() cancelledSocialAuth,
-    required TResult Function() emailTaken,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
     required TResult Function() logoutError,
-    required TResult Function(bool missingEmail, bool missingPassword)
+    required TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)
         missingCredentials,
     required TResult Function(Set<AuthType> methods) wrongMethod,
     required TResult Function() unknownError,
@@ -330,13 +807,15 @@ class _$CancelledSocialAuthErrorImpl extends CancelledSocialAuthError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String fieldName, String value)? accountExists,
     TResult? Function()? badEmailPassword,
+    TResult? Function()? badApiKey,
     TResult? Function()? cancelledSocialAuth,
-    TResult? Function()? emailTaken,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
     TResult? Function()? logoutError,
-    TResult? Function(bool missingEmail, bool missingPassword)?
+    TResult? Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
         missingCredentials,
     TResult? Function(Set<AuthType> methods)? wrongMethod,
     TResult? Function()? unknownError,
@@ -347,13 +826,15 @@ class _$CancelledSocialAuthErrorImpl extends CancelledSocialAuthError {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String fieldName, String value)? accountExists,
     TResult Function()? badEmailPassword,
+    TResult Function()? badApiKey,
     TResult Function()? cancelledSocialAuth,
-    TResult Function()? emailTaken,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
     TResult Function()? logoutError,
-    TResult Function(bool missingEmail, bool missingPassword)?
+    TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
         missingCredentials,
     TResult Function(Set<AuthType> methods)? wrongMethod,
     TResult Function()? unknownError,
@@ -368,10 +849,11 @@ class _$CancelledSocialAuthErrorImpl extends CancelledSocialAuthError {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(AccountExistsError value) accountExists,
     required TResult Function(BadEmailPasswordError value) badEmailPassword,
+    required TResult Function(BadApiKeyError value) badApiKey,
     required TResult Function(CancelledSocialAuthError value)
         cancelledSocialAuth,
-    required TResult Function(EmailTakenError value) emailTaken,
     required TResult Function(InvalidPasswordError value) invalidPassword,
     required TResult Function(InvalidCodeError value) invalidCode,
     required TResult Function(LogoutError value) logoutError,
@@ -385,9 +867,10 @@ class _$CancelledSocialAuthErrorImpl extends CancelledSocialAuthError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AccountExistsError value)? accountExists,
     TResult? Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult? Function(BadApiKeyError value)? badApiKey,
     TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
-    TResult? Function(EmailTakenError value)? emailTaken,
     TResult? Function(InvalidPasswordError value)? invalidPassword,
     TResult? Function(InvalidCodeError value)? invalidCode,
     TResult? Function(LogoutError value)? logoutError,
@@ -401,9 +884,10 @@ class _$CancelledSocialAuthErrorImpl extends CancelledSocialAuthError {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(AccountExistsError value)? accountExists,
     TResult Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult Function(BadApiKeyError value)? badApiKey,
     TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
-    TResult Function(EmailTakenError value)? emailTaken,
     TResult Function(InvalidPasswordError value)? invalidPassword,
     TResult Function(InvalidCodeError value)? invalidCode,
     TResult Function(LogoutError value)? logoutError,
@@ -417,160 +901,21 @@ class _$CancelledSocialAuthErrorImpl extends CancelledSocialAuthError {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CancelledSocialAuthErrorImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class CancelledSocialAuthError extends AuthenticationError {
   const factory CancelledSocialAuthError() = _$CancelledSocialAuthErrorImpl;
   const CancelledSocialAuthError._() : super._();
-}
 
-/// @nodoc
-abstract class _$$EmailTakenErrorImplCopyWith<$Res> {
-  factory _$$EmailTakenErrorImplCopyWith(_$EmailTakenErrorImpl value,
-          $Res Function(_$EmailTakenErrorImpl) then) =
-      __$$EmailTakenErrorImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$EmailTakenErrorImplCopyWithImpl<$Res>
-    extends _$AuthenticationErrorCopyWithImpl<$Res, _$EmailTakenErrorImpl>
-    implements _$$EmailTakenErrorImplCopyWith<$Res> {
-  __$$EmailTakenErrorImplCopyWithImpl(
-      _$EmailTakenErrorImpl _value, $Res Function(_$EmailTakenErrorImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$EmailTakenErrorImpl extends EmailTakenError {
-  const _$EmailTakenErrorImpl() : super._();
-
-  @override
-  String toString() {
-    return 'AuthenticationError.emailTaken()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$EmailTakenErrorImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() badEmailPassword,
-    required TResult Function() cancelledSocialAuth,
-    required TResult Function() emailTaken,
-    required TResult Function() invalidPassword,
-    required TResult Function() invalidCode,
-    required TResult Function() logoutError,
-    required TResult Function(bool missingEmail, bool missingPassword)
-        missingCredentials,
-    required TResult Function(Set<AuthType> methods) wrongMethod,
-    required TResult Function() unknownError,
-  }) {
-    return emailTaken();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? badEmailPassword,
-    TResult? Function()? cancelledSocialAuth,
-    TResult? Function()? emailTaken,
-    TResult? Function()? invalidPassword,
-    TResult? Function()? invalidCode,
-    TResult? Function()? logoutError,
-    TResult? Function(bool missingEmail, bool missingPassword)?
-        missingCredentials,
-    TResult? Function(Set<AuthType> methods)? wrongMethod,
-    TResult? Function()? unknownError,
-  }) {
-    return emailTaken?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? badEmailPassword,
-    TResult Function()? cancelledSocialAuth,
-    TResult Function()? emailTaken,
-    TResult Function()? invalidPassword,
-    TResult Function()? invalidCode,
-    TResult Function()? logoutError,
-    TResult Function(bool missingEmail, bool missingPassword)?
-        missingCredentials,
-    TResult Function(Set<AuthType> methods)? wrongMethod,
-    TResult Function()? unknownError,
-    required TResult orElse(),
-  }) {
-    if (emailTaken != null) {
-      return emailTaken();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(BadEmailPasswordError value) badEmailPassword,
-    required TResult Function(CancelledSocialAuthError value)
-        cancelledSocialAuth,
-    required TResult Function(EmailTakenError value) emailTaken,
-    required TResult Function(InvalidPasswordError value) invalidPassword,
-    required TResult Function(InvalidCodeError value) invalidCode,
-    required TResult Function(LogoutError value) logoutError,
-    required TResult Function(MissingCredentials value) missingCredentials,
-    required TResult Function(WrongMethod value) wrongMethod,
-    required TResult Function(UnknownAuthError value) unknownError,
-  }) {
-    return emailTaken(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(BadEmailPasswordError value)? badEmailPassword,
-    TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
-    TResult? Function(EmailTakenError value)? emailTaken,
-    TResult? Function(InvalidPasswordError value)? invalidPassword,
-    TResult? Function(InvalidCodeError value)? invalidCode,
-    TResult? Function(LogoutError value)? logoutError,
-    TResult? Function(MissingCredentials value)? missingCredentials,
-    TResult? Function(WrongMethod value)? wrongMethod,
-    TResult? Function(UnknownAuthError value)? unknownError,
-  }) {
-    return emailTaken?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(BadEmailPasswordError value)? badEmailPassword,
-    TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
-    TResult Function(EmailTakenError value)? emailTaken,
-    TResult Function(InvalidPasswordError value)? invalidPassword,
-    TResult Function(InvalidCodeError value)? invalidCode,
-    TResult Function(LogoutError value)? logoutError,
-    TResult Function(MissingCredentials value)? missingCredentials,
-    TResult Function(WrongMethod value)? wrongMethod,
-    TResult Function(UnknownAuthError value)? unknownError,
-    required TResult orElse(),
-  }) {
-    if (emailTaken != null) {
-      return emailTaken(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class EmailTakenError extends AuthenticationError {
-  const factory EmailTakenError() = _$EmailTakenErrorImpl;
-  const EmailTakenError._() : super._();
+  factory CancelledSocialAuthError.fromJson(Map<String, dynamic> json) =
+      _$CancelledSocialAuthErrorImpl.fromJson;
 }
 
 /// @nodoc
@@ -590,9 +935,17 @@ class __$$InvalidPasswordErrorImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$InvalidPasswordErrorImpl extends InvalidPasswordError {
-  const _$InvalidPasswordErrorImpl() : super._();
+  const _$InvalidPasswordErrorImpl({final String? $type})
+      : $type = $type ?? 'invalidPassword',
+        super._();
+
+  factory _$InvalidPasswordErrorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$InvalidPasswordErrorImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -600,25 +953,28 @@ class _$InvalidPasswordErrorImpl extends InvalidPasswordError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$InvalidPasswordErrorImpl);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String fieldName, String value) accountExists,
     required TResult Function() badEmailPassword,
+    required TResult Function() badApiKey,
     required TResult Function() cancelledSocialAuth,
-    required TResult Function() emailTaken,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
     required TResult Function() logoutError,
-    required TResult Function(bool missingEmail, bool missingPassword)
+    required TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)
         missingCredentials,
     required TResult Function(Set<AuthType> methods) wrongMethod,
     required TResult Function() unknownError,
@@ -629,13 +985,15 @@ class _$InvalidPasswordErrorImpl extends InvalidPasswordError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String fieldName, String value)? accountExists,
     TResult? Function()? badEmailPassword,
+    TResult? Function()? badApiKey,
     TResult? Function()? cancelledSocialAuth,
-    TResult? Function()? emailTaken,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
     TResult? Function()? logoutError,
-    TResult? Function(bool missingEmail, bool missingPassword)?
+    TResult? Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
         missingCredentials,
     TResult? Function(Set<AuthType> methods)? wrongMethod,
     TResult? Function()? unknownError,
@@ -646,13 +1004,15 @@ class _$InvalidPasswordErrorImpl extends InvalidPasswordError {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String fieldName, String value)? accountExists,
     TResult Function()? badEmailPassword,
+    TResult Function()? badApiKey,
     TResult Function()? cancelledSocialAuth,
-    TResult Function()? emailTaken,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
     TResult Function()? logoutError,
-    TResult Function(bool missingEmail, bool missingPassword)?
+    TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
         missingCredentials,
     TResult Function(Set<AuthType> methods)? wrongMethod,
     TResult Function()? unknownError,
@@ -667,10 +1027,11 @@ class _$InvalidPasswordErrorImpl extends InvalidPasswordError {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(AccountExistsError value) accountExists,
     required TResult Function(BadEmailPasswordError value) badEmailPassword,
+    required TResult Function(BadApiKeyError value) badApiKey,
     required TResult Function(CancelledSocialAuthError value)
         cancelledSocialAuth,
-    required TResult Function(EmailTakenError value) emailTaken,
     required TResult Function(InvalidPasswordError value) invalidPassword,
     required TResult Function(InvalidCodeError value) invalidCode,
     required TResult Function(LogoutError value) logoutError,
@@ -684,9 +1045,10 @@ class _$InvalidPasswordErrorImpl extends InvalidPasswordError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AccountExistsError value)? accountExists,
     TResult? Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult? Function(BadApiKeyError value)? badApiKey,
     TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
-    TResult? Function(EmailTakenError value)? emailTaken,
     TResult? Function(InvalidPasswordError value)? invalidPassword,
     TResult? Function(InvalidCodeError value)? invalidCode,
     TResult? Function(LogoutError value)? logoutError,
@@ -700,9 +1062,10 @@ class _$InvalidPasswordErrorImpl extends InvalidPasswordError {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(AccountExistsError value)? accountExists,
     TResult Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult Function(BadApiKeyError value)? badApiKey,
     TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
-    TResult Function(EmailTakenError value)? emailTaken,
     TResult Function(InvalidPasswordError value)? invalidPassword,
     TResult Function(InvalidCodeError value)? invalidCode,
     TResult Function(LogoutError value)? logoutError,
@@ -716,11 +1079,21 @@ class _$InvalidPasswordErrorImpl extends InvalidPasswordError {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$InvalidPasswordErrorImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class InvalidPasswordError extends AuthenticationError {
   const factory InvalidPasswordError() = _$InvalidPasswordErrorImpl;
   const InvalidPasswordError._() : super._();
+
+  factory InvalidPasswordError.fromJson(Map<String, dynamic> json) =
+      _$InvalidPasswordErrorImpl.fromJson;
 }
 
 /// @nodoc
@@ -740,9 +1113,17 @@ class __$$InvalidCodeErrorImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$InvalidCodeErrorImpl extends InvalidCodeError {
-  const _$InvalidCodeErrorImpl() : super._();
+  const _$InvalidCodeErrorImpl({final String? $type})
+      : $type = $type ?? 'invalidCode',
+        super._();
+
+  factory _$InvalidCodeErrorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$InvalidCodeErrorImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -750,24 +1131,27 @@ class _$InvalidCodeErrorImpl extends InvalidCodeError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$InvalidCodeErrorImpl);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String fieldName, String value) accountExists,
     required TResult Function() badEmailPassword,
+    required TResult Function() badApiKey,
     required TResult Function() cancelledSocialAuth,
-    required TResult Function() emailTaken,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
     required TResult Function() logoutError,
-    required TResult Function(bool missingEmail, bool missingPassword)
+    required TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)
         missingCredentials,
     required TResult Function(Set<AuthType> methods) wrongMethod,
     required TResult Function() unknownError,
@@ -778,13 +1162,15 @@ class _$InvalidCodeErrorImpl extends InvalidCodeError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String fieldName, String value)? accountExists,
     TResult? Function()? badEmailPassword,
+    TResult? Function()? badApiKey,
     TResult? Function()? cancelledSocialAuth,
-    TResult? Function()? emailTaken,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
     TResult? Function()? logoutError,
-    TResult? Function(bool missingEmail, bool missingPassword)?
+    TResult? Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
         missingCredentials,
     TResult? Function(Set<AuthType> methods)? wrongMethod,
     TResult? Function()? unknownError,
@@ -795,13 +1181,15 @@ class _$InvalidCodeErrorImpl extends InvalidCodeError {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String fieldName, String value)? accountExists,
     TResult Function()? badEmailPassword,
+    TResult Function()? badApiKey,
     TResult Function()? cancelledSocialAuth,
-    TResult Function()? emailTaken,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
     TResult Function()? logoutError,
-    TResult Function(bool missingEmail, bool missingPassword)?
+    TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
         missingCredentials,
     TResult Function(Set<AuthType> methods)? wrongMethod,
     TResult Function()? unknownError,
@@ -816,10 +1204,11 @@ class _$InvalidCodeErrorImpl extends InvalidCodeError {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(AccountExistsError value) accountExists,
     required TResult Function(BadEmailPasswordError value) badEmailPassword,
+    required TResult Function(BadApiKeyError value) badApiKey,
     required TResult Function(CancelledSocialAuthError value)
         cancelledSocialAuth,
-    required TResult Function(EmailTakenError value) emailTaken,
     required TResult Function(InvalidPasswordError value) invalidPassword,
     required TResult Function(InvalidCodeError value) invalidCode,
     required TResult Function(LogoutError value) logoutError,
@@ -833,9 +1222,10 @@ class _$InvalidCodeErrorImpl extends InvalidCodeError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AccountExistsError value)? accountExists,
     TResult? Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult? Function(BadApiKeyError value)? badApiKey,
     TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
-    TResult? Function(EmailTakenError value)? emailTaken,
     TResult? Function(InvalidPasswordError value)? invalidPassword,
     TResult? Function(InvalidCodeError value)? invalidCode,
     TResult? Function(LogoutError value)? logoutError,
@@ -849,9 +1239,10 @@ class _$InvalidCodeErrorImpl extends InvalidCodeError {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(AccountExistsError value)? accountExists,
     TResult Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult Function(BadApiKeyError value)? badApiKey,
     TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
-    TResult Function(EmailTakenError value)? emailTaken,
     TResult Function(InvalidPasswordError value)? invalidPassword,
     TResult Function(InvalidCodeError value)? invalidCode,
     TResult Function(LogoutError value)? logoutError,
@@ -865,11 +1256,21 @@ class _$InvalidCodeErrorImpl extends InvalidCodeError {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$InvalidCodeErrorImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class InvalidCodeError extends AuthenticationError {
   const factory InvalidCodeError() = _$InvalidCodeErrorImpl;
   const InvalidCodeError._() : super._();
+
+  factory InvalidCodeError.fromJson(Map<String, dynamic> json) =
+      _$InvalidCodeErrorImpl.fromJson;
 }
 
 /// @nodoc
@@ -889,9 +1290,17 @@ class __$$LogoutErrorImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$LogoutErrorImpl extends LogoutError {
-  const _$LogoutErrorImpl() : super._();
+  const _$LogoutErrorImpl({final String? $type})
+      : $type = $type ?? 'logoutError',
+        super._();
+
+  factory _$LogoutErrorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LogoutErrorImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -899,24 +1308,27 @@ class _$LogoutErrorImpl extends LogoutError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$LogoutErrorImpl);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String fieldName, String value) accountExists,
     required TResult Function() badEmailPassword,
+    required TResult Function() badApiKey,
     required TResult Function() cancelledSocialAuth,
-    required TResult Function() emailTaken,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
     required TResult Function() logoutError,
-    required TResult Function(bool missingEmail, bool missingPassword)
+    required TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)
         missingCredentials,
     required TResult Function(Set<AuthType> methods) wrongMethod,
     required TResult Function() unknownError,
@@ -927,13 +1339,15 @@ class _$LogoutErrorImpl extends LogoutError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String fieldName, String value)? accountExists,
     TResult? Function()? badEmailPassword,
+    TResult? Function()? badApiKey,
     TResult? Function()? cancelledSocialAuth,
-    TResult? Function()? emailTaken,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
     TResult? Function()? logoutError,
-    TResult? Function(bool missingEmail, bool missingPassword)?
+    TResult? Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
         missingCredentials,
     TResult? Function(Set<AuthType> methods)? wrongMethod,
     TResult? Function()? unknownError,
@@ -944,13 +1358,15 @@ class _$LogoutErrorImpl extends LogoutError {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String fieldName, String value)? accountExists,
     TResult Function()? badEmailPassword,
+    TResult Function()? badApiKey,
     TResult Function()? cancelledSocialAuth,
-    TResult Function()? emailTaken,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
     TResult Function()? logoutError,
-    TResult Function(bool missingEmail, bool missingPassword)?
+    TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
         missingCredentials,
     TResult Function(Set<AuthType> methods)? wrongMethod,
     TResult Function()? unknownError,
@@ -965,10 +1381,11 @@ class _$LogoutErrorImpl extends LogoutError {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(AccountExistsError value) accountExists,
     required TResult Function(BadEmailPasswordError value) badEmailPassword,
+    required TResult Function(BadApiKeyError value) badApiKey,
     required TResult Function(CancelledSocialAuthError value)
         cancelledSocialAuth,
-    required TResult Function(EmailTakenError value) emailTaken,
     required TResult Function(InvalidPasswordError value) invalidPassword,
     required TResult Function(InvalidCodeError value) invalidCode,
     required TResult Function(LogoutError value) logoutError,
@@ -982,9 +1399,10 @@ class _$LogoutErrorImpl extends LogoutError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AccountExistsError value)? accountExists,
     TResult? Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult? Function(BadApiKeyError value)? badApiKey,
     TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
-    TResult? Function(EmailTakenError value)? emailTaken,
     TResult? Function(InvalidPasswordError value)? invalidPassword,
     TResult? Function(InvalidCodeError value)? invalidCode,
     TResult? Function(LogoutError value)? logoutError,
@@ -998,9 +1416,10 @@ class _$LogoutErrorImpl extends LogoutError {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(AccountExistsError value)? accountExists,
     TResult Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult Function(BadApiKeyError value)? badApiKey,
     TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
-    TResult Function(EmailTakenError value)? emailTaken,
     TResult Function(InvalidPasswordError value)? invalidPassword,
     TResult Function(InvalidCodeError value)? invalidCode,
     TResult Function(LogoutError value)? logoutError,
@@ -1014,11 +1433,21 @@ class _$LogoutErrorImpl extends LogoutError {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$LogoutErrorImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class LogoutError extends AuthenticationError {
   const factory LogoutError() = _$LogoutErrorImpl;
   const LogoutError._() : super._();
+
+  factory LogoutError.fromJson(Map<String, dynamic> json) =
+      _$LogoutErrorImpl.fromJson;
 }
 
 /// @nodoc
@@ -1027,7 +1456,7 @@ abstract class _$$MissingCredentialsImplCopyWith<$Res> {
           $Res Function(_$MissingCredentialsImpl) then) =
       __$$MissingCredentialsImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({bool missingEmail, bool missingPassword});
+  $Res call({bool missingEmail, bool missingPassword, bool missingApiKey});
 }
 
 /// @nodoc
@@ -1043,6 +1472,7 @@ class __$$MissingCredentialsImplCopyWithImpl<$Res>
   $Res call({
     Object? missingEmail = null,
     Object? missingPassword = null,
+    Object? missingApiKey = null,
   }) {
     return _then(_$MissingCredentialsImpl(
       missingEmail: null == missingEmail
@@ -1053,40 +1483,60 @@ class __$$MissingCredentialsImplCopyWithImpl<$Res>
           ? _value.missingPassword
           : missingPassword // ignore: cast_nullable_to_non_nullable
               as bool,
+      missingApiKey: null == missingApiKey
+          ? _value.missingApiKey
+          : missingApiKey // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$MissingCredentialsImpl extends MissingCredentials {
   const _$MissingCredentialsImpl(
-      {required this.missingEmail, required this.missingPassword})
-      : super._();
+      {required this.missingEmail,
+      required this.missingPassword,
+      required this.missingApiKey,
+      final String? $type})
+      : $type = $type ?? 'missingCredentials',
+        super._();
+
+  factory _$MissingCredentialsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MissingCredentialsImplFromJson(json);
 
   @override
   final bool missingEmail;
   @override
   final bool missingPassword;
+  @override
+  final bool missingApiKey;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
-    return 'AuthenticationError.missingCredentials(missingEmail: $missingEmail, missingPassword: $missingPassword)';
+    return 'AuthenticationError.missingCredentials(missingEmail: $missingEmail, missingPassword: $missingPassword, missingApiKey: $missingApiKey)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MissingCredentialsImpl &&
             (identical(other.missingEmail, missingEmail) ||
                 other.missingEmail == missingEmail) &&
             (identical(other.missingPassword, missingPassword) ||
-                other.missingPassword == missingPassword));
+                other.missingPassword == missingPassword) &&
+            (identical(other.missingApiKey, missingApiKey) ||
+                other.missingApiKey == missingApiKey));
   }
 
+  @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, missingEmail, missingPassword);
+  int get hashCode =>
+      Object.hash(runtimeType, missingEmail, missingPassword, missingApiKey);
 
   @JsonKey(ignore: true)
   @override
@@ -1098,54 +1548,61 @@ class _$MissingCredentialsImpl extends MissingCredentials {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String fieldName, String value) accountExists,
     required TResult Function() badEmailPassword,
+    required TResult Function() badApiKey,
     required TResult Function() cancelledSocialAuth,
-    required TResult Function() emailTaken,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
     required TResult Function() logoutError,
-    required TResult Function(bool missingEmail, bool missingPassword)
+    required TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)
         missingCredentials,
     required TResult Function(Set<AuthType> methods) wrongMethod,
     required TResult Function() unknownError,
   }) {
-    return missingCredentials(missingEmail, missingPassword);
+    return missingCredentials(missingEmail, missingPassword, missingApiKey);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String fieldName, String value)? accountExists,
     TResult? Function()? badEmailPassword,
+    TResult? Function()? badApiKey,
     TResult? Function()? cancelledSocialAuth,
-    TResult? Function()? emailTaken,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
     TResult? Function()? logoutError,
-    TResult? Function(bool missingEmail, bool missingPassword)?
+    TResult? Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
         missingCredentials,
     TResult? Function(Set<AuthType> methods)? wrongMethod,
     TResult? Function()? unknownError,
   }) {
-    return missingCredentials?.call(missingEmail, missingPassword);
+    return missingCredentials?.call(
+        missingEmail, missingPassword, missingApiKey);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String fieldName, String value)? accountExists,
     TResult Function()? badEmailPassword,
+    TResult Function()? badApiKey,
     TResult Function()? cancelledSocialAuth,
-    TResult Function()? emailTaken,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
     TResult Function()? logoutError,
-    TResult Function(bool missingEmail, bool missingPassword)?
+    TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
         missingCredentials,
     TResult Function(Set<AuthType> methods)? wrongMethod,
     TResult Function()? unknownError,
     required TResult orElse(),
   }) {
     if (missingCredentials != null) {
-      return missingCredentials(missingEmail, missingPassword);
+      return missingCredentials(missingEmail, missingPassword, missingApiKey);
     }
     return orElse();
   }
@@ -1153,10 +1610,11 @@ class _$MissingCredentialsImpl extends MissingCredentials {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(AccountExistsError value) accountExists,
     required TResult Function(BadEmailPasswordError value) badEmailPassword,
+    required TResult Function(BadApiKeyError value) badApiKey,
     required TResult Function(CancelledSocialAuthError value)
         cancelledSocialAuth,
-    required TResult Function(EmailTakenError value) emailTaken,
     required TResult Function(InvalidPasswordError value) invalidPassword,
     required TResult Function(InvalidCodeError value) invalidCode,
     required TResult Function(LogoutError value) logoutError,
@@ -1170,9 +1628,10 @@ class _$MissingCredentialsImpl extends MissingCredentials {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AccountExistsError value)? accountExists,
     TResult? Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult? Function(BadApiKeyError value)? badApiKey,
     TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
-    TResult? Function(EmailTakenError value)? emailTaken,
     TResult? Function(InvalidPasswordError value)? invalidPassword,
     TResult? Function(InvalidCodeError value)? invalidCode,
     TResult? Function(LogoutError value)? logoutError,
@@ -1186,9 +1645,10 @@ class _$MissingCredentialsImpl extends MissingCredentials {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(AccountExistsError value)? accountExists,
     TResult Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult Function(BadApiKeyError value)? badApiKey,
     TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
-    TResult Function(EmailTakenError value)? emailTaken,
     TResult Function(InvalidPasswordError value)? invalidPassword,
     TResult Function(InvalidCodeError value)? invalidCode,
     TResult Function(LogoutError value)? logoutError,
@@ -1202,16 +1662,28 @@ class _$MissingCredentialsImpl extends MissingCredentials {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MissingCredentialsImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class MissingCredentials extends AuthenticationError {
   const factory MissingCredentials(
       {required final bool missingEmail,
-      required final bool missingPassword}) = _$MissingCredentialsImpl;
+      required final bool missingPassword,
+      required final bool missingApiKey}) = _$MissingCredentialsImpl;
   const MissingCredentials._() : super._();
+
+  factory MissingCredentials.fromJson(Map<String, dynamic> json) =
+      _$MissingCredentialsImpl.fromJson;
 
   bool get missingEmail;
   bool get missingPassword;
+  bool get missingApiKey;
   @JsonKey(ignore: true)
   _$$MissingCredentialsImplCopyWith<_$MissingCredentialsImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1249,11 +1721,15 @@ class __$$WrongMethodImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$WrongMethodImpl extends WrongMethod {
-  const _$WrongMethodImpl(final Set<AuthType> methods)
+  const _$WrongMethodImpl(final Set<AuthType> methods, {final String? $type})
       : _methods = methods,
+        $type = $type ?? 'wrongMethod',
         super._();
+
+  factory _$WrongMethodImpl.fromJson(Map<String, dynamic> json) =>
+      _$$WrongMethodImplFromJson(json);
 
   final Set<AuthType> _methods;
   @override
@@ -1263,19 +1739,23 @@ class _$WrongMethodImpl extends WrongMethod {
     return EqualUnmodifiableSetView(_methods);
   }
 
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
   @override
   String toString() {
     return 'AuthenticationError.wrongMethod(methods: $methods)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WrongMethodImpl &&
             const DeepCollectionEquality().equals(other._methods, _methods));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_methods));
@@ -1289,13 +1769,15 @@ class _$WrongMethodImpl extends WrongMethod {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String fieldName, String value) accountExists,
     required TResult Function() badEmailPassword,
+    required TResult Function() badApiKey,
     required TResult Function() cancelledSocialAuth,
-    required TResult Function() emailTaken,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
     required TResult Function() logoutError,
-    required TResult Function(bool missingEmail, bool missingPassword)
+    required TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)
         missingCredentials,
     required TResult Function(Set<AuthType> methods) wrongMethod,
     required TResult Function() unknownError,
@@ -1306,13 +1788,15 @@ class _$WrongMethodImpl extends WrongMethod {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String fieldName, String value)? accountExists,
     TResult? Function()? badEmailPassword,
+    TResult? Function()? badApiKey,
     TResult? Function()? cancelledSocialAuth,
-    TResult? Function()? emailTaken,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
     TResult? Function()? logoutError,
-    TResult? Function(bool missingEmail, bool missingPassword)?
+    TResult? Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
         missingCredentials,
     TResult? Function(Set<AuthType> methods)? wrongMethod,
     TResult? Function()? unknownError,
@@ -1323,13 +1807,15 @@ class _$WrongMethodImpl extends WrongMethod {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String fieldName, String value)? accountExists,
     TResult Function()? badEmailPassword,
+    TResult Function()? badApiKey,
     TResult Function()? cancelledSocialAuth,
-    TResult Function()? emailTaken,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
     TResult Function()? logoutError,
-    TResult Function(bool missingEmail, bool missingPassword)?
+    TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
         missingCredentials,
     TResult Function(Set<AuthType> methods)? wrongMethod,
     TResult Function()? unknownError,
@@ -1344,10 +1830,11 @@ class _$WrongMethodImpl extends WrongMethod {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(AccountExistsError value) accountExists,
     required TResult Function(BadEmailPasswordError value) badEmailPassword,
+    required TResult Function(BadApiKeyError value) badApiKey,
     required TResult Function(CancelledSocialAuthError value)
         cancelledSocialAuth,
-    required TResult Function(EmailTakenError value) emailTaken,
     required TResult Function(InvalidPasswordError value) invalidPassword,
     required TResult Function(InvalidCodeError value) invalidCode,
     required TResult Function(LogoutError value) logoutError,
@@ -1361,9 +1848,10 @@ class _$WrongMethodImpl extends WrongMethod {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AccountExistsError value)? accountExists,
     TResult? Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult? Function(BadApiKeyError value)? badApiKey,
     TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
-    TResult? Function(EmailTakenError value)? emailTaken,
     TResult? Function(InvalidPasswordError value)? invalidPassword,
     TResult? Function(InvalidCodeError value)? invalidCode,
     TResult? Function(LogoutError value)? logoutError,
@@ -1377,9 +1865,10 @@ class _$WrongMethodImpl extends WrongMethod {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(AccountExistsError value)? accountExists,
     TResult Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult Function(BadApiKeyError value)? badApiKey,
     TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
-    TResult Function(EmailTakenError value)? emailTaken,
     TResult Function(InvalidPasswordError value)? invalidPassword,
     TResult Function(InvalidCodeError value)? invalidCode,
     TResult Function(LogoutError value)? logoutError,
@@ -1393,11 +1882,21 @@ class _$WrongMethodImpl extends WrongMethod {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$WrongMethodImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class WrongMethod extends AuthenticationError {
   const factory WrongMethod(final Set<AuthType> methods) = _$WrongMethodImpl;
   const WrongMethod._() : super._();
+
+  factory WrongMethod.fromJson(Map<String, dynamic> json) =
+      _$WrongMethodImpl.fromJson;
 
   Set<AuthType> get methods;
   @JsonKey(ignore: true)
@@ -1422,9 +1921,17 @@ class __$$UnknownAuthErrorImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$UnknownAuthErrorImpl extends UnknownAuthError {
-  const _$UnknownAuthErrorImpl() : super._();
+  const _$UnknownAuthErrorImpl({final String? $type})
+      : $type = $type ?? 'unknownError',
+        super._();
+
+  factory _$UnknownAuthErrorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UnknownAuthErrorImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -1432,24 +1939,27 @@ class _$UnknownAuthErrorImpl extends UnknownAuthError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$UnknownAuthErrorImpl);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(String fieldName, String value) accountExists,
     required TResult Function() badEmailPassword,
+    required TResult Function() badApiKey,
     required TResult Function() cancelledSocialAuth,
-    required TResult Function() emailTaken,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
     required TResult Function() logoutError,
-    required TResult Function(bool missingEmail, bool missingPassword)
+    required TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)
         missingCredentials,
     required TResult Function(Set<AuthType> methods) wrongMethod,
     required TResult Function() unknownError,
@@ -1460,13 +1970,15 @@ class _$UnknownAuthErrorImpl extends UnknownAuthError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String fieldName, String value)? accountExists,
     TResult? Function()? badEmailPassword,
+    TResult? Function()? badApiKey,
     TResult? Function()? cancelledSocialAuth,
-    TResult? Function()? emailTaken,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
     TResult? Function()? logoutError,
-    TResult? Function(bool missingEmail, bool missingPassword)?
+    TResult? Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
         missingCredentials,
     TResult? Function(Set<AuthType> methods)? wrongMethod,
     TResult? Function()? unknownError,
@@ -1477,13 +1989,15 @@ class _$UnknownAuthErrorImpl extends UnknownAuthError {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String fieldName, String value)? accountExists,
     TResult Function()? badEmailPassword,
+    TResult Function()? badApiKey,
     TResult Function()? cancelledSocialAuth,
-    TResult Function()? emailTaken,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
     TResult Function()? logoutError,
-    TResult Function(bool missingEmail, bool missingPassword)?
+    TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
         missingCredentials,
     TResult Function(Set<AuthType> methods)? wrongMethod,
     TResult Function()? unknownError,
@@ -1498,10 +2012,11 @@ class _$UnknownAuthErrorImpl extends UnknownAuthError {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(AccountExistsError value) accountExists,
     required TResult Function(BadEmailPasswordError value) badEmailPassword,
+    required TResult Function(BadApiKeyError value) badApiKey,
     required TResult Function(CancelledSocialAuthError value)
         cancelledSocialAuth,
-    required TResult Function(EmailTakenError value) emailTaken,
     required TResult Function(InvalidPasswordError value) invalidPassword,
     required TResult Function(InvalidCodeError value) invalidCode,
     required TResult Function(LogoutError value) logoutError,
@@ -1515,9 +2030,10 @@ class _$UnknownAuthErrorImpl extends UnknownAuthError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AccountExistsError value)? accountExists,
     TResult? Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult? Function(BadApiKeyError value)? badApiKey,
     TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
-    TResult? Function(EmailTakenError value)? emailTaken,
     TResult? Function(InvalidPasswordError value)? invalidPassword,
     TResult? Function(InvalidCodeError value)? invalidCode,
     TResult? Function(LogoutError value)? logoutError,
@@ -1531,9 +2047,10 @@ class _$UnknownAuthErrorImpl extends UnknownAuthError {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(AccountExistsError value)? accountExists,
     TResult Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult Function(BadApiKeyError value)? badApiKey,
     TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
-    TResult Function(EmailTakenError value)? emailTaken,
     TResult Function(InvalidPasswordError value)? invalidPassword,
     TResult Function(InvalidCodeError value)? invalidCode,
     TResult Function(LogoutError value)? logoutError,
@@ -1547,9 +2064,19 @@ class _$UnknownAuthErrorImpl extends UnknownAuthError {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UnknownAuthErrorImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class UnknownAuthError extends AuthenticationError {
   const factory UnknownAuthError() = _$UnknownAuthErrorImpl;
   const UnknownAuthError._() : super._();
+
+  factory UnknownAuthError.fromJson(Map<String, dynamic> json) =
+      _$UnknownAuthErrorImpl.fromJson;
 }

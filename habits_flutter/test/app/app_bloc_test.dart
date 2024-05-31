@@ -16,7 +16,7 @@ void main() {
 
   group('AppBloc should', () {
     FakeAuthRepository? authRepo;
-    const user = AuthUser(apiKey: 'abc', id: 'id');
+    const user = AuthUser(apiKey: 'abc', id: 'id', method: AuthType.anonymous);
 
     setUp(() => authRepo = FakeAuthRepository());
 

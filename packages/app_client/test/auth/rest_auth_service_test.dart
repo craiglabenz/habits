@@ -19,7 +19,7 @@ Future<http.Response> login200Handler(
     return http.Response('Bad Request', 400, headers: normalHeaders);
   }
   return http.Response(
-    '{"id": "abc", "apiKey": "123xyz"}',
+    '{"id": "abc", "apiKey": "123xyz", "method": "anonymous"}',
     200,
     headers: normalHeaders,
   );
@@ -51,7 +51,7 @@ Future<http.Response> register200Handler(
     return http.Response('Bad Request', 400, headers: normalHeaders);
   }
   return http.Response(
-    '{"id": "abc", "apiKey": "123xyz"}',
+    '{"id": "abc", "apiKey": "123xyz", "method": "anonymous"}',
     200,
     headers: normalHeaders,
   );
@@ -137,7 +137,7 @@ void main() {
         password: 'does not matter',
       );
       expect(result, isLeft);
-      expect(result.leftOrRaise(), isA<EmailTakenError>());
+      expect(result.leftOrRaise(), isA<AccountExistsError>());
     });
   });
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_client/app_client.dart';
+import 'package:app_shared/app_shared.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:google_sign_in/google_sign_in.dart';
@@ -117,7 +118,7 @@ class FirebaseAuthService extends BaseSocialAuth {
       return const Left(AuthenticationError.unknownError());
     } on firebase_auth.FirebaseAuthException catch (e) {
       _log.severe('Firebase exception during logInWithApple: $e');
-      return Left(AuthenticationError.fromFirebaseException(e));
+      return Left(AuthenticationErrorFromFirebase.fromFirebaseException(e));
     } on Exception catch (e) {
       _log.severe('Unexpected logInWithApple Exception: $e');
       return const Left(AuthenticationError.unknownError());
@@ -146,7 +147,7 @@ class FirebaseAuthService extends BaseSocialAuth {
       return const Left(AuthenticationError.unknownError());
     } on firebase_auth.FirebaseAuthException catch (e) {
       _log.severe('Firebase exception during logInWithEmailAndPassword: $e');
-      return Left(AuthenticationError.fromFirebaseException(e));
+      return Left(AuthenticationErrorFromFirebase.fromFirebaseException(e));
     } on Exception catch (e) {
       _log.warning('Unexpected logInWithEmailAndPassword Exception: $e');
       return const Left(AuthenticationError.unknownError());
@@ -173,7 +174,7 @@ class FirebaseAuthService extends BaseSocialAuth {
       return const Left(AuthenticationError.unknownError());
     } on firebase_auth.FirebaseAuthException catch (e) {
       _log.severe('Firebase exception during logInWithGoogle: $e');
-      return Left(AuthenticationError.fromFirebaseException(e));
+      return Left(AuthenticationErrorFromFirebase.fromFirebaseException(e));
     } on Exception catch (e) {
       _log.warning('Unexpected logInWithGoogle Exception: $e');
       return const Left(AuthenticationError.unknownError());
@@ -218,7 +219,7 @@ class FirebaseAuthService extends BaseSocialAuth {
       return const Left(AuthenticationError.unknownError());
     } on firebase_auth.FirebaseAuthException catch (e) {
       _log.severe('Firebase exception during signUp: $e');
-      return Left(AuthenticationError.fromFirebaseException(e));
+      return Left(AuthenticationErrorFromFirebase.fromFirebaseException(e));
     } on Exception catch (e) {
       _log.severe('Unexpected signUp Exception: $e');
       return const Left(AuthenticationError.unknownError());
@@ -247,7 +248,7 @@ class FirebaseAuthService extends BaseSocialAuth {
       return const Left(AuthenticationError.unknownError());
     } on firebase_auth.FirebaseAuthException catch (e) {
       _log.severe('Firebase exception during signInAnonymously: $e');
-      return Left(AuthenticationError.fromFirebaseException(e));
+      return Left(AuthenticationErrorFromFirebase.fromFirebaseException(e));
     } on Exception catch (e) {
       _log.severe('Unexpected signInAnonymously Exception: $e');
       return const Left(AuthenticationError.unknownError());

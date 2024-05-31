@@ -12,11 +12,13 @@ void main() {
     id: FakeFirebaseUser.defaultUid,
     apiKey: 'apiKey',
     email: 'user@email.com',
+    method: AuthType.anonymous,
   );
   const unexpectedUser = AuthUser(
     id: 'wrongId',
     apiKey: 'apiKey',
     email: 'user2@email.com',
+    method: AuthType.anonymous,
   );
   const pw = 'pw';
 

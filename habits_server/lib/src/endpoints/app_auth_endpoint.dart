@@ -1,11 +1,11 @@
+import 'package:app_shared/app_shared.dart';
 import 'package:habits_server/src/business/business.dart';
 import 'package:serverpod/serverpod.dart';
-import 'package:serverpod_auth_server/module.dart' as auth;
 
 class AppAuthEndpoint extends Endpoint {
   /// Creates an initial anonymous account which a user may or may not later
   /// upgrade.
-  Future<auth.AuthenticationResponse> createAnonymous(
+  Future<AppAuthResponse> createAnonymous(
     Session session, {
     required String userIdentifier,
   }) async {
@@ -15,7 +15,7 @@ class AppAuthEndpoint extends Endpoint {
     );
   }
 
-  Future<auth.AuthenticationResponse> checkSession(
+  Future<AppAuthResponse> checkSession(
     Session session, {
     // "keyId:keyValue"
     required String keyIdentifier,

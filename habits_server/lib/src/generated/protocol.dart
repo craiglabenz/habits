@@ -15,7 +15,8 @@ import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i3;
 import 'model_enum.dart' as _i4;
 import 'not_found_exception.dart' as _i5;
 import 'user.dart' as _i6;
-import 'package:habits_shared/habits_shared.dart' as _i7;
+import 'package:app_shared/app_shared.dart' as _i7;
+import 'package:habits_shared/habits_shared.dart' as _i8;
 export 'model_enum.dart';
 export 'not_found_exception.dart';
 export 'user.dart';
@@ -167,17 +168,23 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i6.User?>()) {
       return (data != null ? _i6.User.fromJson(data) : null) as T;
     }
-    if (t == _i7.User) {
-      return _i7.User.fromJson(data) as T;
+    if (t == _i7.AppAuthResponse) {
+      return _i7.AppAuthResponse.fromJson(data) as T;
     }
-    if (t == _i7.UserFilter) {
-      return _i7.UserFilter.fromJson(data) as T;
+    if (t == _i8.User) {
+      return _i8.User.fromJson(data) as T;
     }
-    if (t == _i1.getType<_i7.User?>()) {
-      return (data != null ? _i7.User.fromJson(data) : null) as T;
+    if (t == _i8.UserFilter) {
+      return _i8.UserFilter.fromJson(data) as T;
     }
-    if (t == _i1.getType<_i7.UserFilter?>()) {
-      return (data != null ? _i7.UserFilter.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i7.AppAuthResponse?>()) {
+      return (data != null ? _i7.AppAuthResponse.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i8.User?>()) {
+      return (data != null ? _i8.User.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i8.UserFilter?>()) {
+      return (data != null ? _i8.UserFilter.fromJson(data) : null) as T;
     }
     try {
       return _i3.Protocol().deserialize<T>(data, t);
@@ -195,10 +202,13 @@ class Protocol extends _i1.SerializationManagerServer {
     if (className != null) {
       return 'serverpod_auth.$className';
     }
-    if (data is _i7.User) {
+    if (data is _i7.AppAuthResponse) {
+      return 'AppAuthResponse';
+    }
+    if (data is _i8.User) {
       return 'User';
     }
-    if (data is _i7.UserFilter) {
+    if (data is _i8.UserFilter) {
       return 'UserFilter';
     }
     if (data is _i4.Model) {
@@ -219,11 +229,14 @@ class Protocol extends _i1.SerializationManagerServer {
       data['className'] = data['className'].substring(15);
       return _i3.Protocol().deserializeByClassName(data);
     }
+    if (data['className'] == 'AppAuthResponse') {
+      return deserialize<_i7.AppAuthResponse>(data['data']);
+    }
     if (data['className'] == 'User') {
-      return deserialize<_i7.User>(data['data']);
+      return deserialize<_i8.User>(data['data']);
     }
     if (data['className'] == 'UserFilter') {
-      return deserialize<_i7.UserFilter>(data['data']);
+      return deserialize<_i8.UserFilter>(data['data']);
     }
     if (data['className'] == 'Model') {
       return deserialize<_i4.Model>(data['data']);

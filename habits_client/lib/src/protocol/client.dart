@@ -10,9 +10,10 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
-import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i3;
+import 'package:app_shared/src/messages/auth/app_auth_response.dart' as _i3;
 import 'package:habits_shared/src/models/user.dart' as _i4;
-import 'protocol.dart' as _i5;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i5;
+import 'protocol.dart' as _i6;
 
 /// {@category Endpoint}
 class EndpointAppAuth extends _i1.EndpointRef {
@@ -23,17 +24,17 @@ class EndpointAppAuth extends _i1.EndpointRef {
 
   /// Creates an initial anonymous account which a user may or may not later
   /// upgrade.
-  _i2.Future<_i3.AuthenticationResponse> createAnonymous(
+  _i2.Future<_i3.AppAuthResponse> createAnonymous(
           {required String userIdentifier}) =>
-      caller.callServerEndpoint<_i3.AuthenticationResponse>(
+      caller.callServerEndpoint<_i3.AppAuthResponse>(
         'appAuth',
         'createAnonymous',
         {'userIdentifier': userIdentifier},
       );
 
-  _i2.Future<_i3.AuthenticationResponse> checkSession(
+  _i2.Future<_i3.AppAuthResponse> checkSession(
           {required String keyIdentifier}) =>
-      caller.callServerEndpoint<_i3.AuthenticationResponse>(
+      caller.callServerEndpoint<_i3.AppAuthResponse>(
         'appAuth',
         'checkSession',
         {'keyIdentifier': keyIdentifier},
@@ -63,10 +64,10 @@ class EndpointUser extends _i1.EndpointRef {
 
 class _Modules {
   _Modules(Client client) {
-    auth = _i3.Caller(client);
+    auth = _i5.Caller(client);
   }
 
-  late final _i3.Caller auth;
+  late final _i5.Caller auth;
 }
 
 class Client extends _i1.ServerpodClient {
@@ -84,7 +85,7 @@ class Client extends _i1.ServerpodClient {
     Function(_i1.MethodCallContext)? onSucceededCall,
   }) : super(
           host,
-          _i5.Protocol(),
+          _i6.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,

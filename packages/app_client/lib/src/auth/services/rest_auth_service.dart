@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_client/app_client.dart';
+import 'package:app_shared/app_shared.dart';
 import 'package:dartz/dartz.dart';
 import 'package:logging/logging.dart';
 
@@ -78,7 +79,7 @@ class RestAuth<T, K> implements BaseRestAuth<T> {
       ),
       error: (ApiError res) {
         _log.severe('Login Error ${res.url} :: ${res.errorString}');
-        return Left(AuthenticationError.fromApiError(res));
+        return Left(AuthenticationErrorFromApiError.fromApiError(res));
       },
     );
   }
@@ -97,7 +98,7 @@ class RestAuth<T, K> implements BaseRestAuth<T> {
       ),
       error: (ApiError res) {
         _log.severe('Register Error ${res.url}: ${res.errorString}');
-        return Left(AuthenticationError.fromApiError(res));
+        return Left(AuthenticationErrorFromApiError.fromApiError(res));
       },
     );
   }
