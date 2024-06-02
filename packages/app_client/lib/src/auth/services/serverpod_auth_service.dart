@@ -92,10 +92,7 @@ class ServerpodAuthService<T, K> extends BaseRestAuth<T> {
       );
 
       return Right(
-        _bindings.fromServerpod(
-          userInfo,
-          authResponse.key,
-        ),
+        _bindings.fromServerpod(authResponse),
       );
     } else if (authResponse is AppAuthFailure) {
       return Left(authResponse.reason);

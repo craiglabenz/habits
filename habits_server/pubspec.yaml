@@ -24,3 +24,9 @@ dev_dependencies:
 
 dependency_overrides:
   http: ^1.2.0
+  serverpod:
+    path: /Users/craiglabenz/Dev/git/serverpod/serverpod/packages/serverpod
+  serverpod_auth_server:
+    path: /Users/craiglabenz/Dev/git/serverpod/serverpod/modules/serverpod_auth/serverpod_auth_server
+  serverpod_serialization:
+    path: /Users/craiglabenz/Dev/git/serverpod/serverpod/packages/serverpod_serialization

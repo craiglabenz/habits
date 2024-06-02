@@ -1,6 +1,8 @@
 import 'package:habits_server/src/generated/protocol.dart';
 import 'package:habits_shared/habits_shared.dart' as shared;
+import 'package:serverpod/protocol.dart';
 import 'package:serverpod/serverpod.dart';
+import '../app_session/app_session.dart';
 import '../model_extensions.dart';
 
 class UserEndpoint extends Endpoint {
@@ -8,20 +10,24 @@ class UserEndpoint extends Endpoint {
   bool requireLogin = true;
 
   Future<shared.User> getForSession(Session session) async {
-    final authId = (await session.authenticated)!.userId;
-    final user = await session.db.findFirstRow<User>(
-      where: User.t.id.equals(authId),
-    );
-    if (user == null) {
+    final appSession = AppSession.setSession(session);
+    final sessionUser = await appSession.user.getForSession();
+    if (sessionUser == null) {
       throw NotFoundException(
-        field: 'id',
-        value: authId.toString(),
+        field: 'userInfoId',
+        value: ((await session.authenticated)?.userId ?? '').toString(),
         model: Model.user,
       );
     }
-    return SharedUser.from(user);
+    return sessionUser.toShared();
   }
 
-  Future<shared.User> update(Session session, shared.User user) async =>
-      SharedUser.from(await user.update(session));
+  Future<shared.User> update(Session session, shared.User user) async {
+    final appSession = AppSession.setSession(session);
+    final sessionUser = await appSession.user.getForSession();
+    if (sessionUser!.uid.uuid != user.uid) {
+      throw AccessDeniedException(message: 'Invalid user');
+    }
+    return (await appSession.user.update(user)).toShared();
+  }
 }

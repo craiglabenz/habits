@@ -20,12 +20,13 @@ class AuthTypeConverter extends JsonConverter<AuthType, String> {
 /// {@template AuthTypeListConverter}
 /// {@endtemplate}
 class AuthTypeListConverter
-    extends JsonConverter<List<AuthType>, List<String>> {
+    extends JsonConverter<List<AuthType>, List<dynamic>> {
   /// {@macro AuthTypeListConverter}
   const AuthTypeListConverter();
 
   @override
-  List<AuthType> fromJson(List<String> json) => json
+  List<AuthType> fromJson(List<dynamic> json) => json
+      .cast<String>()
       .map<AuthType>((index) => const AuthTypeConverter().fromJson(index))
       .toList();
 

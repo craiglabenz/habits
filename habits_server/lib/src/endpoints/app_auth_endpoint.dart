@@ -1,5 +1,6 @@
 import 'package:app_shared/app_shared.dart';
 import 'package:habits_server/src/business/business.dart';
+import 'package:habits_server/src/app_session/app_session.dart';
 import 'package:serverpod/serverpod.dart';
 
 class AppAuthEndpoint extends Endpoint {
@@ -9,8 +10,8 @@ class AppAuthEndpoint extends Endpoint {
     Session session, {
     required String userIdentifier,
   }) async {
-    return await AnonymousUser.createAccount(
-      session,
+    return await AnonymousUserController.createAccount(
+      AppSession.setSession(session),
       userIdentifier: userIdentifier,
     );
   }
@@ -20,7 +21,11 @@ class AppAuthEndpoint extends Endpoint {
     // "keyId:keyValue"
     required String keyIdentifier,
   }) async {
+    final appSession = AppSession.setSession(session);
     // TODO(craiglabenz): If this returns a failure, add other session checkers.
-    return AnonymousUser.checkSession(session, keyIdentifier: keyIdentifier);
+    return AnonymousUserController.checkSession(
+      appSession,
+      keyIdentifier: keyIdentifier,
+    );
   }
 }

@@ -17,12 +17,18 @@ abstract class AuthBindings<T, K> extends Bindings<T, K> {
   String getApiKey(AuthUser user);
 
   /// Converts a Serverpod [serverpod_auth.UserInfo] object into [T].
-  T fromServerpod(serverpod_auth.UserInfo userInfo, String apiKey) {
+  T fromServerpod(AppAuthSuccess response) {
     // TODO: Add tests for this!
     final json = <String, Object?>{
-      'id': userInfo.userIdentifier,
-      'apiKey': apiKey,
-      'email': userInfo.email,
+      'id': response.userInfoData['userIdentifier'],
+      'apiKey': response.key,
+      'email': response.userInfoData['email'],
+      'method': response.method.name,
+      'allMethods': response.allMethods
+          .map<String>(
+            (authType) => authType.name,
+          )
+          .toList(),
     };
     return fromJson(json);
   }

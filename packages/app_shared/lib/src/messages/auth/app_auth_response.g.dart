@@ -12,8 +12,8 @@ _$AppAuthSuccessImpl _$$AppAuthSuccessImplFromJson(Map<String, dynamic> json) =>
       key: json['key'] as String,
       userInfoData: json['userInfoData'] as Map<String, dynamic>,
       method: const AuthTypeConverter().fromJson(json['method'] as String),
-      allMethods: const AuthTypeListConverter()
-          .fromJson(json['allMethods'] as List<String>),
+      allMethods:
+          const AuthTypeListConverter().fromJson(json['allMethods'] as List),
       $type: json['runtimeType'] as String?,
     );
 

@@ -290,10 +290,10 @@ packages:
     dependency: transitive
     description:
       name: json_annotation
-      sha256: b10a7b2ff83d83c777edba3c6a0f97045ddadd56c944e1a23a3fdf43a1bf4467
+      sha256: "1ce844379ca14835a50d2f019a3099f419082cfdd231cd86a142af94dd5c6bb1"
       url: "https://pub.dev"
     source: hosted
-    version: "4.8.1"
+    version: "4.9.0"
   lints:
     dependency: "direct dev"
     description:
@@ -441,10 +441,9 @@ packages:
   serverpod:
     dependency: "direct main"
     description:
-      name: serverpod
-      sha256: "353f4d6c18791064aefdb1b3e7a940e20e044d9eb6d981b8df3861c7c8dea865"
-      url: "https://pub.dev"
-    source: hosted
+      path: "/Users/craiglabenz/Dev/git/serverpod/serverpod/packages/serverpod"
+      relative: false
+    source: path
     version: "2.0.0"
   serverpod_auth_client:
     dependency: transitive
@@ -457,10 +456,9 @@ packages:
   serverpod_auth_server:
     dependency: "direct main"
     description:
-      name: serverpod_auth_server
-      sha256: "3a7a96a3a1133fb3934b662e4b2142842f4992b8dd4f6aa501ea55afe7328b0d"
-      url: "https://pub.dev"
-    source: hosted
+      path: "/Users/craiglabenz/Dev/git/serverpod/serverpod/modules/serverpod_auth/serverpod_auth_server"
+      relative: false
+    source: path
     version: "2.0.0"
   serverpod_client:
     dependency: transitive
@@ -473,10 +471,9 @@ packages:
   serverpod_serialization:
     dependency: "direct main"
     description:
-      name: serverpod_serialization
-      sha256: e042c85bbd8ec11f4a24bd31e49de9fd5e7fa79ccdb61a896fa7c9b5d47c613c
-      url: "https://pub.dev"
-    source: hosted
+      path: "/Users/craiglabenz/Dev/git/serverpod/serverpod/packages/serverpod_serialization"
+      relative: false
+    source: path
     version: "2.0.0"
   serverpod_shared:
     dependency: transitive
