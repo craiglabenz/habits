@@ -4,19 +4,10 @@ import 'package:habits_server/src/queries/queries.dart';
 part 'auth_mixin.dart';
 
 class AppSession with AuthSessionMixin {
-  AppSession._() {
-    _initAuth();
+  AppSession(Session session) {
+    _initAuth(session);
   }
-  factory AppSession() => instance;
-
   late Session _session;
-  static AppSession instance = AppSession._();
-
-  static AppSession setSession(Session session) {
-    instance._session = session;
-    instance._setAuthSession(session);
-    return instance;
-  }
 
   Map<String, String> get passwords => _session.passwords;
 

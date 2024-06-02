@@ -11,7 +11,7 @@ class AppAuthEndpoint extends Endpoint {
     required String userIdentifier,
   }) async {
     return await AnonymousUserController.createAccount(
-      AppSession.setSession(session),
+      AppSession(session),
       userIdentifier: userIdentifier,
     );
   }
@@ -21,7 +21,7 @@ class AppAuthEndpoint extends Endpoint {
     // "keyId:keyValue"
     required String keyIdentifier,
   }) async {
-    final appSession = AppSession.setSession(session);
+    final appSession = AppSession(session);
     // TODO(craiglabenz): If this returns a failure, add other session checkers.
     return AnonymousUserController.checkSession(
       appSession,

@@ -2,16 +2,10 @@ part of 'app_session.dart';
 
 /// Applied to AppSession.
 mixin AuthSessionMixin {
-  void _initAuth() {
-    _authKey = AuthKeyQueries();
-    _user = UserQueries();
-    _userInfo = UserInfoQueries();
-  }
-
-  void _setAuthSession(Session session) {
-    authKey.setSession(session);
-    user.setSession(session);
-    userInfo.setSession(session);
+  void _initAuth(Session session) {
+    _authKey = AuthKeyQueries(session);
+    _user = UserQueries(session);
+    _userInfo = UserInfoQueries(session);
   }
 
   AuthKeyQueries? _authKey;

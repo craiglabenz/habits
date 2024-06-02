@@ -2,7 +2,7 @@ import 'package:habits_server/src/queries/queries.dart';
 import 'package:serverpod_auth_server/serverpod_auth_server.dart';
 
 class AuthKeyQueries extends BaseQuery {
-  AuthKeyQueries();
+  AuthKeyQueries(super.session);
 
   Future<AuthKey?> insert(AuthKey key) async {
     final secretSession = await session.serverpod.createSession(

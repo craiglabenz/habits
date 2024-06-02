@@ -4,7 +4,7 @@ import 'package:habits_server/src/generated/protocol.dart';
 import 'package:serverpod/serverpod.dart';
 
 class UserQueries extends BaseQuery {
-  UserQueries();
+  UserQueries(super.session);
 
   Future<User?> insert(User user) => session.db.insertRow<User>(user);
 

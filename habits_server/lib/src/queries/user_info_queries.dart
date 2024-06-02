@@ -2,7 +2,7 @@ import 'package:habits_server/src/queries/queries.dart';
 import 'package:serverpod_auth_server/serverpod_auth_server.dart';
 
 class UserInfoQueries extends BaseQuery {
-  UserInfoQueries();
+  UserInfoQueries(super.session);
 
   Future<UserInfo?> getByUserIdentifier(
     String userIdentifier,

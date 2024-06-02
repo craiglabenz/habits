@@ -10,7 +10,7 @@ class UserEndpoint extends Endpoint {
   bool requireLogin = true;
 
   Future<shared.User> getForSession(Session session) async {
-    final appSession = AppSession.setSession(session);
+    final appSession = AppSession(session);
     final sessionUser = await appSession.user.getForSession();
     if (sessionUser == null) {
       throw NotFoundException(
@@ -23,7 +23,7 @@ class UserEndpoint extends Endpoint {
   }
 
   Future<shared.User> update(Session session, shared.User user) async {
-    final appSession = AppSession.setSession(session);
+    final appSession = AppSession(session);
     final sessionUser = await appSession.user.getForSession();
     if (sessionUser!.uid.uuid != user.uid) {
       throw AccessDeniedException(message: 'Invalid user');
