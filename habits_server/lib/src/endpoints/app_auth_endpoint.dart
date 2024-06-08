@@ -1,6 +1,8 @@
+import 'dart:math';
 import 'package:app_shared/app_shared.dart';
 import 'package:habits_server/src/business/business.dart';
 import 'package:habits_server/src/app_session/app_session.dart';
+import 'package:serverpod_auth_server/serverpod_auth_server.dart';
 import 'package:serverpod/serverpod.dart';
 
 class AppAuthEndpoint extends Endpoint {
@@ -13,6 +15,7 @@ class AppAuthEndpoint extends Endpoint {
     return await AnonymousUserController.createAccount(
       AppSession(session),
       userIdentifier: userIdentifier,
+      key: Random().nextString(),
     );
   }
 

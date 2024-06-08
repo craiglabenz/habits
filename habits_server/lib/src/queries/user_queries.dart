@@ -12,6 +12,11 @@ class UserQueries extends BaseQuery {
         where: User.t.uid.equals(UuidValue.fromString(uid)),
       );
 
+  Future<User?> getByUserInfoId(int userInfoId) =>
+      session.db.findFirstRow<User>(
+        where: User.t.userInfoId.equals(userInfoId),
+      );
+
   Future<User> update(shared.User user) async {
     final dbUser = await getByUid(user.uid);
     if (dbUser == null) {
@@ -31,8 +36,6 @@ class UserQueries extends BaseQuery {
   Future<User?> getForSession() async {
     final userInfo = await session.authenticated;
     if (userInfo == null) return null;
-    return session.db.findFirstRow<User>(
-      where: User.t.userInfoId.equals(userInfo.userId),
-    );
+    return getByUserInfoId(userInfo.userId);
   }
 }

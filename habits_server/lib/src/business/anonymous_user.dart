@@ -3,8 +3,6 @@ import 'dart:math';
 import 'package:habits_server/src/generated/protocol.dart';
 import 'package:app_shared/app_shared.dart' as shared;
 import 'package:serverpod/serverpod.dart';
-// ignore: implementation_imports
-import 'package:serverpod_auth_server/src/business/authentication_util.dart';
 import 'package:serverpod_auth_server/serverpod_auth_server.dart' as auth;
 import '../app_session/app_session.dart';
 
@@ -15,7 +13,9 @@ class AnonymousUserController {
   static Future<shared.AppAuthResponse> createAccount(
     AppSession session, {
     required String userIdentifier,
+    required String key,
   }) async {
+    final now = DateTime.now();
     final existingAccount =
         await session.userInfo.getByUserIdentifier(userIdentifier);
 
@@ -39,7 +39,7 @@ class AnonymousUserController {
         userIdentifier: userIdentifier,
         // Name of the person, which will be saved after this account is ready.
         userName: '',
-        created: DateTime.now(),
+        created: now,
         scopeNames: [],
         blocked: false,
       ),
@@ -57,12 +57,10 @@ class AnonymousUserController {
     }
 
     // Create the resource that the client will use to access this session.
-    final key = Random().nextString();
-    var signInSalt = session.passwords['authKeySalt'] ?? defaultAuthKeySalt;
     auth.AuthKey authKey = auth.AuthKey(
       userId: userInfo.id!,
       key: key,
-      hash: hashString(signInSalt, key),
+      hash: session.hashString(key),
       method: AnonymousUserController.methodName,
       scopeNames: [],
     );
@@ -77,7 +75,6 @@ class AnonymousUserController {
       );
     }
 
-    final now = DateTime.now();
     await session.user.insert(
       User(
         id: userInfo.id!,
@@ -104,7 +101,7 @@ class AnonymousUserController {
     // "keyId:keyValue"
     required String keyIdentifier,
   }) async {
-    if (keyIdentifier == '') {
+    if (keyIdentifier.isEmpty) {
       session.log('Unexpected empty keyIdentifier');
       return shared.AppAuthFailure(
         reason: shared.AuthenticationError.missingCredentials(
@@ -114,7 +111,18 @@ class AnonymousUserController {
         ),
       );
     }
+
     final [String keyIdStr, String keyValue] = keyIdentifier.split(':');
+    if (keyIdStr.isEmpty || keyValue.isEmpty) {
+      session.log('Unexpected empty keyIdentifier');
+      return shared.AppAuthFailure(
+        reason: shared.AuthenticationError.missingCredentials(
+          missingEmail: false,
+          missingPassword: false,
+          missingApiKey: true,
+        ),
+      );
+    }
 
     int? keyId = int.tryParse(keyIdStr);
     if (keyId == null) {
@@ -137,8 +145,7 @@ class AnonymousUserController {
       );
     }
 
-    var signInSalt = session.passwords['authKeySalt'] ?? defaultAuthKeySalt;
-    final hash = hashString(signInSalt, keyValue);
+    final hash = session.hashString(keyValue);
     if (authKey.hash != hash) {
       session.log('Hash "$hash" is incorrect for Key Id $keyId');
       return shared.AppAuthFailure(
