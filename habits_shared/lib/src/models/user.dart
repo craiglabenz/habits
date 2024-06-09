@@ -11,7 +11,9 @@ class User with _$User {
   /// {@macro User}
   const factory User({
     required String uid,
-    String? name,
+    String? username,
+    String? firstName,
+    String? lastName,
     String? country,
     String? timezone,
   }) = _User;

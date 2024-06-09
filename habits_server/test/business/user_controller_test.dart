@@ -18,6 +18,7 @@ void main() {
     appSession = MockAppSession();
     user = MockUserQueries();
 
+    // ignore: prefer_const_constructors
     final uuid = Uuid().v4();
     userRecord = User(
       userInfoId: 5,

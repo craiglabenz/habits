@@ -81,7 +81,6 @@ class AnonymousUserController {
         id: userInfo.id,
         userInfoId: userInfo.id!,
         uid: UuidValue.fromString(const Uuid().v4()),
-        name: '',
         createdAt: now,
         updatedAt: now,
       ),

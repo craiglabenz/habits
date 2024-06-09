@@ -4,7 +4,9 @@ serverOnly: true
 fields:
   userInfo: module:auth:UserInfo?, relation
   uid: UuidValue
-  name: String?
+  username: String?
+  firstName: String?
+  lastName: String?
   country: String?
   timezone: String?
   createdAt: DateTime

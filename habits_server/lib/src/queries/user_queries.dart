@@ -35,7 +35,9 @@ class UserQueries extends BaseQuery {
       );
     }
     dbUser
-      ..name = user.name
+      ..username = user.username
+      ..firstName = user.firstName
+      ..lastName = user.lastName
       ..country = user.country
       ..timezone = user.timezone
       ..updatedAt = DateTime.now().toUtc();

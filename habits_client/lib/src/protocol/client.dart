@@ -15,6 +15,7 @@ import 'package:habits_shared/src/models/user.dart' as _i4;
 import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i5;
 import 'protocol.dart' as _i6;
 
+/// Callable endpoints for accounts with "anonymous" sessions.
 /// {@category Endpoint}
 class EndpointAppAuth extends _i1.EndpointRef {
   EndpointAppAuth(_i1.EndpointCaller caller) : super(caller);
@@ -32,6 +33,7 @@ class EndpointAppAuth extends _i1.EndpointRef {
         {'userIdentifier': userIdentifier},
       );
 
+  /// Verifies the [keyIdentifier] for an "anonymous" sesion.
   _i2.Future<_i3.AppAuthResponse> checkSession(
           {required String keyIdentifier}) =>
       caller.callServerEndpoint<_i3.AppAuthResponse>(
@@ -41,6 +43,7 @@ class EndpointAppAuth extends _i1.EndpointRef {
       );
 }
 
+/// Callable endpoints for the [User] model.
 /// {@category Endpoint}
 class EndpointUser extends _i1.EndpointRef {
   EndpointUser(_i1.EndpointCaller caller) : super(caller);
@@ -48,12 +51,15 @@ class EndpointUser extends _i1.EndpointRef {
   @override
   String get name => 'user';
 
+  /// {@macro UserController.getForSession}
   _i2.Future<_i4.User> getForSession() => caller.callServerEndpoint<_i4.User>(
         'user',
         'getForSession',
         {},
       );
 
+  /// Saves all fields on [user], but returns an error if the given user is
+  /// not associated with the active session.
   _i2.Future<_i4.User> update(_i4.User user) =>
       caller.callServerEndpoint<_i4.User>(
         'user',

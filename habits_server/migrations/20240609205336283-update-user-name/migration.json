@@ -1,0 +1,161 @@
+{
+  "actions": [
+    {
+      "type": "alterTable",
+      "alterTable": {
+        "name": "user",
+        "schema": "public",
+        "addColumns": [
+          {
+            "name": "username",
+            "columnType": 0,
+            "isNullable": true,
+            "dartType": "String?"
+          },
+          {
+            "name": "firstName",
+            "columnType": 0,
+            "isNullable": true,
+            "dartType": "String?"
+          },
+          {
+            "name": "lastName",
+            "columnType": 0,
+            "isNullable": true,
+            "dartType": "String?"
+          }
+        ],
+        "deleteColumns": [
+          "name"
+        ],
+        "modifyColumns": [
+          {
+            "columnName": "createdAt",
+            "addNullable": false,
+            "removeNullable": true,
+            "changeDefault": false
+          },
+          {
+            "columnName": "updatedAt",
+            "addNullable": false,
+            "removeNullable": true,
+            "changeDefault": false
+          }
+        ],
+        "addIndexes": [],
+        "deleteIndexes": [],
+        "addForeignKeys": [],
+        "deleteForeignKeys": [],
+        "warnings": [
+          {
+            "type": "columnDropped",
+            "message": "Column \"name\" of table \"user\" will be dropped.",
+            "table": "user",
+            "columns": [
+              "name"
+            ],
+            "destrucive": true
+          },
+          {
+            "type": "notNullAdded",
+            "message": "Column createdAt of table user is modified to be not null. If there are existing rows with null values, this migration will fail.",
+            "table": "user",
+            "columns": [
+              "createdAt"
+            ],
+            "destrucive": false
+          },
+          {
+            "type": "notNullAdded",
+            "message": "Column updatedAt of table user is modified to be not null. If there are existing rows with null values, this migration will fail.",
+            "table": "user",
+            "columns": [
+              "updatedAt"
+            ],
+            "destrucive": false
+          }
+        ]
+      }
+    },
+    {
+      "type": "alterTable",
+      "alterTable": {
+        "name": "serverpod_user_info",
+        "schema": "public",
+        "addColumns": [],
+        "deleteColumns": [],
+        "modifyColumns": [
+          {
+            "columnName": "userName",
+            "addNullable": true,
+            "removeNullable": false,
+            "changeDefault": false
+          }
+        ],
+        "addIndexes": [],
+        "deleteIndexes": [],
+        "addForeignKeys": [],
+        "deleteForeignKeys": [],
+        "warnings": [
+          {
+            "type": "columnDropped",
+            "message": "Column \"name\" of table \"user\" will be dropped.",
+            "table": "user",
+            "columns": [
+              "name"
+            ],
+            "destrucive": true
+          },
+          {
+            "type": "notNullAdded",
+            "message": "Column createdAt of table user is modified to be not null. If there are existing rows with null values, this migration will fail.",
+            "table": "user",
+            "columns": [
+              "createdAt"
+            ],
+            "destrucive": false
+          },
+          {
+            "type": "notNullAdded",
+            "message": "Column updatedAt of table user is modified to be not null. If there are existing rows with null values, this migration will fail.",
+            "table": "user",
+            "columns": [
+              "updatedAt"
+            ],
+            "destrucive": false
+          }
+        ]
+      }
+    }
+  ],
+  "warnings": [
+    {
+      "type": "columnDropped",
+      "message": "Column \"name\" of table \"user\" will be dropped.",
+      "table": "user",
+      "columns": [
+        "name"
+      ],
+      "destrucive": true
+    },
+    {
+      "type": "notNullAdded",
+      "message": "Column createdAt of table user is modified to be not null. If there are existing rows with null values, this migration will fail.",
+      "table": "user",
+      "columns": [
+        "createdAt"
+      ],
+      "destrucive": false
+    },
+    {
+      "type": "notNullAdded",
+      "message": "Column updatedAt of table user is modified to be not null. If there are existing rows with null values, this migration will fail.",
+      "table": "user",
+      "columns": [
+        "updatedAt"
+      ],
+      "destrucive": false
+    }
+  ],
+  "migrationApiVersion": 1
+}

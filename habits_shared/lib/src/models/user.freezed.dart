@@ -21,7 +21,9 @@ User _$UserFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$User {
   String get uid => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
+  String? get username => throw _privateConstructorUsedError;
+  String? get firstName => throw _privateConstructorUsedError;
+  String? get lastName => throw _privateConstructorUsedError;
   String? get country => throw _privateConstructorUsedError;
   String? get timezone => throw _privateConstructorUsedError;
 
@@ -35,7 +37,13 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
   @useResult
-  $Res call({String uid, String? name, String? country, String? timezone});
+  $Res call(
+      {String uid,
+      String? username,
+      String? firstName,
+      String? lastName,
+      String? country,
+      String? timezone});
 }
 
 /// @nodoc
@@ -52,7 +60,9 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   @override
   $Res call({
     Object? uid = null,
-    Object? name = freezed,
+    Object? username = freezed,
+    Object? firstName = freezed,
+    Object? lastName = freezed,
     Object? country = freezed,
     Object? timezone = freezed,
   }) {
@@ -61,9 +71,17 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String?,
+      firstName: freezed == firstName
+          ? _value.firstName
+          : firstName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastName: freezed == lastName
+          ? _value.lastName
+          : lastName // ignore: cast_nullable_to_non_nullable
               as String?,
       country: freezed == country
           ? _value.country
@@ -84,7 +102,13 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$$UserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String uid, String? name, String? country, String? timezone});
+  $Res call(
+      {String uid,
+      String? username,
+      String? firstName,
+      String? lastName,
+      String? country,
+      String? timezone});
 }
 
 /// @nodoc
@@ -98,7 +122,9 @@ class __$$UserImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? uid = null,
-    Object? name = freezed,
+    Object? username = freezed,
+    Object? firstName = freezed,
+    Object? lastName = freezed,
     Object? country = freezed,
     Object? timezone = freezed,
   }) {
@@ -107,9 +133,17 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String?,
+      firstName: freezed == firstName
+          ? _value.firstName
+          : firstName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastName: freezed == lastName
+          ? _value.lastName
+          : lastName // ignore: cast_nullable_to_non_nullable
               as String?,
       country: freezed == country
           ? _value.country
@@ -126,7 +160,13 @@ class __$$UserImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$UserImpl extends _User {
-  const _$UserImpl({required this.uid, this.name, this.country, this.timezone})
+  const _$UserImpl(
+      {required this.uid,
+      this.username,
+      this.firstName,
+      this.lastName,
+      this.country,
+      this.timezone})
       : super._();
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
@@ -135,7 +175,11 @@ class _$UserImpl extends _User {
   @override
   final String uid;
   @override
-  final String? name;
+  final String? username;
+  @override
+  final String? firstName;
+  @override
+  final String? lastName;
   @override
   final String? country;
   @override
@@ -143,7 +187,7 @@ class _$UserImpl extends _User {
 
   @override
   String toString() {
-    return 'User(uid: $uid, name: $name, country: $country, timezone: $timezone)';
+    return 'User(uid: $uid, username: $username, firstName: $firstName, lastName: $lastName, country: $country, timezone: $timezone)';
   }
 
   @override
@@ -152,7 +196,12 @@ class _$UserImpl extends _User {
         (other.runtimeType == runtimeType &&
             other is _$UserImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
-            (identical(other.name, name) || other.name == name) &&
+            (identical(other.username, username) ||
+                other.username == username) &&
+            (identical(other.firstName, firstName) ||
+                other.firstName == firstName) &&
+            (identical(other.lastName, lastName) ||
+                other.lastName == lastName) &&
             (identical(other.country, country) || other.country == country) &&
             (identical(other.timezone, timezone) ||
                 other.timezone == timezone));
@@ -160,7 +209,8 @@ class _$UserImpl extends _User {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, uid, name, country, timezone);
+  int get hashCode => Object.hash(
+      runtimeType, uid, username, firstName, lastName, country, timezone);
 
   @JsonKey(ignore: true)
   @override
@@ -179,7 +229,9 @@ class _$UserImpl extends _User {
 abstract class _User extends User {
   const factory _User(
       {required final String uid,
-      final String? name,
+      final String? username,
+      final String? firstName,
+      final String? lastName,
       final String? country,
       final String? timezone}) = _$UserImpl;
   const _User._() : super._();
@@ -189,7 +241,11 @@ abstract class _User extends User {
   @override
   String get uid;
   @override
-  String? get name;
+  String? get username;
+  @override
+  String? get firstName;
+  @override
+  String? get lastName;
   @override
   String? get country;
   @override

@@ -41,7 +41,7 @@ class _AccountDrawerState extends State<AccountDrawer> {
                   color: Colors.blue[100],
                 ),
                 child: Text(
-                  state.user?.name ?? '',
+                  state.user?.username ?? '',
                   style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                         color: Colors.blue[800],
                       ),

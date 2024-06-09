@@ -18,7 +18,9 @@ abstract class User extends _i1.TableRow implements _i1.ProtocolSerialization {
     required this.userInfoId,
     this.userInfo,
     required this.uid,
-    this.name,
+    this.username,
+    this.firstName,
+    this.lastName,
     this.country,
     this.timezone,
     required this.createdAt,
@@ -30,7 +32,9 @@ abstract class User extends _i1.TableRow implements _i1.ProtocolSerialization {
     required int userInfoId,
     _i2.UserInfo? userInfo,
     required _i1.UuidValue uid,
-    String? name,
+    String? username,
+    String? firstName,
+    String? lastName,
     String? country,
     String? timezone,
     required DateTime createdAt,
@@ -46,7 +50,9 @@ abstract class User extends _i1.TableRow implements _i1.ProtocolSerialization {
           : _i2.UserInfo.fromJson(
               (jsonSerialization['userInfo'] as Map<String, dynamic>)),
       uid: _i1.UuidValueJsonExtension.fromJson(jsonSerialization['uid']),
-      name: jsonSerialization['name'] as String?,
+      username: jsonSerialization['username'] as String?,
+      firstName: jsonSerialization['firstName'] as String?,
+      lastName: jsonSerialization['lastName'] as String?,
       country: jsonSerialization['country'] as String?,
       timezone: jsonSerialization['timezone'] as String?,
       createdAt:
@@ -66,7 +72,11 @@ abstract class User extends _i1.TableRow implements _i1.ProtocolSerialization {
 
   _i1.UuidValue uid;
 
-  String? name;
+  String? username;
+
+  String? firstName;
+
+  String? lastName;
 
   String? country;
 
@@ -84,7 +94,9 @@ abstract class User extends _i1.TableRow implements _i1.ProtocolSerialization {
     int? userInfoId,
     _i2.UserInfo? userInfo,
     _i1.UuidValue? uid,
-    String? name,
+    String? username,
+    String? firstName,
+    String? lastName,
     String? country,
     String? timezone,
     DateTime? createdAt,
@@ -97,7 +109,9 @@ abstract class User extends _i1.TableRow implements _i1.ProtocolSerialization {
       'userInfoId': userInfoId,
       if (userInfo != null) 'userInfo': userInfo?.toJson(),
       'uid': uid.toJson(),
-      if (name != null) 'name': name,
+      if (username != null) 'username': username,
+      if (firstName != null) 'firstName': firstName,
+      if (lastName != null) 'lastName': lastName,
       if (country != null) 'country': country,
       if (timezone != null) 'timezone': timezone,
       'createdAt': createdAt.toJson(),
@@ -148,7 +162,9 @@ class _UserImpl extends User {
     required int userInfoId,
     _i2.UserInfo? userInfo,
     required _i1.UuidValue uid,
-    String? name,
+    String? username,
+    String? firstName,
+    String? lastName,
     String? country,
     String? timezone,
     required DateTime createdAt,
@@ -158,7 +174,9 @@ class _UserImpl extends User {
           userInfoId: userInfoId,
           userInfo: userInfo,
           uid: uid,
-          name: name,
+          username: username,
+          firstName: firstName,
+          lastName: lastName,
           country: country,
           timezone: timezone,
           createdAt: createdAt,
@@ -171,7 +189,9 @@ class _UserImpl extends User {
     int? userInfoId,
     Object? userInfo = _Undefined,
     _i1.UuidValue? uid,
-    Object? name = _Undefined,
+    Object? username = _Undefined,
+    Object? firstName = _Undefined,
+    Object? lastName = _Undefined,
     Object? country = _Undefined,
     Object? timezone = _Undefined,
     DateTime? createdAt,
@@ -183,7 +203,9 @@ class _UserImpl extends User {
       userInfo:
           userInfo is _i2.UserInfo? ? userInfo : this.userInfo?.copyWith(),
       uid: uid ?? this.uid,
-      name: name is String? ? name : this.name,
+      username: username is String? ? username : this.username,
+      firstName: firstName is String? ? firstName : this.firstName,
+      lastName: lastName is String? ? lastName : this.lastName,
       country: country is String? ? country : this.country,
       timezone: timezone is String? ? timezone : this.timezone,
       createdAt: createdAt ?? this.createdAt,
@@ -202,8 +224,16 @@ class UserTable extends _i1.Table {
       'uid',
       this,
     );
-    name = _i1.ColumnString(
-      'name',
+    username = _i1.ColumnString(
+      'username',
+      this,
+    );
+    firstName = _i1.ColumnString(
+      'firstName',
+      this,
+    );
+    lastName = _i1.ColumnString(
+      'lastName',
       this,
     );
     country = _i1.ColumnString(
@@ -230,7 +260,11 @@ class UserTable extends _i1.Table {
 
   late final _i1.ColumnUuid uid;
 
-  late final _i1.ColumnString name;
+  late final _i1.ColumnString username;
+
+  late final _i1.ColumnString firstName;
+
+  late final _i1.ColumnString lastName;
 
   late final _i1.ColumnString country;
 
@@ -258,7 +292,9 @@ class UserTable extends _i1.Table {
         id,
         userInfoId,
         uid,
-        name,
+        username,
+        firstName,
+        lastName,
         country,
         timezone,
         createdAt,

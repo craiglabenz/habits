@@ -63,7 +63,7 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     if (await _user.ready) {
       unawaited(
         _user.save(
-          _user.loadedUser.copyWith(name: username),
+          _user.loadedUser.copyWith(username: username),
         ),
       );
     }

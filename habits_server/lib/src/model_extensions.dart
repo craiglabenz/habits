@@ -7,7 +7,9 @@ extension SharedUser on User {
   /// Converts a database model object into its public counterpart.
   shared.User toShared() => shared.User(
         uid: uid.uuid,
-        name: name,
+        username: username,
+        firstName: firstName,
+        lastName: lastName,
         country: country,
         timezone: timezone,
       );
