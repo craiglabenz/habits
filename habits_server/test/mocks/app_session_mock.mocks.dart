@@ -484,3 +484,23 @@ class MockKeyValidator extends _i1.Mock implements _i3.KeyValidator {
         ),
       ) as String);
 }
+
+/// A class which mocks [AuthenticationInfo].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAuthenticationInfo extends _i1.Mock
+    implements _i4.AuthenticationInfo {
+  @override
+  int get userId => (super.noSuchMethod(
+        Invocation.getter(#userId),
+        returnValue: 0,
+        returnValueForMissingStub: 0,
+      ) as int);
+
+  @override
+  Set<_i4.Scope> get scopes => (super.noSuchMethod(
+        Invocation.getter(#scopes),
+        returnValue: <_i4.Scope>{},
+        returnValueForMissingStub: <_i4.Scope>{},
+      ) as Set<_i4.Scope>);
+}

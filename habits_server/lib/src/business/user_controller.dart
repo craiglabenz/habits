@@ -12,12 +12,13 @@ class UserController {
   /// {@endtemplate}
   static Future<User> getForSession(AppSession session) async {
     final userInfo = await session.authenticated;
-    assert(
-      userInfo != null,
-      'Only call UserController.getForSession with authenticated sessions. The '
-      'endpoint should set requireLogin to true.',
-    );
-    final sessionUser = await session.user.getByUserInfoId(userInfo!.userId);
+    if (userInfo == null) {
+      throw Exception(
+        'Only call UserController.getForSession with authenticated sessions. '
+        'The endpoint should set requireLogin to true.',
+      );
+    }
+    final sessionUser = await session.user.getByUserInfoId(userInfo.userId);
     if (sessionUser == null) {
       throw NotFoundException(
         field: 'userInfoId',
