@@ -1,6 +1,7 @@
+// ignore_for_file: require_trailing_commas
 import 'package:habits_shared/habits_shared.dart';
-import 'package:serverpod_auth_server/serverpod_auth_server.dart';
 import 'package:mockito/annotations.dart';
+import 'package:serverpod_auth_server/serverpod_auth_server.dart';
 
 @GenerateNiceMocks([
   MockSpec<AuthKey>(),

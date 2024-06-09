@@ -1,3 +1,4 @@
+// ignore_for_file: require_trailing_commas
 import 'package:habits_server/src/app_session/app_session.dart';
 import 'package:habits_server/src/queries/queries.dart';
 import 'package:mockito/annotations.dart';

@@ -36,12 +36,14 @@ Map<String, dynamic> _$$BadEmailPasswordErrorImplToJson(
 
 _$BadApiKeyErrorImpl _$$BadApiKeyErrorImplFromJson(Map<String, dynamic> json) =>
     _$BadApiKeyErrorImpl(
+      json['reason'] as String,
       $type: json['runtimeType'] as String?,
     );
 
 Map<String, dynamic> _$$BadApiKeyErrorImplToJson(
         _$BadApiKeyErrorImpl instance) =>
     <String, dynamic>{
+      'reason': instance.reason,
       'runtimeType': instance.$type,
     };
 

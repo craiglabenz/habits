@@ -1,12 +1,14 @@
-import 'dart:math';
-
-import 'package:habits_server/src/generated/protocol.dart';
 import 'package:app_shared/app_shared.dart' as shared;
+import 'package:habits_server/src/app_session/app_session.dart';
+import 'package:habits_server/src/generated/protocol.dart';
+import 'package:habits_server/src/utilities/utilities.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:serverpod_auth_server/serverpod_auth_server.dart' as auth;
-import '../app_session/app_session.dart';
 
+/// Performs operations on accounts authenticating with "anonymous"
+/// credentials.
 class AnonymousUserController {
+  /// Marker of which authentication style completed these various operations.
   static const methodName = 'anonymous';
 
   /// Creates a new anonymous account.
@@ -37,7 +39,7 @@ class AnonymousUserController {
       auth.UserInfo(
         // FirebaseUser.uid
         userIdentifier: userIdentifier,
-        // Name of the person, which will be saved after this account is ready.
+        // Unused field. See `user.name` instead.
         userName: '',
         created: now,
         scopeNames: [],
@@ -51,13 +53,13 @@ class AnonymousUserController {
         'Failed to create new user for userIdentifier :: $userIdentifier',
         level: LogLevel.error,
       );
-      return shared.AppAuthFailure(
+      return const shared.AppAuthFailure(
         reason: shared.AuthenticationError.unknownError(),
       );
     }
 
     // Create the resource that the client will use to access this session.
-    auth.AuthKey authKey = auth.AuthKey(
+    final authKey = auth.AuthKey(
       userId: userInfo.id!,
       key: key,
       hash: session.hashString(key),
@@ -70,16 +72,16 @@ class AnonymousUserController {
     final savedAuthKey = await session.authKey.insert(authKey);
     if (savedAuthKey == null) {
       session.log('Failed to save $authKey', level: LogLevel.error);
-      return shared.AppAuthFailure(
+      return const shared.AppAuthFailure(
         reason: shared.AuthenticationError.unknownError(),
       );
     }
 
     await session.user.insert(
       User(
-        id: userInfo.id!,
+        id: userInfo.id,
         userInfoId: userInfo.id!,
-        uid: UuidValue.fromString(Uuid().v4()),
+        uid: UuidValue.fromString(const Uuid().v4()),
         name: '',
         createdAt: now,
         updatedAt: now,
@@ -101,65 +103,40 @@ class AnonymousUserController {
     // "keyId:keyValue"
     required String keyIdentifier,
   }) async {
-    if (keyIdentifier.isEmpty) {
-      session.log('Unexpected empty keyIdentifier');
-      return shared.AppAuthFailure(
-        reason: shared.AuthenticationError.missingCredentials(
-          missingEmail: false,
-          missingPassword: false,
-          missingApiKey: true,
-        ),
-      );
+    final validator = KeyValidator(keyIdentifier);
+    final error = validator.validate();
+
+    if (error != null) {
+      session.log(validator.log!);
+      return shared.AppAuthFailure(reason: error);
     }
 
-    final [String keyIdStr, String keyValue] = keyIdentifier.split(':');
-    if (keyIdStr.isEmpty || keyValue.isEmpty) {
-      session.log('Unexpected empty keyIdentifier');
-      return shared.AppAuthFailure(
-        reason: shared.AuthenticationError.missingCredentials(
-          missingEmail: false,
-          missingPassword: false,
-          missingApiKey: true,
-        ),
-      );
-    }
-
-    int? keyId = int.tryParse(keyIdStr);
-    if (keyId == null) {
-      session.log('Invalid keyId - must be integer. Value was "$keyIdStr"');
-      return shared.AppAuthFailure(
-        reason: shared.AuthenticationError.missingCredentials(
-          missingEmail: false,
-          missingPassword: false,
-          missingApiKey: true,
-        ),
-      );
-    }
-
-    final authKey = await session.authKey.getById(keyId);
-
+    final authKey = await session.authKey.getById(validator.keyId);
     if (authKey == null) {
-      session.log('Unknown keyId $keyId');
+      final log = 'Unknown keyId ${validator.keyId}';
+      session.log(log);
       return shared.AppAuthFailure(
-        reason: shared.AuthenticationError.badApiKey(),
+        reason: shared.AuthenticationError.badApiKey(log),
       );
     }
 
-    final hash = session.hashString(keyValue);
+    final hash = session.hashString(validator.key);
     if (authKey.hash != hash) {
-      session.log('Hash "$hash" is incorrect for Key Id $keyId');
+      final log = 'Hash "$hash" is incorrect for Key Id ${validator.keyId}';
+      session.log(log);
       return shared.AppAuthFailure(
-        reason: shared.AuthenticationError.badApiKey(),
+        reason: shared.AuthenticationError.badApiKey(log),
       );
     }
 
     final userInfo = await session.userInfo.getById(authKey.userId);
 
     if (userInfo == null) {
-      session.log('AuthKey $keyId pointed to missing UserInfo. Deleting key.');
-      session.authKey.delete(authKey);
+      final log = 'AuthKey ${validator.keyId} pointed to missing UserInfo';
+      session.log('$log. Deleting key.');
+      await session.authKey.delete(authKey);
       return shared.AppAuthFailure(
-        reason: shared.AuthenticationError.badApiKey(),
+        reason: shared.AuthenticationError.badApiKey(log),
       );
     }
 
@@ -167,7 +144,7 @@ class AnonymousUserController {
 
     return shared.AppAuthSuccess(
       userInfoData: userInfo.toJson(),
-      key: keyValue,
+      key: validator.key,
       keyId: authKey.id!,
       method: shared.AuthType.fromJson(authKey.method),
       allMethods: allKeys

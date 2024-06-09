@@ -9,6 +9,8 @@ mixin AuthSessionMixin {
   }
 
   AuthKeyQueries? _authKey;
+
+  /// {@macro AuthKeyQueries}
   AuthKeyQueries get authKey {
     if (_authKey == null) {
       throw Exception(
@@ -20,6 +22,8 @@ mixin AuthSessionMixin {
   }
 
   UserInfoQueries? _userInfo;
+
+  /// {@macro UserInfoQueries}
   UserInfoQueries get userInfo {
     if (_userInfo == null) {
       throw Exception(
@@ -31,6 +35,8 @@ mixin AuthSessionMixin {
   }
 
   UserQueries? _user;
+
+  /// {@macro UserQueries}
   UserQueries get user {
     if (_user == null) {
       throw Exception(

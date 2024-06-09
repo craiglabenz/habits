@@ -1,19 +1,35 @@
+// ignore_for_file: strict_raw_type
+
 import 'package:habits_server/src/generated/protocol.dart';
 import 'package:habits_server/src/generated/user.dart';
 import 'package:habits_shared/habits_shared.dart' as habits_shared;
 import 'package:serverpod/serverpod.dart';
 
-enum BooleanLogic { and, or }
+/// Indicator of AND or OR boolean logic.
+enum BooleanLogic {
+  /// AND logic where all descendants must resolve to true
+  and,
 
+  /// OR logic where at least one descendant must resolve to true
+  or
+}
+
+/// Converts filters into Serverpod database [Expression] values.
 extension FilterExpression on habits_shared.Filter {
+  /// Converts this [habits_shared.Filter] into an [Expression].
   Expression get expression {
     return switch (this) {
-      habits_shared.UserFilter f => f.expression,
+      final habits_shared.UserFilter f => f.expression,
     };
   }
 }
 
-Expression combine(List<habits_shared.Filter> filters, BooleanLogic operator) {
+/// Folds the descendant filters below an AND or OR filter into a single
+/// [Expression].
+Expression combine(
+  List<habits_shared.Filter> filters,
+  BooleanLogic operator,
+) {
   Expression? expression;
   for (final filter in filters) {
     if (expression == null) {
