@@ -76,41 +76,10 @@ void main() {
   });
 
   group('AnonymousUserController.checkSession should', () {
-    test('return a failure if the keyIdentifier is malformed', () async {
-      AppAuthResponse response = await AnonymousUserController.checkSession(
-        appSession,
-        keyIdentifier: '',
-      );
-      expect(response, isA<AppAuthFailure>());
-      expect((response as AppAuthFailure).reason, isA<MissingCredentials>());
-      expect((response.reason as MissingCredentials).missingApiKey, isTrue);
-
-      response = await AnonymousUserController.checkSession(
-        appSession,
-        keyIdentifier: '5:',
-      );
-      expect(response, isA<AppAuthFailure>());
-      expect((response as AppAuthFailure).reason, isA<MissingCredentials>());
-      expect((response.reason as MissingCredentials).missingApiKey, isTrue);
-
-      response = await AnonymousUserController.checkSession(
-        appSession,
-        keyIdentifier: ':a',
-      );
-      expect(response, isA<AppAuthFailure>());
-      expect((response as AppAuthFailure).reason, isA<MissingCredentials>());
-      expect((response.reason as MissingCredentials).missingApiKey, isTrue);
-
-      response = await AnonymousUserController.checkSession(
-        appSession,
-        keyIdentifier: 'not-a-number:a',
-      );
-      expect(response, isA<AppAuthFailure>());
-      expect((response as AppAuthFailure).reason, isA<MissingCredentials>());
-      expect((response.reason as MissingCredentials).missingApiKey, isTrue);
-    });
-
     test('return an error for an unknown key', () async {
+      final keyValidator = MockKeyValidator();
+      when(keyValidator.validate()).thenReturn(null);
+      when(appSession.getKeyValidator('5:abc')).thenReturn(keyValidator);
       when(appSession.authKey).thenReturn(authKey);
       when(authKey.getById(5)).thenAnswer((_) async => null);
       final response = await AnonymousUserController.checkSession(
@@ -119,11 +88,16 @@ void main() {
       );
       expect(response, isA<AppAuthFailure>());
       expect((response as AppAuthFailure).reason, isA<BadApiKeyError>());
+      verify(keyValidator.validate()).called(1);
     });
 
     test('return an error for a bad hash', () async {
       when(appSession.hashString('xyz')).thenReturn('_hashed_');
       when(appSession.authKey).thenReturn(authKey);
+
+      final keyValidator = MockKeyValidator();
+      when(keyValidator.validate()).thenReturn(null);
+      when(appSession.getKeyValidator('5:xyz')).thenReturn(keyValidator);
 
       final savedAuthKey = MockAuthKey();
       when(savedAuthKey.hash).thenReturn('_wrong_hash_');
@@ -137,6 +111,12 @@ void main() {
     });
 
     test('return a session for a good key', () async {
+      final keyValidator = MockKeyValidator();
+      when(keyValidator.validate()).thenReturn(null);
+      when(keyValidator.keyId).thenReturn(5);
+      when(keyValidator.key).thenReturn('xyz');
+      when(appSession.getKeyValidator('5:xyz')).thenReturn(keyValidator);
+
       when(appSession.hashString('xyz')).thenReturn('_hashed_');
       when(appSession.authKey).thenReturn(authKey);
       when(appSession.userInfo).thenReturn(userInfo);

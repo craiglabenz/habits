@@ -1,7 +1,7 @@
 # All
 install: packages/install server/install client/install shared/install app/install
 
-test: packages/test app/test
+test: packages/test app/test server/test
 
 # Packages
 packages/install:
@@ -30,6 +30,12 @@ server/install:
 	cd habits_server && dart pub get
 
 server/build: server/generate
+
+server/mocks:
+	cd habits_server && dart run build_runner build
+
+server/test:
+	cd habits_server && dart test
 
 server/generate:
 	cd habits_server && serverpod generate

@@ -11,9 +11,9 @@ part 'results.freezed.dart';
 
 final _log = Logger('data.sources.results');
 
-//////////////////
-/// WRITE RESULTS
-//////////////////
+/////////////////////
+/// WRITE RESULTS ///
+/////////////////////
 
 /// {@template WriteSuccess}
 /// Container for a single object write request which did not encounter any
@@ -110,9 +110,9 @@ typedef WriteResult<T> = Either<WriteFailure<T>, WriteSuccess<T>>;
 typedef WriteListResult<T> = //
     Either<WriteFailure<T>, BulkWriteSuccess<T>>;
 
-/////////////////
-/// READ RESULTS
-/////////////////
+////////////////////
+/// READ RESULTS ///
+////////////////////
 
 /// {@template ReadSuccess}
 /// Container for the results of a single object read that did not encounter any
@@ -191,7 +191,9 @@ class ReadFailure<T> with _$ReadFailure<T> {
   /// Container for a read request that failed to a problem with the request.
   const factory ReadFailure.badRequest(String message) = _ReadClientError;
 
-  /// Container for a read request that failed due to missing data.
+  /// Container for a read request that failed due to missing data if that
+  /// missing data is unexpected and a fatal error, not just missing data
+  /// which may or may not have existed.
   factory ReadFailure.notFoundException(NotFoundException e) =>
       ReadFailure.serverError('Not found: ${e.model.name.capitalize()}');
 

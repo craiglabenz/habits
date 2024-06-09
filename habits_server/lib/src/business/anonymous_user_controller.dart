@@ -1,7 +1,6 @@
 import 'package:app_shared/app_shared.dart' as shared;
 import 'package:habits_server/src/app_session/app_session.dart';
 import 'package:habits_server/src/generated/protocol.dart';
-import 'package:habits_server/src/utilities/utilities.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:serverpod_auth_server/serverpod_auth_server.dart' as auth;
 
@@ -103,7 +102,7 @@ class AnonymousUserController {
     // "keyId:keyValue"
     required String keyIdentifier,
   }) async {
-    final validator = KeyValidator(keyIdentifier);
+    final validator = session.getKeyValidator(keyIdentifier);
     final error = validator.validate();
 
     if (error != null) {

@@ -2,7 +2,7 @@ import 'package:app_shared/app_shared.dart';
 
 /// {@template KeyValidator}
 /// {@endtemplate}
-final class KeyValidator {
+class KeyValidator {
   /// {@macro KeyValidator}
   KeyValidator(this.keyIdentifier);
 
@@ -38,7 +38,11 @@ final class KeyValidator {
   AuthenticationError? validate() {
     if (keyIdentifier.isEmpty) {
       log = 'Unexpectedly empty keyIdentifier';
-      return missingCredentials;
+      return const AuthenticationError.missingCredentials(
+        missingEmail: false,
+        missingPassword: false,
+        missingApiKey: true,
+      );
     }
     if (!keyIdentifier.contains(':')) {
       log = 'Malformed keyIdentifier - no delimiter';
@@ -59,16 +63,9 @@ final class KeyValidator {
     if (parsedKeyId == null) {
       log = 'Malformed keyIdentifier - keyId must be integer. Value was '
           '"$keyIdStr"';
-      return missingCredentials;
+      return AuthenticationError.badApiKey(log!);
     }
     _keyId = parsedKeyId;
     return null;
   }
-
-  /// Error indicating the KeyIdentifier *never took place*.
-  static const missingCredentials = AuthenticationError.missingCredentials(
-    missingEmail: false,
-    missingPassword: false,
-    missingApiKey: true,
-  );
 }

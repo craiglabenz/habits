@@ -20,7 +20,7 @@ class AuthenticationError with _$AuthenticationError {
   const factory AuthenticationError.badEmailPassword() = BadEmailPasswordError;
 
   /// Auth error indicating the API key was unknown.
-  const factory AuthenticationError.badApiKey(String reason) = BadApiKeyError;
+  const factory AuthenticationError.badApiKey(String message) = BadApiKeyError;
 
   /// Auth error indicating the user aborted a social auth flow.
   const factory AuthenticationError.cancelledSocialAuth() =

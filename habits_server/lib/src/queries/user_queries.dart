@@ -41,11 +41,4 @@ class UserQueries extends BaseQuery {
       ..updatedAt = DateTime.now().toUtc();
     return session.db.updateRow(dbUser);
   }
-
-  /// Loads the [User] record associated with the active session.
-  Future<User?> getForSession() async {
-    final userInfo = await session.authenticated;
-    if (userInfo == null) return null;
-    return getByUserInfoId(userInfo.userId);
-  }
 }

@@ -49,7 +49,7 @@ mixin _$AuthenticationError {
   TResult when<TResult extends Object?>({
     required TResult Function(String fieldName, String value) accountExists,
     required TResult Function() badEmailPassword,
-    required TResult Function(String reason) badApiKey,
+    required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
@@ -65,7 +65,7 @@ mixin _$AuthenticationError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String fieldName, String value)? accountExists,
     TResult? Function()? badEmailPassword,
-    TResult? Function(String reason)? badApiKey,
+    TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
@@ -81,7 +81,7 @@ mixin _$AuthenticationError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String fieldName, String value)? accountExists,
     TResult Function()? badEmailPassword,
-    TResult Function(String reason)? badApiKey,
+    TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
@@ -245,7 +245,7 @@ class _$AccountExistsErrorImpl extends AccountExistsError {
   TResult when<TResult extends Object?>({
     required TResult Function(String fieldName, String value) accountExists,
     required TResult Function() badEmailPassword,
-    required TResult Function(String reason) badApiKey,
+    required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
@@ -264,7 +264,7 @@ class _$AccountExistsErrorImpl extends AccountExistsError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String fieldName, String value)? accountExists,
     TResult? Function()? badEmailPassword,
-    TResult? Function(String reason)? badApiKey,
+    TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
@@ -283,7 +283,7 @@ class _$AccountExistsErrorImpl extends AccountExistsError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String fieldName, String value)? accountExists,
     TResult Function()? badEmailPassword,
-    TResult Function(String reason)? badApiKey,
+    TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
@@ -432,7 +432,7 @@ class _$BadEmailPasswordErrorImpl extends BadEmailPasswordError {
   TResult when<TResult extends Object?>({
     required TResult Function(String fieldName, String value) accountExists,
     required TResult Function() badEmailPassword,
-    required TResult Function(String reason) badApiKey,
+    required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
@@ -451,7 +451,7 @@ class _$BadEmailPasswordErrorImpl extends BadEmailPasswordError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String fieldName, String value)? accountExists,
     TResult? Function()? badEmailPassword,
-    TResult? Function(String reason)? badApiKey,
+    TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
@@ -470,7 +470,7 @@ class _$BadEmailPasswordErrorImpl extends BadEmailPasswordError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String fieldName, String value)? accountExists,
     TResult Function()? badEmailPassword,
-    TResult Function(String reason)? badApiKey,
+    TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
@@ -566,7 +566,7 @@ abstract class _$$BadApiKeyErrorImplCopyWith<$Res> {
           $Res Function(_$BadApiKeyErrorImpl) then) =
       __$$BadApiKeyErrorImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String reason});
+  $Res call({String message});
 }
 
 /// @nodoc
@@ -580,12 +580,12 @@ class __$$BadApiKeyErrorImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? reason = null,
+    Object? message = null,
   }) {
     return _then(_$BadApiKeyErrorImpl(
-      null == reason
-          ? _value.reason
-          : reason // ignore: cast_nullable_to_non_nullable
+      null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -594,7 +594,7 @@ class __$$BadApiKeyErrorImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$BadApiKeyErrorImpl extends BadApiKeyError {
-  const _$BadApiKeyErrorImpl(this.reason, {final String? $type})
+  const _$BadApiKeyErrorImpl(this.message, {final String? $type})
       : $type = $type ?? 'badApiKey',
         super._();
 
@@ -602,14 +602,14 @@ class _$BadApiKeyErrorImpl extends BadApiKeyError {
       _$$BadApiKeyErrorImplFromJson(json);
 
   @override
-  final String reason;
+  final String message;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'AuthenticationError.badApiKey(reason: $reason)';
+    return 'AuthenticationError.badApiKey(message: $message)';
   }
 
   @override
@@ -617,12 +617,12 @@ class _$BadApiKeyErrorImpl extends BadApiKeyError {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BadApiKeyErrorImpl &&
-            (identical(other.reason, reason) || other.reason == reason));
+            (identical(other.message, message) || other.message == message));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, reason);
+  int get hashCode => Object.hash(runtimeType, message);
 
   @JsonKey(ignore: true)
   @override
@@ -636,7 +636,7 @@ class _$BadApiKeyErrorImpl extends BadApiKeyError {
   TResult when<TResult extends Object?>({
     required TResult Function(String fieldName, String value) accountExists,
     required TResult Function() badEmailPassword,
-    required TResult Function(String reason) badApiKey,
+    required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
@@ -647,7 +647,7 @@ class _$BadApiKeyErrorImpl extends BadApiKeyError {
     required TResult Function(Set<AuthType> methods) wrongMethod,
     required TResult Function() unknownError,
   }) {
-    return badApiKey(reason);
+    return badApiKey(message);
   }
 
   @override
@@ -655,7 +655,7 @@ class _$BadApiKeyErrorImpl extends BadApiKeyError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String fieldName, String value)? accountExists,
     TResult? Function()? badEmailPassword,
-    TResult? Function(String reason)? badApiKey,
+    TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
@@ -666,7 +666,7 @@ class _$BadApiKeyErrorImpl extends BadApiKeyError {
     TResult? Function(Set<AuthType> methods)? wrongMethod,
     TResult? Function()? unknownError,
   }) {
-    return badApiKey?.call(reason);
+    return badApiKey?.call(message);
   }
 
   @override
@@ -674,7 +674,7 @@ class _$BadApiKeyErrorImpl extends BadApiKeyError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String fieldName, String value)? accountExists,
     TResult Function()? badEmailPassword,
-    TResult Function(String reason)? badApiKey,
+    TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
@@ -687,7 +687,7 @@ class _$BadApiKeyErrorImpl extends BadApiKeyError {
     required TResult orElse(),
   }) {
     if (badApiKey != null) {
-      return badApiKey(reason);
+      return badApiKey(message);
     }
     return orElse();
   }
@@ -757,13 +757,13 @@ class _$BadApiKeyErrorImpl extends BadApiKeyError {
 }
 
 abstract class BadApiKeyError extends AuthenticationError {
-  const factory BadApiKeyError(final String reason) = _$BadApiKeyErrorImpl;
+  const factory BadApiKeyError(final String message) = _$BadApiKeyErrorImpl;
   const BadApiKeyError._() : super._();
 
   factory BadApiKeyError.fromJson(Map<String, dynamic> json) =
       _$BadApiKeyErrorImpl.fromJson;
 
-  String get reason;
+  String get message;
   @JsonKey(ignore: true)
   _$$BadApiKeyErrorImplCopyWith<_$BadApiKeyErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -822,7 +822,7 @@ class _$CancelledSocialAuthErrorImpl extends CancelledSocialAuthError {
   TResult when<TResult extends Object?>({
     required TResult Function(String fieldName, String value) accountExists,
     required TResult Function() badEmailPassword,
-    required TResult Function(String reason) badApiKey,
+    required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
@@ -841,7 +841,7 @@ class _$CancelledSocialAuthErrorImpl extends CancelledSocialAuthError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String fieldName, String value)? accountExists,
     TResult? Function()? badEmailPassword,
-    TResult? Function(String reason)? badApiKey,
+    TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
@@ -860,7 +860,7 @@ class _$CancelledSocialAuthErrorImpl extends CancelledSocialAuthError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String fieldName, String value)? accountExists,
     TResult Function()? badEmailPassword,
-    TResult Function(String reason)? badApiKey,
+    TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
@@ -1000,7 +1000,7 @@ class _$InvalidPasswordErrorImpl extends InvalidPasswordError {
   TResult when<TResult extends Object?>({
     required TResult Function(String fieldName, String value) accountExists,
     required TResult Function() badEmailPassword,
-    required TResult Function(String reason) badApiKey,
+    required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
@@ -1019,7 +1019,7 @@ class _$InvalidPasswordErrorImpl extends InvalidPasswordError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String fieldName, String value)? accountExists,
     TResult? Function()? badEmailPassword,
-    TResult? Function(String reason)? badApiKey,
+    TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
@@ -1038,7 +1038,7 @@ class _$InvalidPasswordErrorImpl extends InvalidPasswordError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String fieldName, String value)? accountExists,
     TResult Function()? badEmailPassword,
-    TResult Function(String reason)? badApiKey,
+    TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
@@ -1177,7 +1177,7 @@ class _$InvalidCodeErrorImpl extends InvalidCodeError {
   TResult when<TResult extends Object?>({
     required TResult Function(String fieldName, String value) accountExists,
     required TResult Function() badEmailPassword,
-    required TResult Function(String reason) badApiKey,
+    required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
@@ -1196,7 +1196,7 @@ class _$InvalidCodeErrorImpl extends InvalidCodeError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String fieldName, String value)? accountExists,
     TResult? Function()? badEmailPassword,
-    TResult? Function(String reason)? badApiKey,
+    TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
@@ -1215,7 +1215,7 @@ class _$InvalidCodeErrorImpl extends InvalidCodeError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String fieldName, String value)? accountExists,
     TResult Function()? badEmailPassword,
-    TResult Function(String reason)? badApiKey,
+    TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
@@ -1354,7 +1354,7 @@ class _$LogoutErrorImpl extends LogoutError {
   TResult when<TResult extends Object?>({
     required TResult Function(String fieldName, String value) accountExists,
     required TResult Function() badEmailPassword,
-    required TResult Function(String reason) badApiKey,
+    required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
@@ -1373,7 +1373,7 @@ class _$LogoutErrorImpl extends LogoutError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String fieldName, String value)? accountExists,
     TResult? Function()? badEmailPassword,
-    TResult? Function(String reason)? badApiKey,
+    TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
@@ -1392,7 +1392,7 @@ class _$LogoutErrorImpl extends LogoutError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String fieldName, String value)? accountExists,
     TResult Function()? badEmailPassword,
-    TResult Function(String reason)? badApiKey,
+    TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
@@ -1582,7 +1582,7 @@ class _$MissingCredentialsImpl extends MissingCredentials {
   TResult when<TResult extends Object?>({
     required TResult Function(String fieldName, String value) accountExists,
     required TResult Function() badEmailPassword,
-    required TResult Function(String reason) badApiKey,
+    required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
@@ -1601,7 +1601,7 @@ class _$MissingCredentialsImpl extends MissingCredentials {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String fieldName, String value)? accountExists,
     TResult? Function()? badEmailPassword,
-    TResult? Function(String reason)? badApiKey,
+    TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
@@ -1621,7 +1621,7 @@ class _$MissingCredentialsImpl extends MissingCredentials {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String fieldName, String value)? accountExists,
     TResult Function()? badEmailPassword,
-    TResult Function(String reason)? badApiKey,
+    TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
@@ -1803,7 +1803,7 @@ class _$WrongMethodImpl extends WrongMethod {
   TResult when<TResult extends Object?>({
     required TResult Function(String fieldName, String value) accountExists,
     required TResult Function() badEmailPassword,
-    required TResult Function(String reason) badApiKey,
+    required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
@@ -1822,7 +1822,7 @@ class _$WrongMethodImpl extends WrongMethod {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String fieldName, String value)? accountExists,
     TResult? Function()? badEmailPassword,
-    TResult? Function(String reason)? badApiKey,
+    TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
@@ -1841,7 +1841,7 @@ class _$WrongMethodImpl extends WrongMethod {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String fieldName, String value)? accountExists,
     TResult Function()? badEmailPassword,
-    TResult Function(String reason)? badApiKey,
+    TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
@@ -1985,7 +1985,7 @@ class _$UnknownAuthErrorImpl extends UnknownAuthError {
   TResult when<TResult extends Object?>({
     required TResult Function(String fieldName, String value) accountExists,
     required TResult Function() badEmailPassword,
-    required TResult Function(String reason) badApiKey,
+    required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
@@ -2004,7 +2004,7 @@ class _$UnknownAuthErrorImpl extends UnknownAuthError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String fieldName, String value)? accountExists,
     TResult? Function()? badEmailPassword,
-    TResult? Function(String reason)? badApiKey,
+    TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
@@ -2023,7 +2023,7 @@ class _$UnknownAuthErrorImpl extends UnknownAuthError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String fieldName, String value)? accountExists,
     TResult Function()? badEmailPassword,
-    TResult Function(String reason)? badApiKey,
+    TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
