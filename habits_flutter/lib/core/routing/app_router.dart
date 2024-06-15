@@ -83,11 +83,11 @@ class AppRouter {
   static GoRoute get initialRoute => Routes.splash;
 
   // ignore: unused_element
-  void _goNamed(String name, {Params? params}) =>
+  void _goNamed(String name, {StrParams? params}) =>
       router.goNamed(name, pathParameters: params ?? {});
 
   // ignore: unused_element
-  void _pushNamed(String name, {Params? params}) =>
+  void _pushNamed(String name, {StrParams? params}) =>
       router.pushNamed(name, pathParameters: params ?? {});
 
   /// Navigates the app to the given page.
