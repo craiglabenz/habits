@@ -3,12 +3,13 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:habits_shared/src/models/user.dart' as _i5;
+import 'package:habits_shared/src/models/user.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i6;
+import 'package:mockito/src/dummies.dart' as _i7;
 import 'package:serverpod/serverpod.dart' as _i2;
 import 'package:serverpod_auth_server/src/generated/auth_key.dart' as _i3;
-import 'package:serverpod_auth_server/src/generated/user_info.dart' as _i4;
+import 'package:serverpod_auth_server/src/generated/email_auth.dart' as _i4;
+import 'package:serverpod_auth_server/src/generated/user_info.dart' as _i5;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -43,8 +44,8 @@ class _FakeAuthKey_1 extends _i1.SmartFake implements _i3.AuthKey {
         );
 }
 
-class _FakeDateTime_2 extends _i1.SmartFake implements DateTime {
-  _FakeDateTime_2(
+class _FakeEmailAuth_2 extends _i1.SmartFake implements _i4.EmailAuth {
+  _FakeEmailAuth_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -53,8 +54,8 @@ class _FakeDateTime_2 extends _i1.SmartFake implements DateTime {
         );
 }
 
-class _FakeUserInfo_3 extends _i1.SmartFake implements _i4.UserInfo {
-  _FakeUserInfo_3(
+class _FakeDateTime_3 extends _i1.SmartFake implements DateTime {
+  _FakeDateTime_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -63,9 +64,19 @@ class _FakeUserInfo_3 extends _i1.SmartFake implements _i4.UserInfo {
         );
 }
 
-class _Fake$UserCopyWith_4<$Res> extends _i1.SmartFake
-    implements _i5.$UserCopyWith<$Res> {
-  _Fake$UserCopyWith_4(
+class _FakeUserInfo_4 extends _i1.SmartFake implements _i5.UserInfo {
+  _FakeUserInfo_4(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _Fake$UserCopyWith_5<$Res> extends _i1.SmartFake
+    implements _i6.$UserCopyWith<$Res> {
+  _Fake$UserCopyWith_5(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -97,11 +108,11 @@ class MockAuthKey extends _i1.Mock implements _i3.AuthKey {
   @override
   String get hash => (super.noSuchMethod(
         Invocation.getter(#hash),
-        returnValue: _i6.dummyValue<String>(
+        returnValue: _i7.dummyValue<String>(
           this,
           Invocation.getter(#hash),
         ),
-        returnValueForMissingStub: _i6.dummyValue<String>(
+        returnValueForMissingStub: _i7.dummyValue<String>(
           this,
           Invocation.getter(#hash),
         ),
@@ -144,11 +155,11 @@ class MockAuthKey extends _i1.Mock implements _i3.AuthKey {
   @override
   String get method => (super.noSuchMethod(
         Invocation.getter(#method),
-        returnValue: _i6.dummyValue<String>(
+        returnValue: _i7.dummyValue<String>(
           this,
           Invocation.getter(#method),
         ),
-        returnValueForMissingStub: _i6.dummyValue<String>(
+        returnValueForMissingStub: _i7.dummyValue<String>(
           this,
           Invocation.getter(#method),
         ),
@@ -260,18 +271,171 @@ class MockAuthKey extends _i1.Mock implements _i3.AuthKey {
       ) as Map<String, dynamic>);
 }
 
+/// A class which mocks [EmailAuth].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockEmailAuth extends _i1.Mock implements _i4.EmailAuth {
+  @override
+  int get userId => (super.noSuchMethod(
+        Invocation.getter(#userId),
+        returnValue: 0,
+        returnValueForMissingStub: 0,
+      ) as int);
+
+  @override
+  set userId(int? _userId) => super.noSuchMethod(
+        Invocation.setter(
+          #userId,
+          _userId,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  String get email => (super.noSuchMethod(
+        Invocation.getter(#email),
+        returnValue: _i7.dummyValue<String>(
+          this,
+          Invocation.getter(#email),
+        ),
+        returnValueForMissingStub: _i7.dummyValue<String>(
+          this,
+          Invocation.getter(#email),
+        ),
+      ) as String);
+
+  @override
+  set email(String? _email) => super.noSuchMethod(
+        Invocation.setter(
+          #email,
+          _email,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  String get hash => (super.noSuchMethod(
+        Invocation.getter(#hash),
+        returnValue: _i7.dummyValue<String>(
+          this,
+          Invocation.getter(#hash),
+        ),
+        returnValueForMissingStub: _i7.dummyValue<String>(
+          this,
+          Invocation.getter(#hash),
+        ),
+      ) as String);
+
+  @override
+  set hash(String? _hash) => super.noSuchMethod(
+        Invocation.setter(
+          #hash,
+          _hash,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i2.Table get table => (super.noSuchMethod(
+        Invocation.getter(#table),
+        returnValue: _FakeTable_0(
+          this,
+          Invocation.getter(#table),
+        ),
+        returnValueForMissingStub: _FakeTable_0(
+          this,
+          Invocation.getter(#table),
+        ),
+      ) as _i2.Table);
+
+  @override
+  set id(int? _id) => super.noSuchMethod(
+        Invocation.setter(
+          #id,
+          _id,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i4.EmailAuth copyWith({
+    int? id,
+    int? userId,
+    String? email,
+    String? hash,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #copyWith,
+          [],
+          {
+            #id: id,
+            #userId: userId,
+            #email: email,
+            #hash: hash,
+          },
+        ),
+        returnValue: _FakeEmailAuth_2(
+          this,
+          Invocation.method(
+            #copyWith,
+            [],
+            {
+              #id: id,
+              #userId: userId,
+              #email: email,
+              #hash: hash,
+            },
+          ),
+        ),
+        returnValueForMissingStub: _FakeEmailAuth_2(
+          this,
+          Invocation.method(
+            #copyWith,
+            [],
+            {
+              #id: id,
+              #userId: userId,
+              #email: email,
+              #hash: hash,
+            },
+          ),
+        ),
+      ) as _i4.EmailAuth);
+
+  @override
+  Map<String, dynamic> toJson() => (super.noSuchMethod(
+        Invocation.method(
+          #toJson,
+          [],
+        ),
+        returnValue: <String, dynamic>{},
+        returnValueForMissingStub: <String, dynamic>{},
+      ) as Map<String, dynamic>);
+
+  @override
+  Map<String, dynamic> toJsonForProtocol() => (super.noSuchMethod(
+        Invocation.method(
+          #toJsonForProtocol,
+          [],
+        ),
+        returnValue: <String, dynamic>{},
+        returnValueForMissingStub: <String, dynamic>{},
+      ) as Map<String, dynamic>);
+}
+
 /// A class which mocks [UserInfo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUserInfo extends _i1.Mock implements _i4.UserInfo {
+class MockUserInfo extends _i1.Mock implements _i5.UserInfo {
   @override
   String get userIdentifier => (super.noSuchMethod(
         Invocation.getter(#userIdentifier),
-        returnValue: _i6.dummyValue<String>(
+        returnValue: _i7.dummyValue<String>(
           this,
           Invocation.getter(#userIdentifier),
         ),
-        returnValueForMissingStub: _i6.dummyValue<String>(
+        returnValueForMissingStub: _i7.dummyValue<String>(
           this,
           Invocation.getter(#userIdentifier),
         ),
@@ -316,11 +480,11 @@ class MockUserInfo extends _i1.Mock implements _i4.UserInfo {
   @override
   DateTime get created => (super.noSuchMethod(
         Invocation.getter(#created),
-        returnValue: _FakeDateTime_2(
+        returnValue: _FakeDateTime_3(
           this,
           Invocation.getter(#created),
         ),
-        returnValueForMissingStub: _FakeDateTime_2(
+        returnValueForMissingStub: _FakeDateTime_3(
           this,
           Invocation.getter(#created),
         ),
@@ -399,7 +563,7 @@ class MockUserInfo extends _i1.Mock implements _i4.UserInfo {
       );
 
   @override
-  _i4.UserInfo copyWith({
+  _i5.UserInfo copyWith({
     int? id,
     String? userIdentifier,
     String? userName,
@@ -426,7 +590,7 @@ class MockUserInfo extends _i1.Mock implements _i4.UserInfo {
             #blocked: blocked,
           },
         ),
-        returnValue: _FakeUserInfo_3(
+        returnValue: _FakeUserInfo_4(
           this,
           Invocation.method(
             #copyWith,
@@ -444,7 +608,7 @@ class MockUserInfo extends _i1.Mock implements _i4.UserInfo {
             },
           ),
         ),
-        returnValueForMissingStub: _FakeUserInfo_3(
+        returnValueForMissingStub: _FakeUserInfo_4(
           this,
           Invocation.method(
             #copyWith,
@@ -462,7 +626,7 @@ class MockUserInfo extends _i1.Mock implements _i4.UserInfo {
             },
           ),
         ),
-      ) as _i4.UserInfo);
+      ) as _i5.UserInfo);
 
   @override
   Map<String, dynamic> toJson() => (super.noSuchMethod(
@@ -488,32 +652,32 @@ class MockUserInfo extends _i1.Mock implements _i4.UserInfo {
 /// A class which mocks [User].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUser extends _i1.Mock implements _i5.User {
+class MockUser extends _i1.Mock implements _i6.User {
   @override
   String get uid => (super.noSuchMethod(
         Invocation.getter(#uid),
-        returnValue: _i6.dummyValue<String>(
+        returnValue: _i7.dummyValue<String>(
           this,
           Invocation.getter(#uid),
         ),
-        returnValueForMissingStub: _i6.dummyValue<String>(
+        returnValueForMissingStub: _i7.dummyValue<String>(
           this,
           Invocation.getter(#uid),
         ),
       ) as String);
 
   @override
-  _i5.$UserCopyWith<_i5.User> get copyWith => (super.noSuchMethod(
+  _i6.$UserCopyWith<_i6.User> get copyWith => (super.noSuchMethod(
         Invocation.getter(#copyWith),
-        returnValue: _Fake$UserCopyWith_4<_i5.User>(
+        returnValue: _Fake$UserCopyWith_5<_i6.User>(
           this,
           Invocation.getter(#copyWith),
         ),
-        returnValueForMissingStub: _Fake$UserCopyWith_4<_i5.User>(
+        returnValueForMissingStub: _Fake$UserCopyWith_5<_i6.User>(
           this,
           Invocation.getter(#copyWith),
         ),
-      ) as _i5.$UserCopyWith<_i5.User>);
+      ) as _i6.$UserCopyWith<_i6.User>);
 
   @override
   Map<String, dynamic> toJson() => (super.noSuchMethod(

@@ -28,7 +28,7 @@ class AnonymousUserController {
         level: LogLevel.error,
       );
       return shared.AppAuthFailure(
-        reason: shared.AuthenticationError.accountExists(
+        shared.AuthenticationError.accountExists(
           fieldName: 'userIdentifier',
           value: userIdentifier,
         ),
@@ -54,7 +54,7 @@ class AnonymousUserController {
         level: LogLevel.error,
       );
       return const shared.AppAuthFailure(
-        reason: shared.AuthenticationError.unknownError(),
+        shared.AuthenticationError.unknownError(),
       );
     }
 
@@ -101,16 +101,14 @@ class AnonymousUserController {
 
     if (error != null) {
       session.log(validator.log!);
-      return shared.AppAuthFailure(reason: error);
+      return shared.AppAuthFailure(error);
     }
 
     final authKey = await session.authKey.getById(validator.keyId);
     if (authKey == null) {
       final log = 'Unknown keyId ${validator.keyId}';
       session.log(log);
-      return shared.AppAuthFailure(
-        reason: shared.AuthenticationError.badApiKey(log),
-      );
+      return shared.AppAuthFailure(shared.AuthenticationError.badApiKey(log));
     }
 
     final hash = session.hashString(validator.key);
@@ -118,7 +116,7 @@ class AnonymousUserController {
       final log = 'Hash "$hash" is incorrect for Key Id ${validator.keyId}';
       session.log(log);
       return shared.AppAuthFailure(
-        reason: shared.AuthenticationError.badApiKey(log),
+        shared.AuthenticationError.badApiKey(log),
       );
     }
 
@@ -129,7 +127,7 @@ class AnonymousUserController {
       session.log('$log. Deleting key.');
       await session.authKey.delete(authKey);
       return shared.AppAuthFailure(
-        reason: shared.AuthenticationError.badApiKey(log),
+        shared.AuthenticationError.badApiKey(log),
       );
     }
 

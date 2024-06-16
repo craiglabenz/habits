@@ -38,7 +38,7 @@ const _$AuthTypeEnumMap = {
 
 _$AppAuthFailureImpl _$$AppAuthFailureImplFromJson(Map<String, dynamic> json) =>
     _$AppAuthFailureImpl(
-      reason: const AuthenticationErrorConverter()
+      const AuthenticationErrorConverter()
           .fromJson(json['reason'] as Map<String, Object?>),
       $type: json['runtimeType'] as String?,
     );

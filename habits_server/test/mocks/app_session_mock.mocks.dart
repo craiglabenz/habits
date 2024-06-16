@@ -5,6 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i5;
 
+import 'package:app_shared/app_shared.dart' as _i11;
 import 'package:habits_server/src/app_session/app_session.dart' as _i8;
 import 'package:habits_server/src/generated/protocol.dart' as _i6;
 import 'package:habits_server/src/queries/queries.dart' as _i2;
@@ -13,7 +14,7 @@ import 'package:habits_shared/habits_shared.dart' as _i10;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i9;
 import 'package:serverpod/serverpod.dart' as _i4;
-import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i7;
+import 'package:serverpod_auth_server/module.dart' as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -163,6 +164,19 @@ class MockAppSession extends _i1.Mock implements _i8.AppSession {
       ) as _i5.Future<_i4.AuthenticationInfo?>);
 
   @override
+  String get ipAddress => (super.noSuchMethod(
+        Invocation.getter(#ipAddress),
+        returnValue: _i9.dummyValue<String>(
+          this,
+          Invocation.getter(#ipAddress),
+        ),
+        returnValueForMissingStub: _i9.dummyValue<String>(
+          this,
+          Invocation.getter(#ipAddress),
+        ),
+      ) as String);
+
+  @override
   _i2.AuthKeyQueries get authKey => (super.noSuchMethod(
         Invocation.getter(#authKey),
         returnValue: _FakeAuthKeyQueries_0(
@@ -232,6 +246,28 @@ class MockAppSession extends _i1.Mock implements _i8.AppSession {
           Invocation.method(
             #hashString,
             [value],
+          ),
+        ),
+      ) as String);
+
+  @override
+  String generateRandomString([int? length = 32]) => (super.noSuchMethod(
+        Invocation.method(
+          #generateRandomString,
+          [length],
+        ),
+        returnValue: _i9.dummyValue<String>(
+          this,
+          Invocation.method(
+            #generateRandomString,
+            [length],
+          ),
+        ),
+        returnValueForMissingStub: _i9.dummyValue<String>(
+          this,
+          Invocation.method(
+            #generateRandomString,
+            [length],
           ),
         ),
       ) as String);
@@ -544,7 +580,7 @@ class MockAuthKeyQueries extends _i1.Mock implements _i2.AuthKeyQueries {
   @override
   _i5.Future<_i7.AuthKey?> getTypedKeyForUserId(
     int? userInfoId,
-    dynamic type,
+    _i11.AuthType? type,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -659,6 +695,33 @@ class MockEmailAuthQueries extends _i1.Mock implements _i2.EmailAuthQueries {
       ) as _i5.Future<_i7.EmailAuth>);
 
   @override
+  _i5.Future<void> delete(_i7.EmailAuth? emailAuth) => (super.noSuchMethod(
+        Invocation.method(
+          #delete,
+          [emailAuth],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<_i7.EmailAuth?> getForLogin(
+    String? email,
+    String? hashedPassword,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getForLogin,
+          [
+            email,
+            hashedPassword,
+          ],
+        ),
+        returnValue: _i5.Future<_i7.EmailAuth?>.value(),
+        returnValueForMissingStub: _i5.Future<_i7.EmailAuth?>.value(),
+      ) as _i5.Future<_i7.EmailAuth?>);
+
+  @override
   _i5.Future<String> generatePasswordHash(String? password) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -681,6 +744,23 @@ class MockEmailAuthQueries extends _i1.Mock implements _i2.EmailAuthQueries {
           ),
         )),
       ) as _i5.Future<String>);
+
+  @override
+  _i5.Future<void> insertFailedSignIn(
+    String? email,
+    String? ipAddress,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #insertFailedSignIn,
+          [
+            email,
+            ipAddress,
+          ],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 }
 
 /// A class which mocks [KeyValidator].

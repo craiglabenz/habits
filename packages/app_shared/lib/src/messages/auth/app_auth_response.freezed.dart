@@ -393,7 +393,7 @@ class __$$AppAuthFailureImplCopyWithImpl<$Res>
     Object? reason = null,
   }) {
     return _then(_$AppAuthFailureImpl(
-      reason: null == reason
+      null == reason
           ? _value.reason
           : reason // ignore: cast_nullable_to_non_nullable
               as AuthenticationError,
@@ -412,9 +412,8 @@ class __$$AppAuthFailureImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$AppAuthFailureImpl extends AppAuthFailure {
-  const _$AppAuthFailureImpl(
-      {@AuthenticationErrorConverter() required this.reason,
-      final String? $type})
+  const _$AppAuthFailureImpl(@AuthenticationErrorConverter() this.reason,
+      {final String? $type})
       : $type = $type ?? 'failure',
         super._();
 
@@ -548,8 +547,8 @@ class _$AppAuthFailureImpl extends AppAuthFailure {
 
 abstract class AppAuthFailure extends AppAuthResponse {
   const factory AppAuthFailure(
-      {@AuthenticationErrorConverter()
-      required final AuthenticationError reason}) = _$AppAuthFailureImpl;
+          @AuthenticationErrorConverter() final AuthenticationError reason) =
+      _$AppAuthFailureImpl;
   const AppAuthFailure._() : super._();
 
   factory AppAuthFailure.fromJson(Map<String, dynamic> json) =

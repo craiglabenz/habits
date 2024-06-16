@@ -18,12 +18,11 @@ void main() {
     emailAuth = MockEmailAuthQueries();
     userInfo = MockUserInfoQueries();
   });
+  const goodEmail = 'some@email.com';
+  const goodPw = '12345678';
+  const badPw = '1234567';
 
   group('EmailController.addAuth should', () {
-    const goodEmail = 'some@email.com';
-    const goodPw = '12345678';
-    const badPw = '1234567';
-
     test('validate the password', () async {
       final response = await EmailUserController.addAuth(
         appSession,
@@ -122,6 +121,73 @@ void main() {
       expect(success.keyId, equals(14));
       expect(success.key, isNotEmpty);
       expect(success.userInfoData, {'very': 'serialized'});
+      expect(success.method, AuthType.email);
+      expect(success.allMethods, {AuthType.email});
+    });
+  });
+
+  group('EmailController.login should', () {
+    test('return an AppAuthFailure if EmailAuth does not exist', () async {
+      when(emailAuth.getForLogin(goodEmail, goodPw)).thenAnswer(
+        (_) => Future.value(/* null */),
+      );
+      when(appSession.ipAddress).thenReturn('123');
+      when(appSession.emailAuth).thenReturn(emailAuth);
+      final response = await EmailUserController.login(
+        appSession,
+        email: goodEmail,
+        password: goodPw,
+      );
+      expect(response, isA<AppAuthFailure>());
+      expect((response as AppAuthFailure).reason, isA<BadEmailPasswordError>());
+      verify(emailAuth.insertFailedSignIn(goodEmail, '123')).called(1);
+    });
+
+    test('return an AppAuthSuccess when everything is good', () async {
+      const userInfoId = 22;
+      const keyId = 91;
+      final mockEmailAuth = MockEmailAuth();
+      when(emailAuth.generatePasswordHash(goodPw))
+          .thenAnswer((_) => Future.value('_hashed_'));
+      when(mockEmailAuth.userId).thenReturn(userInfoId);
+      when(emailAuth.getForLogin(goodEmail, '_hashed_')).thenAnswer(
+        (_) => Future.value(mockEmailAuth),
+      );
+      when(appSession.transaction<bool>(any)).thenAnswer(
+        (_) => Future.value(true),
+      );
+
+      final mockedAuthKey = MockAuthKey();
+      when(appSession.generateRandomString()).thenReturn('_key_');
+      when(mockedAuthKey.id).thenReturn(keyId);
+      when(mockedAuthKey.method).thenReturn(AuthType.email.name);
+      when(authKey.getTypedKeyForUserId(userInfoId, AuthType.email))
+          .thenAnswer((_) => Future.value(mockedAuthKey));
+
+      final mockUserInfo = MockUserInfo();
+      when(mockUserInfo.toJson()).thenReturn({'wow': 'yep'});
+      when(userInfo.getById(userInfoId))
+          .thenAnswer((_) => Future.value(mockUserInfo));
+
+      when(appSession.authKey).thenReturn(authKey);
+      when(appSession.emailAuth).thenReturn(emailAuth);
+      when(appSession.userInfo).thenReturn(userInfo);
+
+      when(authKey.getAllForUserId(userInfoId)).thenAnswer(
+        (_) => Future.value([mockedAuthKey]),
+      );
+
+      final response = await EmailUserController.login(
+        appSession,
+        email: goodEmail,
+        password: goodPw,
+      );
+
+      expect(response, isA<AppAuthSuccess>());
+      final success = response as AppAuthSuccess;
+      expect(success.keyId, keyId);
+      expect(success.key, '_key_');
+      expect(success.userInfoData, {'wow': 'yep'});
       expect(success.method, AuthType.email);
       expect(success.allMethods, {AuthType.email});
     });

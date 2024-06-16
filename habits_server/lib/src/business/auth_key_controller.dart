@@ -1,24 +1,22 @@
-import 'dart:math';
-
 import 'package:app_shared/app_shared.dart';
 import 'package:habits_server/src/app_session/app_session.dart';
 import 'package:serverpod_auth_server/serverpod_auth_server.dart';
 
 /// Performs high-level operations on [AuthKey] objects.
 class AuthKeyController {
-  /// Instantiates a new [AuthKey] object, but does not save it to the database.
+  /// Instantiates and saves a new [AuthKey] object.
   static AuthKey create(
     AppSession session, {
     required int userId,
-    required String methodName,
+    required AuthType method,
     String? key,
   }) {
-    key ??= Random().nextString();
+    key ??= session.generateRandomString();
     return AuthKey(
       userId: userId,
       key: key,
       hash: session.hashString(key),
-      method: methodName,
+      method: method.name,
       scopeNames: [],
     );
   }

@@ -19,9 +19,9 @@ class AppAuthResponse with _$AppAuthResponse {
   }) = AppAuthSuccess;
 
   /// Response from an unsuccessful authentication attempt.
-  const factory AppAuthResponse.failure({
-    @AuthenticationErrorConverter() required AuthenticationError reason,
-  }) = AppAuthFailure;
+  const factory AppAuthResponse.failure(
+    @AuthenticationErrorConverter() AuthenticationError reason,
+  ) = AppAuthFailure;
   const AppAuthResponse._();
 
   /// [Json] deserializer for [AppAuthResponse].

@@ -8,7 +8,63 @@ import 'package:serverpod_auth_server/serverpod_auth_server.dart';
 /// credentials.
 class EmailUserController {
   /// Method type for email authentication.
-  static String methodName = AuthType.email.toJson();
+  static AuthType method = AuthType.email;
+
+  /// Adds email auth to an authenticated [UserInfo] account.
+  static Future<AppAuthResponse> login(
+    AppSession appSession, {
+    required String email,
+    required String password,
+  }) async {
+    final hashedPassword = await appSession.emailAuth.generatePasswordHash(
+      password,
+    );
+    final emailAuth = await appSession.emailAuth.getForLogin(
+      email,
+      hashedPassword,
+    );
+    if (emailAuth == null) {
+      await appSession.emailAuth.insertFailedSignIn(
+        email,
+        appSession.ipAddress,
+      );
+      return const AppAuthFailure(AuthenticationError.badEmailPassword());
+    }
+
+    final authKey = AuthKeyController.create(
+      appSession,
+      userId: emailAuth.userId,
+      method: AuthType.email,
+    );
+
+    // TODO: Is this transaction needed? It is not unless another query that
+    // must be bound to the AuthKey insertion comes along.
+    await appSession.transaction<bool>(
+      (transaction) async {
+        await appSession.authKey.insert(authKey, transaction: transaction);
+        return true;
+      },
+    );
+    final resolvedFutures = await [
+      appSession.authKey.getTypedKeyForUserId(
+        emailAuth.userId,
+        AuthType.email,
+      ),
+      appSession.userInfo.getById(emailAuth.userId),
+      AuthKeyController.getAuthTypesForUserId(
+        appSession,
+        emailAuth.userId,
+      ),
+    ].wait;
+
+    return AppAuthSuccess(
+      keyId: (resolvedFutures[0]! as AuthKey).id!,
+      key: authKey.key!,
+      userInfoData: (resolvedFutures[1]! as UserInfo).toJson(),
+      method: method,
+      allMethods: resolvedFutures[2]! as Set<AuthType>,
+    );
+  }
 
   /// Adds email auth to an authenticated [UserInfo] account.
   static Future<AppAuthResponse> addAuth(
@@ -19,13 +75,13 @@ class EmailUserController {
     // Validate the validity of the email.
     final emError = EmailValidator.validate(email);
     if (emError != null) {
-      return AppAuthFailure(reason: emError);
+      return AppAuthFailure(emError);
     }
     // Validate the health of the password.
     final pwValidator = PasswordValidator(password);
     final pwError = pwValidator.validate();
     if (pwError != null) {
-      return AppAuthFailure(reason: pwError);
+      return AppAuthFailure(pwError);
     }
 
     // Validate the session to which we are adding this email auth.
@@ -41,7 +97,7 @@ class EmailUserController {
         level: LogLevel.error,
       );
       return AppAuthFailure(
-        reason: AuthenticationError.accountExists(
+        AuthenticationError.accountExists(
           fieldName: 'email',
           value: email,
         ),
@@ -56,7 +112,7 @@ class EmailUserController {
         level: LogLevel.error,
       );
       return AppAuthFailure(
-        reason: AuthenticationError.accountExists(
+        AuthenticationError.accountExists(
           fieldName: 'email',
           value: email,
         ),
@@ -64,7 +120,7 @@ class EmailUserController {
     } else {
       emailAuth = EmailAuth(
         userId: userInfoId,
-        email: email,
+        email: email.toLowerCase().trim(),
         hash: await appSession.emailAuth.generatePasswordHash(password),
       );
     }
@@ -73,7 +129,7 @@ class EmailUserController {
     final authKey = AuthKeyController.create(
       appSession,
       userId: userInfoId,
-      methodName: methodName,
+      method: method,
     );
 
     final successful = await appSession.transaction<bool>((transaction) async {
@@ -102,7 +158,7 @@ class EmailUserController {
       return true;
     });
     if (!successful) {
-      const AppAuthFailure(reason: AuthenticationError.unknownError());
+      const AppAuthFailure(AuthenticationError.unknownError());
     }
 
     final resolvedFutures = await [

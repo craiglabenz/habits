@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:habits_server/src/queries/queries.dart';
 import 'package:habits_server/src/utilities/utilities.dart';
 import 'package:serverpod/serverpod.dart';
+import 'package:serverpod_auth_server/module.dart';
 import 'package:serverpod_auth_server/serverpod_auth_server.dart';
 // ignore: implementation_imports
 import 'package:serverpod_auth_server/src/business/authentication_util.dart'
@@ -29,6 +32,13 @@ class AppSession with AuthSessionMixin {
 
   /// Pass-thru to the inner session's authentication info.
   Future<AuthenticationInfo?> get authenticated => _session.authenticated;
+
+  /// Generates a random string.
+  String generateRandomString([int length = 32]) => Random().nextString();
+
+  /// Returns the IpAddress of the request.
+  String get ipAddress =>
+      (_session as MethodCallSession).httpRequest.remoteIpAddress;
 
   /// Returns a [KeyValidator] to validate that the given key is in the correct
   /// format. Does not run any database queries to ensure the values match

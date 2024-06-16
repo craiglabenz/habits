@@ -42,9 +42,27 @@ class AppAuthEndpoint extends Endpoint {
     final appSession = AppSession(session);
     final authInfo = await appSession.authenticated;
     if (authInfo == null) {
-      return const AppAuthFailure(reason: AuthenticationError.missingApiKey);
+      return const AppAuthFailure(AuthenticationError.missingApiKey);
     }
     return EmailUserController.addAuth(
+      appSession,
+      email: email,
+      password: password,
+    );
+  }
+
+  /// Loads an existing session off an email and password combination.
+  Future<AppAuthResponse> loginWithEmailAndPassword(
+    Session session, {
+    required String email,
+    required String password,
+  }) async {
+    final appSession = AppSession(session);
+    final authInfo = await appSession.authenticated;
+    if (authInfo != null) {
+      appSession.log('Unexpectly logging in ${authInfo.userId}');
+    }
+    return EmailUserController.login(
       appSession,
       email: email,
       password: password,
