@@ -3,17 +3,17 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i8;
+import 'dart:async' as _i5;
 
-import 'package:habits_server/src/app_session/app_session.dart' as _i6;
-import 'package:habits_server/src/generated/protocol.dart' as _i5;
+import 'package:habits_server/src/app_session/app_session.dart' as _i8;
+import 'package:habits_server/src/generated/protocol.dart' as _i6;
 import 'package:habits_server/src/queries/queries.dart' as _i2;
 import 'package:habits_server/src/utilities/utilities.dart' as _i3;
-import 'package:habits_shared/habits_shared.dart' as _i9;
+import 'package:habits_shared/habits_shared.dart' as _i10;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i7;
+import 'package:mockito/src/dummies.dart' as _i9;
 import 'package:serverpod/serverpod.dart' as _i4;
-import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i10;
+import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -39,9 +39,20 @@ class _FakeAuthKeyQueries_0 extends _i1.SmartFake
         );
 }
 
-class _FakeUserInfoQueries_1 extends _i1.SmartFake
+class _FakeEmailAuthQueries_1 extends _i1.SmartFake
+    implements _i2.EmailAuthQueries {
+  _FakeEmailAuthQueries_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeUserInfoQueries_2 extends _i1.SmartFake
     implements _i2.UserInfoQueries {
-  _FakeUserInfoQueries_1(
+  _FakeUserInfoQueries_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -50,8 +61,8 @@ class _FakeUserInfoQueries_1 extends _i1.SmartFake
         );
 }
 
-class _FakeUserQueries_2 extends _i1.SmartFake implements _i2.UserQueries {
-  _FakeUserQueries_2(
+class _FakeUserQueries_3 extends _i1.SmartFake implements _i2.UserQueries {
+  _FakeUserQueries_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -60,8 +71,8 @@ class _FakeUserQueries_2 extends _i1.SmartFake implements _i2.UserQueries {
         );
 }
 
-class _FakeKeyValidator_3 extends _i1.SmartFake implements _i3.KeyValidator {
-  _FakeKeyValidator_3(
+class _FakeKeyValidator_4 extends _i1.SmartFake implements _i3.KeyValidator {
+  _FakeKeyValidator_4(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -70,8 +81,8 @@ class _FakeKeyValidator_3 extends _i1.SmartFake implements _i3.KeyValidator {
         );
 }
 
-class _FakeSession_4 extends _i1.SmartFake implements _i4.Session {
-  _FakeSession_4(
+class _FakeSession_5 extends _i1.SmartFake implements _i4.Session {
+  _FakeSession_5(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -80,8 +91,38 @@ class _FakeSession_4 extends _i1.SmartFake implements _i4.Session {
         );
 }
 
-class _FakeUser_5 extends _i1.SmartFake implements _i5.User {
-  _FakeUser_5(
+class _FakeFuture_6<T> extends _i1.SmartFake implements _i5.Future<T> {
+  _FakeFuture_6(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeUser_7 extends _i1.SmartFake implements _i6.User {
+  _FakeUser_7(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeAuthKey_8 extends _i1.SmartFake implements _i7.AuthKey {
+  _FakeAuthKey_8(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeEmailAuth_9 extends _i1.SmartFake implements _i7.EmailAuth {
+  _FakeEmailAuth_9(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -93,7 +134,7 @@ class _FakeUser_5 extends _i1.SmartFake implements _i5.User {
 /// A class which mocks [AppSession].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAppSession extends _i1.Mock implements _i6.AppSession {
+class MockAppSession extends _i1.Mock implements _i8.AppSession {
   @override
   Map<String, String> get passwords => (super.noSuchMethod(
         Invocation.getter(#passwords),
@@ -104,22 +145,22 @@ class MockAppSession extends _i1.Mock implements _i6.AppSession {
   @override
   String get authKeySalt => (super.noSuchMethod(
         Invocation.getter(#authKeySalt),
-        returnValue: _i7.dummyValue<String>(
+        returnValue: _i9.dummyValue<String>(
           this,
           Invocation.getter(#authKeySalt),
         ),
-        returnValueForMissingStub: _i7.dummyValue<String>(
+        returnValueForMissingStub: _i9.dummyValue<String>(
           this,
           Invocation.getter(#authKeySalt),
         ),
       ) as String);
 
   @override
-  _i8.Future<_i4.AuthenticationInfo?> get authenticated => (super.noSuchMethod(
+  _i5.Future<_i4.AuthenticationInfo?> get authenticated => (super.noSuchMethod(
         Invocation.getter(#authenticated),
-        returnValue: _i8.Future<_i4.AuthenticationInfo?>.value(),
-        returnValueForMissingStub: _i8.Future<_i4.AuthenticationInfo?>.value(),
-      ) as _i8.Future<_i4.AuthenticationInfo?>);
+        returnValue: _i5.Future<_i4.AuthenticationInfo?>.value(),
+        returnValueForMissingStub: _i5.Future<_i4.AuthenticationInfo?>.value(),
+      ) as _i5.Future<_i4.AuthenticationInfo?>);
 
   @override
   _i2.AuthKeyQueries get authKey => (super.noSuchMethod(
@@ -135,13 +176,26 @@ class MockAppSession extends _i1.Mock implements _i6.AppSession {
       ) as _i2.AuthKeyQueries);
 
   @override
+  _i2.EmailAuthQueries get emailAuth => (super.noSuchMethod(
+        Invocation.getter(#emailAuth),
+        returnValue: _FakeEmailAuthQueries_1(
+          this,
+          Invocation.getter(#emailAuth),
+        ),
+        returnValueForMissingStub: _FakeEmailAuthQueries_1(
+          this,
+          Invocation.getter(#emailAuth),
+        ),
+      ) as _i2.EmailAuthQueries);
+
+  @override
   _i2.UserInfoQueries get userInfo => (super.noSuchMethod(
         Invocation.getter(#userInfo),
-        returnValue: _FakeUserInfoQueries_1(
+        returnValue: _FakeUserInfoQueries_2(
           this,
           Invocation.getter(#userInfo),
         ),
-        returnValueForMissingStub: _FakeUserInfoQueries_1(
+        returnValueForMissingStub: _FakeUserInfoQueries_2(
           this,
           Invocation.getter(#userInfo),
         ),
@@ -150,11 +204,11 @@ class MockAppSession extends _i1.Mock implements _i6.AppSession {
   @override
   _i2.UserQueries get user => (super.noSuchMethod(
         Invocation.getter(#user),
-        returnValue: _FakeUserQueries_2(
+        returnValue: _FakeUserQueries_3(
           this,
           Invocation.getter(#user),
         ),
-        returnValueForMissingStub: _FakeUserQueries_2(
+        returnValueForMissingStub: _FakeUserQueries_3(
           this,
           Invocation.getter(#user),
         ),
@@ -166,14 +220,14 @@ class MockAppSession extends _i1.Mock implements _i6.AppSession {
           #hashString,
           [value],
         ),
-        returnValue: _i7.dummyValue<String>(
+        returnValue: _i9.dummyValue<String>(
           this,
           Invocation.method(
             #hashString,
             [value],
           ),
         ),
-        returnValueForMissingStub: _i7.dummyValue<String>(
+        returnValueForMissingStub: _i9.dummyValue<String>(
           this,
           Invocation.method(
             #hashString,
@@ -189,14 +243,14 @@ class MockAppSession extends _i1.Mock implements _i6.AppSession {
           #getKeyValidator,
           [keyIdentifier],
         ),
-        returnValue: _FakeKeyValidator_3(
+        returnValue: _FakeKeyValidator_4(
           this,
           Invocation.method(
             #getKeyValidator,
             [keyIdentifier],
           ),
         ),
-        returnValueForMissingStub: _FakeKeyValidator_3(
+        returnValueForMissingStub: _FakeKeyValidator_4(
           this,
           Invocation.method(
             #getKeyValidator,
@@ -226,14 +280,14 @@ class MockAppSession extends _i1.Mock implements _i6.AppSession {
       );
 
   @override
-  _i8.Future<_i4.Session> createSession({bool? enableLogging = true}) =>
+  _i5.Future<_i4.Session> createSession({bool? enableLogging = true}) =>
       (super.noSuchMethod(
         Invocation.method(
           #createSession,
           [],
           {#enableLogging: enableLogging},
         ),
-        returnValue: _i8.Future<_i4.Session>.value(_FakeSession_4(
+        returnValue: _i5.Future<_i4.Session>.value(_FakeSession_5(
           this,
           Invocation.method(
             #createSession,
@@ -241,7 +295,7 @@ class MockAppSession extends _i1.Mock implements _i6.AppSession {
             {#enableLogging: enableLogging},
           ),
         )),
-        returnValueForMissingStub: _i8.Future<_i4.Session>.value(_FakeSession_4(
+        returnValueForMissingStub: _i5.Future<_i4.Session>.value(_FakeSession_5(
           this,
           Invocation.method(
             #createSession,
@@ -249,7 +303,51 @@ class MockAppSession extends _i1.Mock implements _i6.AppSession {
             {#enableLogging: enableLogging},
           ),
         )),
-      ) as _i8.Future<_i4.Session>);
+      ) as _i5.Future<_i4.Session>);
+
+  @override
+  _i5.Future<R> transaction<R>(
+          _i4.TransactionFunction<R>? transactionFunction) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #transaction,
+          [transactionFunction],
+        ),
+        returnValue: _i9.ifNotNull(
+              _i9.dummyValueOrNull<R>(
+                this,
+                Invocation.method(
+                  #transaction,
+                  [transactionFunction],
+                ),
+              ),
+              (R v) => _i5.Future<R>.value(v),
+            ) ??
+            _FakeFuture_6<R>(
+              this,
+              Invocation.method(
+                #transaction,
+                [transactionFunction],
+              ),
+            ),
+        returnValueForMissingStub: _i9.ifNotNull(
+              _i9.dummyValueOrNull<R>(
+                this,
+                Invocation.method(
+                  #transaction,
+                  [transactionFunction],
+                ),
+              ),
+              (R v) => _i5.Future<R>.value(v),
+            ) ??
+            _FakeFuture_6<R>(
+              this,
+              Invocation.method(
+                #transaction,
+                [transactionFunction],
+              ),
+            ),
+      ) as _i5.Future<R>);
 }
 
 /// A class which mocks [UserQueries].
@@ -259,67 +357,67 @@ class MockUserQueries extends _i1.Mock implements _i2.UserQueries {
   @override
   _i4.Session get session => (super.noSuchMethod(
         Invocation.getter(#session),
-        returnValue: _FakeSession_4(
+        returnValue: _FakeSession_5(
           this,
           Invocation.getter(#session),
         ),
-        returnValueForMissingStub: _FakeSession_4(
+        returnValueForMissingStub: _FakeSession_5(
           this,
           Invocation.getter(#session),
         ),
       ) as _i4.Session);
 
   @override
-  _i8.Future<_i5.User?> insert(_i5.User? user) => (super.noSuchMethod(
+  _i5.Future<_i6.User?> insert(_i6.User? user) => (super.noSuchMethod(
         Invocation.method(
           #insert,
           [user],
         ),
-        returnValue: _i8.Future<_i5.User?>.value(),
-        returnValueForMissingStub: _i8.Future<_i5.User?>.value(),
-      ) as _i8.Future<_i5.User?>);
+        returnValue: _i5.Future<_i6.User?>.value(),
+        returnValueForMissingStub: _i5.Future<_i6.User?>.value(),
+      ) as _i5.Future<_i6.User?>);
 
   @override
-  _i8.Future<_i5.User?> getByUid(String? uid) => (super.noSuchMethod(
+  _i5.Future<_i6.User?> getByUid(String? uid) => (super.noSuchMethod(
         Invocation.method(
           #getByUid,
           [uid],
         ),
-        returnValue: _i8.Future<_i5.User?>.value(),
-        returnValueForMissingStub: _i8.Future<_i5.User?>.value(),
-      ) as _i8.Future<_i5.User?>);
+        returnValue: _i5.Future<_i6.User?>.value(),
+        returnValueForMissingStub: _i5.Future<_i6.User?>.value(),
+      ) as _i5.Future<_i6.User?>);
 
   @override
-  _i8.Future<_i5.User?> getByUserInfoId(int? userInfoId) => (super.noSuchMethod(
+  _i5.Future<_i6.User?> getByUserInfoId(int? userInfoId) => (super.noSuchMethod(
         Invocation.method(
           #getByUserInfoId,
           [userInfoId],
         ),
-        returnValue: _i8.Future<_i5.User?>.value(),
-        returnValueForMissingStub: _i8.Future<_i5.User?>.value(),
-      ) as _i8.Future<_i5.User?>);
+        returnValue: _i5.Future<_i6.User?>.value(),
+        returnValueForMissingStub: _i5.Future<_i6.User?>.value(),
+      ) as _i5.Future<_i6.User?>);
 
   @override
-  _i8.Future<_i5.User> update(_i9.User? user) => (super.noSuchMethod(
+  _i5.Future<_i6.User> update(_i10.User? user) => (super.noSuchMethod(
         Invocation.method(
           #update,
           [user],
         ),
-        returnValue: _i8.Future<_i5.User>.value(_FakeUser_5(
+        returnValue: _i5.Future<_i6.User>.value(_FakeUser_7(
           this,
           Invocation.method(
             #update,
             [user],
           ),
         )),
-        returnValueForMissingStub: _i8.Future<_i5.User>.value(_FakeUser_5(
+        returnValueForMissingStub: _i5.Future<_i6.User>.value(_FakeUser_7(
           this,
           Invocation.method(
             #update,
             [user],
           ),
         )),
-      ) as _i8.Future<_i5.User>);
+      ) as _i5.Future<_i6.User>);
 }
 
 /// A class which mocks [UserInfoQueries].
@@ -329,40 +427,40 @@ class MockUserInfoQueries extends _i1.Mock implements _i2.UserInfoQueries {
   @override
   _i4.Session get session => (super.noSuchMethod(
         Invocation.getter(#session),
-        returnValue: _FakeSession_4(
+        returnValue: _FakeSession_5(
           this,
           Invocation.getter(#session),
         ),
-        returnValueForMissingStub: _FakeSession_4(
+        returnValueForMissingStub: _FakeSession_5(
           this,
           Invocation.getter(#session),
         ),
       ) as _i4.Session);
 
   @override
-  _i8.Future<_i10.UserInfo?> getByUserIdentifier(String? userIdentifier) =>
+  _i5.Future<_i7.UserInfo?> getByUserIdentifier(String? userIdentifier) =>
       (super.noSuchMethod(
         Invocation.method(
           #getByUserIdentifier,
           [userIdentifier],
         ),
-        returnValue: _i8.Future<_i10.UserInfo?>.value(),
-        returnValueForMissingStub: _i8.Future<_i10.UserInfo?>.value(),
-      ) as _i8.Future<_i10.UserInfo?>);
+        returnValue: _i5.Future<_i7.UserInfo?>.value(),
+        returnValueForMissingStub: _i5.Future<_i7.UserInfo?>.value(),
+      ) as _i5.Future<_i7.UserInfo?>);
 
   @override
-  _i8.Future<_i10.UserInfo?> getById(int? id) => (super.noSuchMethod(
+  _i5.Future<_i7.UserInfo?> getById(int? pk) => (super.noSuchMethod(
         Invocation.method(
           #getById,
-          [id],
+          [pk],
         ),
-        returnValue: _i8.Future<_i10.UserInfo?>.value(),
-        returnValueForMissingStub: _i8.Future<_i10.UserInfo?>.value(),
-      ) as _i8.Future<_i10.UserInfo?>);
+        returnValue: _i5.Future<_i7.UserInfo?>.value(),
+        returnValueForMissingStub: _i5.Future<_i7.UserInfo?>.value(),
+      ) as _i5.Future<_i7.UserInfo?>);
 
   @override
-  _i8.Future<_i10.UserInfo?> insert(
-    _i10.UserInfo? userInfo, [
+  _i5.Future<_i7.UserInfo?> insert(
+    _i7.UserInfo? userInfo, [
     String? authMethod,
   ]) =>
       (super.noSuchMethod(
@@ -373,9 +471,28 @@ class MockUserInfoQueries extends _i1.Mock implements _i2.UserInfoQueries {
             authMethod,
           ],
         ),
-        returnValue: _i8.Future<_i10.UserInfo?>.value(),
-        returnValueForMissingStub: _i8.Future<_i10.UserInfo?>.value(),
-      ) as _i8.Future<_i10.UserInfo?>);
+        returnValue: _i5.Future<_i7.UserInfo?>.value(),
+        returnValueForMissingStub: _i5.Future<_i7.UserInfo?>.value(),
+      ) as _i5.Future<_i7.UserInfo?>);
+
+  @override
+  _i5.Future<void> setEmail(
+    int? userInfoId,
+    String? email, {
+    _i4.Transaction? transaction,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setEmail,
+          [
+            userInfoId,
+            email,
+          ],
+          {#transaction: transaction},
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 }
 
 /// A class which mocks [AuthKeyQueries].
@@ -385,57 +502,185 @@ class MockAuthKeyQueries extends _i1.Mock implements _i2.AuthKeyQueries {
   @override
   _i4.Session get session => (super.noSuchMethod(
         Invocation.getter(#session),
-        returnValue: _FakeSession_4(
+        returnValue: _FakeSession_5(
           this,
           Invocation.getter(#session),
         ),
-        returnValueForMissingStub: _FakeSession_4(
+        returnValueForMissingStub: _FakeSession_5(
           this,
           Invocation.getter(#session),
         ),
       ) as _i4.Session);
 
   @override
-  _i8.Future<_i10.AuthKey?> insert(_i10.AuthKey? key) => (super.noSuchMethod(
+  _i5.Future<_i7.AuthKey> insert(
+    _i7.AuthKey? key, {
+    _i4.Transaction? transaction,
+  }) =>
+      (super.noSuchMethod(
         Invocation.method(
           #insert,
           [key],
+          {#transaction: transaction},
         ),
-        returnValue: _i8.Future<_i10.AuthKey?>.value(),
-        returnValueForMissingStub: _i8.Future<_i10.AuthKey?>.value(),
-      ) as _i8.Future<_i10.AuthKey?>);
+        returnValue: _i5.Future<_i7.AuthKey>.value(_FakeAuthKey_8(
+          this,
+          Invocation.method(
+            #insert,
+            [key],
+            {#transaction: transaction},
+          ),
+        )),
+        returnValueForMissingStub: _i5.Future<_i7.AuthKey>.value(_FakeAuthKey_8(
+          this,
+          Invocation.method(
+            #insert,
+            [key],
+            {#transaction: transaction},
+          ),
+        )),
+      ) as _i5.Future<_i7.AuthKey>);
 
   @override
-  _i8.Future<_i10.AuthKey?> getById(int? id) => (super.noSuchMethod(
+  _i5.Future<_i7.AuthKey?> getTypedKeyForUserId(
+    int? userInfoId,
+    dynamic type,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getTypedKeyForUserId,
+          [
+            userInfoId,
+            type,
+          ],
+        ),
+        returnValue: _i5.Future<_i7.AuthKey?>.value(),
+        returnValueForMissingStub: _i5.Future<_i7.AuthKey?>.value(),
+      ) as _i5.Future<_i7.AuthKey?>);
+
+  @override
+  _i5.Future<_i7.AuthKey?> getById(int? id) => (super.noSuchMethod(
         Invocation.method(
           #getById,
           [id],
         ),
-        returnValue: _i8.Future<_i10.AuthKey?>.value(),
-        returnValueForMissingStub: _i8.Future<_i10.AuthKey?>.value(),
-      ) as _i8.Future<_i10.AuthKey?>);
+        returnValue: _i5.Future<_i7.AuthKey?>.value(),
+        returnValueForMissingStub: _i5.Future<_i7.AuthKey?>.value(),
+      ) as _i5.Future<_i7.AuthKey?>);
 
   @override
-  _i8.Future<_i10.AuthKey?> delete(_i10.AuthKey? key) => (super.noSuchMethod(
+  _i5.Future<_i7.AuthKey?> delete(_i7.AuthKey? key) => (super.noSuchMethod(
         Invocation.method(
           #delete,
           [key],
         ),
-        returnValue: _i8.Future<_i10.AuthKey?>.value(),
-        returnValueForMissingStub: _i8.Future<_i10.AuthKey?>.value(),
-      ) as _i8.Future<_i10.AuthKey?>);
+        returnValue: _i5.Future<_i7.AuthKey?>.value(),
+        returnValueForMissingStub: _i5.Future<_i7.AuthKey?>.value(),
+      ) as _i5.Future<_i7.AuthKey?>);
 
   @override
-  _i8.Future<List<_i10.AuthKey>> getAllForUserId(int? userInfoId) =>
+  _i5.Future<void> deleteAnonymous(
+    int? userInfoId, {
+    _i4.Transaction? transaction,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteAnonymous,
+          [userInfoId],
+          {#transaction: transaction},
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<List<_i7.AuthKey>> getAllForUserId(int? userInfoId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllForUserId,
           [userInfoId],
         ),
-        returnValue: _i8.Future<List<_i10.AuthKey>>.value(<_i10.AuthKey>[]),
+        returnValue: _i5.Future<List<_i7.AuthKey>>.value(<_i7.AuthKey>[]),
         returnValueForMissingStub:
-            _i8.Future<List<_i10.AuthKey>>.value(<_i10.AuthKey>[]),
-      ) as _i8.Future<List<_i10.AuthKey>>);
+            _i5.Future<List<_i7.AuthKey>>.value(<_i7.AuthKey>[]),
+      ) as _i5.Future<List<_i7.AuthKey>>);
+}
+
+/// A class which mocks [EmailAuthQueries].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockEmailAuthQueries extends _i1.Mock implements _i2.EmailAuthQueries {
+  @override
+  _i4.Session get session => (super.noSuchMethod(
+        Invocation.getter(#session),
+        returnValue: _FakeSession_5(
+          this,
+          Invocation.getter(#session),
+        ),
+        returnValueForMissingStub: _FakeSession_5(
+          this,
+          Invocation.getter(#session),
+        ),
+      ) as _i4.Session);
+
+  @override
+  _i5.Future<_i7.EmailAuth?> getByUserId(int? userInfoId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getByUserId,
+          [userInfoId],
+        ),
+        returnValue: _i5.Future<_i7.EmailAuth?>.value(),
+        returnValueForMissingStub: _i5.Future<_i7.EmailAuth?>.value(),
+      ) as _i5.Future<_i7.EmailAuth?>);
+
+  @override
+  _i5.Future<_i7.EmailAuth> insert(_i7.EmailAuth? emailAuth) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #insert,
+          [emailAuth],
+        ),
+        returnValue: _i5.Future<_i7.EmailAuth>.value(_FakeEmailAuth_9(
+          this,
+          Invocation.method(
+            #insert,
+            [emailAuth],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i7.EmailAuth>.value(_FakeEmailAuth_9(
+          this,
+          Invocation.method(
+            #insert,
+            [emailAuth],
+          ),
+        )),
+      ) as _i5.Future<_i7.EmailAuth>);
+
+  @override
+  _i5.Future<String> generatePasswordHash(String? password) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #generatePasswordHash,
+          [password],
+        ),
+        returnValue: _i5.Future<String>.value(_i9.dummyValue<String>(
+          this,
+          Invocation.method(
+            #generatePasswordHash,
+            [password],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<String>.value(_i9.dummyValue<String>(
+          this,
+          Invocation.method(
+            #generatePasswordHash,
+            [password],
+          ),
+        )),
+      ) as _i5.Future<String>);
 }
 
 /// A class which mocks [KeyValidator].
@@ -445,11 +690,11 @@ class MockKeyValidator extends _i1.Mock implements _i3.KeyValidator {
   @override
   String get keyIdentifier => (super.noSuchMethod(
         Invocation.getter(#keyIdentifier),
-        returnValue: _i7.dummyValue<String>(
+        returnValue: _i9.dummyValue<String>(
           this,
           Invocation.getter(#keyIdentifier),
         ),
-        returnValueForMissingStub: _i7.dummyValue<String>(
+        returnValueForMissingStub: _i9.dummyValue<String>(
           this,
           Invocation.getter(#keyIdentifier),
         ),
@@ -474,11 +719,11 @@ class MockKeyValidator extends _i1.Mock implements _i3.KeyValidator {
   @override
   String get key => (super.noSuchMethod(
         Invocation.getter(#key),
-        returnValue: _i7.dummyValue<String>(
+        returnValue: _i9.dummyValue<String>(
           this,
           Invocation.getter(#key),
         ),
-        returnValueForMissingStub: _i7.dummyValue<String>(
+        returnValueForMissingStub: _i9.dummyValue<String>(
           this,
           Invocation.getter(#key),
         ),

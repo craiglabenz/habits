@@ -15,7 +15,7 @@ class AppAuthResponse with _$AppAuthResponse {
     required String key,
     required Json userInfoData,
     @AuthTypeConverter() required AuthType method,
-    @AuthTypeListConverter() required List<AuthType> allMethods,
+    @AuthTypeListConverter() required Set<AuthType> allMethods,
   }) = AppAuthSuccess;
 
   /// Response from an unsuccessful authentication attempt.

@@ -83,6 +83,7 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
         _authUserController = StreamController<(AuthUser, bool)>.broadcast(),
         _initializedCompleter = Completer<bool>() {
     _streamAuthSub = _socialAuthService.users.listen(onNewFirebaseUser);
+    _initializedCompleter.future.then((val) => _isReady = val);
   }
 
   StreamSubscription<FirebaseUser?>? _streamAuthSub;
@@ -113,6 +114,16 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
 
   @override
   Future<bool> get ready => _initializedCompleter.future;
+
+  bool _isReady = false;
+
+  /// Synchronous checker for whether or not [ready] has already resolved with
+  /// a value of true.
+  bool get isReady => _isReady;
+
+  /// Synchronous checker for whether or not [ready] is either still pending or
+  /// has resolved with a value of false.
+  bool get isNotReady => !_isReady;
 
   @override
   Stream<(AuthUser, bool)> get user => _authUserController.stream;

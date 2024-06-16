@@ -12,8 +12,9 @@ _$AppAuthSuccessImpl _$$AppAuthSuccessImplFromJson(Map<String, dynamic> json) =>
       key: json['key'] as String,
       userInfoData: json['userInfoData'] as Map<String, dynamic>,
       method: const AuthTypeConverter().fromJson(json['method'] as String),
-      allMethods:
-          const AuthTypeListConverter().fromJson(json['allMethods'] as List),
+      allMethods: (json['allMethods'] as List<dynamic>)
+          .map((e) => $enumDecode(_$AuthTypeEnumMap, e))
+          .toSet(),
       $type: json['runtimeType'] as String?,
     );
 
@@ -24,9 +25,16 @@ Map<String, dynamic> _$$AppAuthSuccessImplToJson(
       'key': instance.key,
       'userInfoData': instance.userInfoData,
       'method': const AuthTypeConverter().toJson(instance.method),
-      'allMethods': const AuthTypeListConverter().toJson(instance.allMethods),
+      'allMethods': instance.allMethods.toList(),
       'runtimeType': instance.$type,
     };
+
+const _$AuthTypeEnumMap = {
+  AuthType.google: 'google',
+  AuthType.apple: 'apple',
+  AuthType.email: 'email',
+  AuthType.anonymous: 'anonymous',
+};
 
 _$AppAuthFailureImpl _$$AppAuthFailureImplFromJson(Map<String, dynamic> json) =>
     _$AppAuthFailureImpl(

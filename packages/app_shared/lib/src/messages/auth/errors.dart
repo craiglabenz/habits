@@ -26,6 +26,9 @@ class AuthenticationError with _$AuthenticationError {
   const factory AuthenticationError.cancelledSocialAuth() =
       CancelledSocialAuthError;
 
+  /// Auth error indicating the attempted new user email is invalid.
+  const factory AuthenticationError.invalidEmail() = InvalidEmailError;
+
   /// Auth error indicating the attempted new user password fails to meet
   /// minimum criteria.
   const factory AuthenticationError.invalidPassword() = InvalidPasswordError;
@@ -59,6 +62,27 @@ class AuthenticationError with _$AuthenticationError {
   factory AuthenticationError.fromJson(Json json) =>
       _$AuthenticationErrorFromJson(json);
 
+  /// [MissingCredentials] of the email variety.
+  static const AuthenticationError missingEmail = MissingCredentials(
+    missingEmail: true,
+    missingPassword: false,
+    missingApiKey: false,
+  );
+
+  /// [MissingCredentials] of the email variety.
+  static const AuthenticationError missingPassword = MissingCredentials(
+    missingEmail: false,
+    missingPassword: true,
+    missingApiKey: false,
+  );
+
+  /// [MissingCredentials] of the api key variety.
+  static const AuthenticationError missingApiKey = MissingCredentials(
+    missingEmail: false,
+    missingPassword: false,
+    missingApiKey: true,
+  );
+
   /// Converts a given [AuthenticationError] into a display string suitable for
   /// showing the user.
   String toDisplay() => map<String>(
@@ -66,6 +90,7 @@ class AuthenticationError with _$AuthenticationError {
         cancelledSocialAuth: (_) => 'Login flow cancelled',
         accountExists: (e) =>
             'Matching account already exists for ${e.fieldName}',
+        invalidEmail: (_) => 'This email is invalid',
         invalidPassword: (_) => 'This password is invalid',
         invalidCode: (_) => 'Failed 2-factor authentication',
         logoutError: (_) => 'Failed to logout',

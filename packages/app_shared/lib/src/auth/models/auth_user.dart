@@ -55,4 +55,12 @@ class AuthUser extends StringModel with _$AuthUser {
 
   /// True is this [AuthUser] is not [AuthUser.unknown].
   bool get isKnown => this != unknown;
+
+  /// True if this [AuthUser] can authenticate with an email and password.
+  bool get hasEmailAuth => allMethods.contains(AuthType.email);
+
+  /// True if this [AuthUser] can authenticate with Apple or Google.
+  bool get hasSocialAuth =>
+      allMethods.contains(AuthType.apple) ||
+      allMethods.contains(AuthType.google);
 }

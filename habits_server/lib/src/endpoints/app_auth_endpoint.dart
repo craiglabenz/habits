@@ -32,4 +32,22 @@ class AppAuthEndpoint extends Endpoint {
       keyIdentifier: keyIdentifier,
     );
   }
+
+  /// Adds email-flavored auth to the authenticated session.
+  Future<AppAuthResponse> addEmailAuth(
+    Session session, {
+    required String email,
+    required String password,
+  }) async {
+    final appSession = AppSession(session);
+    final authInfo = await appSession.authenticated;
+    if (authInfo == null) {
+      return const AppAuthFailure(reason: AuthenticationError.missingApiKey);
+    }
+    return EmailUserController.addAuth(
+      appSession,
+      email: email,
+      password: password,
+    );
+  }
 }

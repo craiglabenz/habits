@@ -36,7 +36,7 @@ mixin _$AppAuthResponse {
             String key,
             Map<String, Object?> userInfoData,
             @AuthTypeConverter() AuthType method,
-            @AuthTypeListConverter() List<AuthType> allMethods)
+            @AuthTypeListConverter() Set<AuthType> allMethods)
         success,
     required TResult Function(
             @AuthenticationErrorConverter() AuthenticationError reason)
@@ -50,7 +50,7 @@ mixin _$AppAuthResponse {
             String key,
             Map<String, Object?> userInfoData,
             @AuthTypeConverter() AuthType method,
-            @AuthTypeListConverter() List<AuthType> allMethods)?
+            @AuthTypeListConverter() Set<AuthType> allMethods)?
         success,
     TResult? Function(
             @AuthenticationErrorConverter() AuthenticationError reason)?
@@ -64,7 +64,7 @@ mixin _$AppAuthResponse {
             String key,
             Map<String, Object?> userInfoData,
             @AuthTypeConverter() AuthType method,
-            @AuthTypeListConverter() List<AuthType> allMethods)?
+            @AuthTypeListConverter() Set<AuthType> allMethods)?
         success,
     TResult Function(
             @AuthenticationErrorConverter() AuthenticationError reason)?
@@ -123,7 +123,7 @@ abstract class _$$AppAuthSuccessImplCopyWith<$Res> {
       String key,
       Map<String, Object?> userInfoData,
       @AuthTypeConverter() AuthType method,
-      @AuthTypeListConverter() List<AuthType> allMethods});
+      @AuthTypeListConverter() Set<AuthType> allMethods});
 }
 
 /// @nodoc
@@ -163,7 +163,7 @@ class __$$AppAuthSuccessImplCopyWithImpl<$Res>
       allMethods: null == allMethods
           ? _value._allMethods
           : allMethods // ignore: cast_nullable_to_non_nullable
-              as List<AuthType>,
+              as Set<AuthType>,
     ));
   }
 }
@@ -176,7 +176,7 @@ class _$AppAuthSuccessImpl extends AppAuthSuccess {
       required this.key,
       required final Map<String, Object?> userInfoData,
       @AuthTypeConverter() required this.method,
-      @AuthTypeListConverter() required final List<AuthType> allMethods,
+      @AuthTypeListConverter() required final Set<AuthType> allMethods,
       final String? $type})
       : _userInfoData = userInfoData,
         _allMethods = allMethods,
@@ -201,13 +201,13 @@ class _$AppAuthSuccessImpl extends AppAuthSuccess {
   @override
   @AuthTypeConverter()
   final AuthType method;
-  final List<AuthType> _allMethods;
+  final Set<AuthType> _allMethods;
   @override
   @AuthTypeListConverter()
-  List<AuthType> get allMethods {
-    if (_allMethods is EqualUnmodifiableListView) return _allMethods;
+  Set<AuthType> get allMethods {
+    if (_allMethods is EqualUnmodifiableSetView) return _allMethods;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_allMethods);
+    return EqualUnmodifiableSetView(_allMethods);
   }
 
   @JsonKey(name: 'runtimeType')
@@ -257,7 +257,7 @@ class _$AppAuthSuccessImpl extends AppAuthSuccess {
             String key,
             Map<String, Object?> userInfoData,
             @AuthTypeConverter() AuthType method,
-            @AuthTypeListConverter() List<AuthType> allMethods)
+            @AuthTypeListConverter() Set<AuthType> allMethods)
         success,
     required TResult Function(
             @AuthenticationErrorConverter() AuthenticationError reason)
@@ -274,7 +274,7 @@ class _$AppAuthSuccessImpl extends AppAuthSuccess {
             String key,
             Map<String, Object?> userInfoData,
             @AuthTypeConverter() AuthType method,
-            @AuthTypeListConverter() List<AuthType> allMethods)?
+            @AuthTypeListConverter() Set<AuthType> allMethods)?
         success,
     TResult? Function(
             @AuthenticationErrorConverter() AuthenticationError reason)?
@@ -291,7 +291,7 @@ class _$AppAuthSuccessImpl extends AppAuthSuccess {
             String key,
             Map<String, Object?> userInfoData,
             @AuthTypeConverter() AuthType method,
-            @AuthTypeListConverter() List<AuthType> allMethods)?
+            @AuthTypeListConverter() Set<AuthType> allMethods)?
         success,
     TResult Function(
             @AuthenticationErrorConverter() AuthenticationError reason)?
@@ -349,7 +349,7 @@ abstract class AppAuthSuccess extends AppAuthResponse {
           required final String key,
           required final Map<String, Object?> userInfoData,
           @AuthTypeConverter() required final AuthType method,
-          @AuthTypeListConverter() required final List<AuthType> allMethods}) =
+          @AuthTypeListConverter() required final Set<AuthType> allMethods}) =
       _$AppAuthSuccessImpl;
   const AppAuthSuccess._() : super._();
 
@@ -362,7 +362,7 @@ abstract class AppAuthSuccess extends AppAuthResponse {
   @AuthTypeConverter()
   AuthType get method;
   @AuthTypeListConverter()
-  List<AuthType> get allMethods;
+  Set<AuthType> get allMethods;
   @JsonKey(ignore: true)
   _$$AppAuthSuccessImplCopyWith<_$AppAuthSuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -460,7 +460,7 @@ class _$AppAuthFailureImpl extends AppAuthFailure {
             String key,
             Map<String, Object?> userInfoData,
             @AuthTypeConverter() AuthType method,
-            @AuthTypeListConverter() List<AuthType> allMethods)
+            @AuthTypeListConverter() Set<AuthType> allMethods)
         success,
     required TResult Function(
             @AuthenticationErrorConverter() AuthenticationError reason)
@@ -477,7 +477,7 @@ class _$AppAuthFailureImpl extends AppAuthFailure {
             String key,
             Map<String, Object?> userInfoData,
             @AuthTypeConverter() AuthType method,
-            @AuthTypeListConverter() List<AuthType> allMethods)?
+            @AuthTypeListConverter() Set<AuthType> allMethods)?
         success,
     TResult? Function(
             @AuthenticationErrorConverter() AuthenticationError reason)?
@@ -494,7 +494,7 @@ class _$AppAuthFailureImpl extends AppAuthFailure {
             String key,
             Map<String, Object?> userInfoData,
             @AuthTypeConverter() AuthType method,
-            @AuthTypeListConverter() List<AuthType> allMethods)?
+            @AuthTypeListConverter() Set<AuthType> allMethods)?
         success,
     TResult Function(
             @AuthenticationErrorConverter() AuthenticationError reason)?

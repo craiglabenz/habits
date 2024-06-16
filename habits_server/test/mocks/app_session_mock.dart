@@ -10,6 +10,7 @@ import 'package:serverpod/serverpod.dart';
   MockSpec<UserQueries>(),
   MockSpec<UserInfoQueries>(),
   MockSpec<AuthKeyQueries>(),
+  MockSpec<EmailAuthQueries>(),
   MockSpec<KeyValidator>(),
   MockSpec<AuthenticationInfo>(),
 ])

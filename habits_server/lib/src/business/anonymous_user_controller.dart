@@ -1,5 +1,6 @@
 import 'package:app_shared/app_shared.dart' as shared;
 import 'package:habits_server/src/app_session/app_session.dart';
+import 'package:habits_server/src/business/business.dart';
 import 'package:habits_server/src/generated/protocol.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:serverpod_auth_server/serverpod_auth_server.dart' as auth;
@@ -69,12 +70,6 @@ class AnonymousUserController {
     // Save the authentication key to the database in a separate session which
     // has logging disabled for security purposes.
     final savedAuthKey = await session.authKey.insert(authKey);
-    if (savedAuthKey == null) {
-      session.log('Failed to save $authKey', level: LogLevel.error);
-      return const shared.AppAuthFailure(
-        reason: shared.AuthenticationError.unknownError(),
-      );
-    }
 
     await session.user.insert(
       User(
@@ -91,7 +86,7 @@ class AnonymousUserController {
       key: key,
       keyId: savedAuthKey.id!,
       method: shared.AuthType.anonymous,
-      allMethods: [shared.AuthType.anonymous],
+      allMethods: {shared.AuthType.anonymous},
     );
   }
 
@@ -138,16 +133,15 @@ class AnonymousUserController {
       );
     }
 
-    final allKeys = await session.authKey.getAllForUserId(authKey.userId);
-
     return shared.AppAuthSuccess(
       userInfoData: userInfo.toJson(),
       key: validator.key,
       keyId: authKey.id!,
       method: shared.AuthType.fromJson(authKey.method),
-      allMethods: allKeys
-          .map<shared.AuthType>((key) => shared.AuthType.fromJson(key.method))
-          .toList(),
+      allMethods: await AuthKeyController.getAuthTypesForUserId(
+        session,
+        authKey.userId,
+      ),
     );
   }
 }

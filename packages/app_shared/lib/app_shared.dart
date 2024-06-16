@@ -8,3 +8,4 @@ export 'src/geo/geo.dart';
 export 'src/logger.dart';
 export 'src/messages/messages.dart';
 export 'src/types.dart';
+export 'src/utilities/utilities.dart';

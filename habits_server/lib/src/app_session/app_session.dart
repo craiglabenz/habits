@@ -54,4 +54,8 @@ class AppSession with AuthSessionMixin {
   /// logging when queries contain sensitive data.
   Future<Session> createSession({bool enableLogging = true}) =>
       _session.serverpod.createSession(enableLogging: enableLogging);
+
+  /// Runs the callback within a database transaction.
+  Future<R> transaction<R>(TransactionFunction<R> transactionFunction) =>
+      _session.db.transaction(transactionFunction);
 }

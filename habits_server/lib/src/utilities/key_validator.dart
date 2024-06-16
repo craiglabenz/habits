@@ -38,11 +38,7 @@ class KeyValidator {
   AuthenticationError? validate() {
     if (keyIdentifier.isEmpty) {
       log = 'Unexpectedly empty keyIdentifier';
-      return const AuthenticationError.missingCredentials(
-        missingEmail: false,
-        missingPassword: false,
-        missingApiKey: true,
-      );
+      return AuthenticationError.missingApiKey;
     }
     if (!keyIdentifier.contains(':')) {
       log = 'Malformed keyIdentifier - no delimiter';

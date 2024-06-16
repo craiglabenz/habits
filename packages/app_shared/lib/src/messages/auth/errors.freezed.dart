@@ -24,6 +24,8 @@ AuthenticationError _$AuthenticationErrorFromJson(Map<String, dynamic> json) {
       return BadApiKeyError.fromJson(json);
     case 'cancelledSocialAuth':
       return CancelledSocialAuthError.fromJson(json);
+    case 'invalidEmail':
+      return InvalidEmailError.fromJson(json);
     case 'invalidPassword':
       return InvalidPasswordError.fromJson(json);
     case 'invalidCode':
@@ -51,6 +53,7 @@ mixin _$AuthenticationError {
     required TResult Function() badEmailPassword,
     required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
+    required TResult Function() invalidEmail,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
     required TResult Function() logoutError,
@@ -67,6 +70,7 @@ mixin _$AuthenticationError {
     TResult? Function()? badEmailPassword,
     TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
+    TResult? Function()? invalidEmail,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
     TResult? Function()? logoutError,
@@ -83,6 +87,7 @@ mixin _$AuthenticationError {
     TResult Function()? badEmailPassword,
     TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
+    TResult Function()? invalidEmail,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
     TResult Function()? logoutError,
@@ -101,6 +106,7 @@ mixin _$AuthenticationError {
     required TResult Function(BadApiKeyError value) badApiKey,
     required TResult Function(CancelledSocialAuthError value)
         cancelledSocialAuth,
+    required TResult Function(InvalidEmailError value) invalidEmail,
     required TResult Function(InvalidPasswordError value) invalidPassword,
     required TResult Function(InvalidCodeError value) invalidCode,
     required TResult Function(LogoutError value) logoutError,
@@ -115,6 +121,7 @@ mixin _$AuthenticationError {
     TResult? Function(BadEmailPasswordError value)? badEmailPassword,
     TResult? Function(BadApiKeyError value)? badApiKey,
     TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult? Function(InvalidEmailError value)? invalidEmail,
     TResult? Function(InvalidPasswordError value)? invalidPassword,
     TResult? Function(InvalidCodeError value)? invalidCode,
     TResult? Function(LogoutError value)? logoutError,
@@ -129,6 +136,7 @@ mixin _$AuthenticationError {
     TResult Function(BadEmailPasswordError value)? badEmailPassword,
     TResult Function(BadApiKeyError value)? badApiKey,
     TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult Function(InvalidEmailError value)? invalidEmail,
     TResult Function(InvalidPasswordError value)? invalidPassword,
     TResult Function(InvalidCodeError value)? invalidCode,
     TResult Function(LogoutError value)? logoutError,
@@ -247,6 +255,7 @@ class _$AccountExistsErrorImpl extends AccountExistsError {
     required TResult Function() badEmailPassword,
     required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
+    required TResult Function() invalidEmail,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
     required TResult Function() logoutError,
@@ -266,6 +275,7 @@ class _$AccountExistsErrorImpl extends AccountExistsError {
     TResult? Function()? badEmailPassword,
     TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
+    TResult? Function()? invalidEmail,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
     TResult? Function()? logoutError,
@@ -285,6 +295,7 @@ class _$AccountExistsErrorImpl extends AccountExistsError {
     TResult Function()? badEmailPassword,
     TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
+    TResult Function()? invalidEmail,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
     TResult Function()? logoutError,
@@ -309,6 +320,7 @@ class _$AccountExistsErrorImpl extends AccountExistsError {
     required TResult Function(BadApiKeyError value) badApiKey,
     required TResult Function(CancelledSocialAuthError value)
         cancelledSocialAuth,
+    required TResult Function(InvalidEmailError value) invalidEmail,
     required TResult Function(InvalidPasswordError value) invalidPassword,
     required TResult Function(InvalidCodeError value) invalidCode,
     required TResult Function(LogoutError value) logoutError,
@@ -326,6 +338,7 @@ class _$AccountExistsErrorImpl extends AccountExistsError {
     TResult? Function(BadEmailPasswordError value)? badEmailPassword,
     TResult? Function(BadApiKeyError value)? badApiKey,
     TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult? Function(InvalidEmailError value)? invalidEmail,
     TResult? Function(InvalidPasswordError value)? invalidPassword,
     TResult? Function(InvalidCodeError value)? invalidCode,
     TResult? Function(LogoutError value)? logoutError,
@@ -343,6 +356,7 @@ class _$AccountExistsErrorImpl extends AccountExistsError {
     TResult Function(BadEmailPasswordError value)? badEmailPassword,
     TResult Function(BadApiKeyError value)? badApiKey,
     TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult Function(InvalidEmailError value)? invalidEmail,
     TResult Function(InvalidPasswordError value)? invalidPassword,
     TResult Function(InvalidCodeError value)? invalidCode,
     TResult Function(LogoutError value)? logoutError,
@@ -434,6 +448,7 @@ class _$BadEmailPasswordErrorImpl extends BadEmailPasswordError {
     required TResult Function() badEmailPassword,
     required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
+    required TResult Function() invalidEmail,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
     required TResult Function() logoutError,
@@ -453,6 +468,7 @@ class _$BadEmailPasswordErrorImpl extends BadEmailPasswordError {
     TResult? Function()? badEmailPassword,
     TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
+    TResult? Function()? invalidEmail,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
     TResult? Function()? logoutError,
@@ -472,6 +488,7 @@ class _$BadEmailPasswordErrorImpl extends BadEmailPasswordError {
     TResult Function()? badEmailPassword,
     TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
+    TResult Function()? invalidEmail,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
     TResult Function()? logoutError,
@@ -496,6 +513,7 @@ class _$BadEmailPasswordErrorImpl extends BadEmailPasswordError {
     required TResult Function(BadApiKeyError value) badApiKey,
     required TResult Function(CancelledSocialAuthError value)
         cancelledSocialAuth,
+    required TResult Function(InvalidEmailError value) invalidEmail,
     required TResult Function(InvalidPasswordError value) invalidPassword,
     required TResult Function(InvalidCodeError value) invalidCode,
     required TResult Function(LogoutError value) logoutError,
@@ -513,6 +531,7 @@ class _$BadEmailPasswordErrorImpl extends BadEmailPasswordError {
     TResult? Function(BadEmailPasswordError value)? badEmailPassword,
     TResult? Function(BadApiKeyError value)? badApiKey,
     TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult? Function(InvalidEmailError value)? invalidEmail,
     TResult? Function(InvalidPasswordError value)? invalidPassword,
     TResult? Function(InvalidCodeError value)? invalidCode,
     TResult? Function(LogoutError value)? logoutError,
@@ -530,6 +549,7 @@ class _$BadEmailPasswordErrorImpl extends BadEmailPasswordError {
     TResult Function(BadEmailPasswordError value)? badEmailPassword,
     TResult Function(BadApiKeyError value)? badApiKey,
     TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult Function(InvalidEmailError value)? invalidEmail,
     TResult Function(InvalidPasswordError value)? invalidPassword,
     TResult Function(InvalidCodeError value)? invalidCode,
     TResult Function(LogoutError value)? logoutError,
@@ -638,6 +658,7 @@ class _$BadApiKeyErrorImpl extends BadApiKeyError {
     required TResult Function() badEmailPassword,
     required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
+    required TResult Function() invalidEmail,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
     required TResult Function() logoutError,
@@ -657,6 +678,7 @@ class _$BadApiKeyErrorImpl extends BadApiKeyError {
     TResult? Function()? badEmailPassword,
     TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
+    TResult? Function()? invalidEmail,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
     TResult? Function()? logoutError,
@@ -676,6 +698,7 @@ class _$BadApiKeyErrorImpl extends BadApiKeyError {
     TResult Function()? badEmailPassword,
     TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
+    TResult Function()? invalidEmail,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
     TResult Function()? logoutError,
@@ -700,6 +723,7 @@ class _$BadApiKeyErrorImpl extends BadApiKeyError {
     required TResult Function(BadApiKeyError value) badApiKey,
     required TResult Function(CancelledSocialAuthError value)
         cancelledSocialAuth,
+    required TResult Function(InvalidEmailError value) invalidEmail,
     required TResult Function(InvalidPasswordError value) invalidPassword,
     required TResult Function(InvalidCodeError value) invalidCode,
     required TResult Function(LogoutError value) logoutError,
@@ -717,6 +741,7 @@ class _$BadApiKeyErrorImpl extends BadApiKeyError {
     TResult? Function(BadEmailPasswordError value)? badEmailPassword,
     TResult? Function(BadApiKeyError value)? badApiKey,
     TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult? Function(InvalidEmailError value)? invalidEmail,
     TResult? Function(InvalidPasswordError value)? invalidPassword,
     TResult? Function(InvalidCodeError value)? invalidCode,
     TResult? Function(LogoutError value)? logoutError,
@@ -734,6 +759,7 @@ class _$BadApiKeyErrorImpl extends BadApiKeyError {
     TResult Function(BadEmailPasswordError value)? badEmailPassword,
     TResult Function(BadApiKeyError value)? badApiKey,
     TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult Function(InvalidEmailError value)? invalidEmail,
     TResult Function(InvalidPasswordError value)? invalidPassword,
     TResult Function(InvalidCodeError value)? invalidCode,
     TResult Function(LogoutError value)? logoutError,
@@ -824,6 +850,7 @@ class _$CancelledSocialAuthErrorImpl extends CancelledSocialAuthError {
     required TResult Function() badEmailPassword,
     required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
+    required TResult Function() invalidEmail,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
     required TResult Function() logoutError,
@@ -843,6 +870,7 @@ class _$CancelledSocialAuthErrorImpl extends CancelledSocialAuthError {
     TResult? Function()? badEmailPassword,
     TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
+    TResult? Function()? invalidEmail,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
     TResult? Function()? logoutError,
@@ -862,6 +890,7 @@ class _$CancelledSocialAuthErrorImpl extends CancelledSocialAuthError {
     TResult Function()? badEmailPassword,
     TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
+    TResult Function()? invalidEmail,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
     TResult Function()? logoutError,
@@ -886,6 +915,7 @@ class _$CancelledSocialAuthErrorImpl extends CancelledSocialAuthError {
     required TResult Function(BadApiKeyError value) badApiKey,
     required TResult Function(CancelledSocialAuthError value)
         cancelledSocialAuth,
+    required TResult Function(InvalidEmailError value) invalidEmail,
     required TResult Function(InvalidPasswordError value) invalidPassword,
     required TResult Function(InvalidCodeError value) invalidCode,
     required TResult Function(LogoutError value) logoutError,
@@ -903,6 +933,7 @@ class _$CancelledSocialAuthErrorImpl extends CancelledSocialAuthError {
     TResult? Function(BadEmailPasswordError value)? badEmailPassword,
     TResult? Function(BadApiKeyError value)? badApiKey,
     TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult? Function(InvalidEmailError value)? invalidEmail,
     TResult? Function(InvalidPasswordError value)? invalidPassword,
     TResult? Function(InvalidCodeError value)? invalidCode,
     TResult? Function(LogoutError value)? logoutError,
@@ -920,6 +951,7 @@ class _$CancelledSocialAuthErrorImpl extends CancelledSocialAuthError {
     TResult Function(BadEmailPasswordError value)? badEmailPassword,
     TResult Function(BadApiKeyError value)? badApiKey,
     TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult Function(InvalidEmailError value)? invalidEmail,
     TResult Function(InvalidPasswordError value)? invalidPassword,
     TResult Function(InvalidCodeError value)? invalidCode,
     TResult Function(LogoutError value)? logoutError,
@@ -948,6 +980,189 @@ abstract class CancelledSocialAuthError extends AuthenticationError {
 
   factory CancelledSocialAuthError.fromJson(Map<String, dynamic> json) =
       _$CancelledSocialAuthErrorImpl.fromJson;
+}
+
+/// @nodoc
+abstract class _$$InvalidEmailErrorImplCopyWith<$Res> {
+  factory _$$InvalidEmailErrorImplCopyWith(_$InvalidEmailErrorImpl value,
+          $Res Function(_$InvalidEmailErrorImpl) then) =
+      __$$InvalidEmailErrorImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$InvalidEmailErrorImplCopyWithImpl<$Res>
+    extends _$AuthenticationErrorCopyWithImpl<$Res, _$InvalidEmailErrorImpl>
+    implements _$$InvalidEmailErrorImplCopyWith<$Res> {
+  __$$InvalidEmailErrorImplCopyWithImpl(_$InvalidEmailErrorImpl _value,
+      $Res Function(_$InvalidEmailErrorImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$InvalidEmailErrorImpl extends InvalidEmailError {
+  const _$InvalidEmailErrorImpl({final String? $type})
+      : $type = $type ?? 'invalidEmail',
+        super._();
+
+  factory _$InvalidEmailErrorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$InvalidEmailErrorImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'AuthenticationError.invalidEmail()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$InvalidEmailErrorImpl);
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String fieldName, String value) accountExists,
+    required TResult Function() badEmailPassword,
+    required TResult Function(String message) badApiKey,
+    required TResult Function() cancelledSocialAuth,
+    required TResult Function() invalidEmail,
+    required TResult Function() invalidPassword,
+    required TResult Function() invalidCode,
+    required TResult Function() logoutError,
+    required TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)
+        missingCredentials,
+    required TResult Function(Set<AuthType> methods) wrongMethod,
+    required TResult Function() unknownError,
+  }) {
+    return invalidEmail();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String fieldName, String value)? accountExists,
+    TResult? Function()? badEmailPassword,
+    TResult? Function(String message)? badApiKey,
+    TResult? Function()? cancelledSocialAuth,
+    TResult? Function()? invalidEmail,
+    TResult? Function()? invalidPassword,
+    TResult? Function()? invalidCode,
+    TResult? Function()? logoutError,
+    TResult? Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
+        missingCredentials,
+    TResult? Function(Set<AuthType> methods)? wrongMethod,
+    TResult? Function()? unknownError,
+  }) {
+    return invalidEmail?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String fieldName, String value)? accountExists,
+    TResult Function()? badEmailPassword,
+    TResult Function(String message)? badApiKey,
+    TResult Function()? cancelledSocialAuth,
+    TResult Function()? invalidEmail,
+    TResult Function()? invalidPassword,
+    TResult Function()? invalidCode,
+    TResult Function()? logoutError,
+    TResult Function(
+            bool missingEmail, bool missingPassword, bool missingApiKey)?
+        missingCredentials,
+    TResult Function(Set<AuthType> methods)? wrongMethod,
+    TResult Function()? unknownError,
+    required TResult orElse(),
+  }) {
+    if (invalidEmail != null) {
+      return invalidEmail();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AccountExistsError value) accountExists,
+    required TResult Function(BadEmailPasswordError value) badEmailPassword,
+    required TResult Function(BadApiKeyError value) badApiKey,
+    required TResult Function(CancelledSocialAuthError value)
+        cancelledSocialAuth,
+    required TResult Function(InvalidEmailError value) invalidEmail,
+    required TResult Function(InvalidPasswordError value) invalidPassword,
+    required TResult Function(InvalidCodeError value) invalidCode,
+    required TResult Function(LogoutError value) logoutError,
+    required TResult Function(MissingCredentials value) missingCredentials,
+    required TResult Function(WrongMethod value) wrongMethod,
+    required TResult Function(UnknownAuthError value) unknownError,
+  }) {
+    return invalidEmail(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AccountExistsError value)? accountExists,
+    TResult? Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult? Function(BadApiKeyError value)? badApiKey,
+    TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult? Function(InvalidEmailError value)? invalidEmail,
+    TResult? Function(InvalidPasswordError value)? invalidPassword,
+    TResult? Function(InvalidCodeError value)? invalidCode,
+    TResult? Function(LogoutError value)? logoutError,
+    TResult? Function(MissingCredentials value)? missingCredentials,
+    TResult? Function(WrongMethod value)? wrongMethod,
+    TResult? Function(UnknownAuthError value)? unknownError,
+  }) {
+    return invalidEmail?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AccountExistsError value)? accountExists,
+    TResult Function(BadEmailPasswordError value)? badEmailPassword,
+    TResult Function(BadApiKeyError value)? badApiKey,
+    TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult Function(InvalidEmailError value)? invalidEmail,
+    TResult Function(InvalidPasswordError value)? invalidPassword,
+    TResult Function(InvalidCodeError value)? invalidCode,
+    TResult Function(LogoutError value)? logoutError,
+    TResult Function(MissingCredentials value)? missingCredentials,
+    TResult Function(WrongMethod value)? wrongMethod,
+    TResult Function(UnknownAuthError value)? unknownError,
+    required TResult orElse(),
+  }) {
+    if (invalidEmail != null) {
+      return invalidEmail(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$InvalidEmailErrorImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class InvalidEmailError extends AuthenticationError {
+  const factory InvalidEmailError() = _$InvalidEmailErrorImpl;
+  const InvalidEmailError._() : super._();
+
+  factory InvalidEmailError.fromJson(Map<String, dynamic> json) =
+      _$InvalidEmailErrorImpl.fromJson;
 }
 
 /// @nodoc
@@ -1002,6 +1217,7 @@ class _$InvalidPasswordErrorImpl extends InvalidPasswordError {
     required TResult Function() badEmailPassword,
     required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
+    required TResult Function() invalidEmail,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
     required TResult Function() logoutError,
@@ -1021,6 +1237,7 @@ class _$InvalidPasswordErrorImpl extends InvalidPasswordError {
     TResult? Function()? badEmailPassword,
     TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
+    TResult? Function()? invalidEmail,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
     TResult? Function()? logoutError,
@@ -1040,6 +1257,7 @@ class _$InvalidPasswordErrorImpl extends InvalidPasswordError {
     TResult Function()? badEmailPassword,
     TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
+    TResult Function()? invalidEmail,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
     TResult Function()? logoutError,
@@ -1064,6 +1282,7 @@ class _$InvalidPasswordErrorImpl extends InvalidPasswordError {
     required TResult Function(BadApiKeyError value) badApiKey,
     required TResult Function(CancelledSocialAuthError value)
         cancelledSocialAuth,
+    required TResult Function(InvalidEmailError value) invalidEmail,
     required TResult Function(InvalidPasswordError value) invalidPassword,
     required TResult Function(InvalidCodeError value) invalidCode,
     required TResult Function(LogoutError value) logoutError,
@@ -1081,6 +1300,7 @@ class _$InvalidPasswordErrorImpl extends InvalidPasswordError {
     TResult? Function(BadEmailPasswordError value)? badEmailPassword,
     TResult? Function(BadApiKeyError value)? badApiKey,
     TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult? Function(InvalidEmailError value)? invalidEmail,
     TResult? Function(InvalidPasswordError value)? invalidPassword,
     TResult? Function(InvalidCodeError value)? invalidCode,
     TResult? Function(LogoutError value)? logoutError,
@@ -1098,6 +1318,7 @@ class _$InvalidPasswordErrorImpl extends InvalidPasswordError {
     TResult Function(BadEmailPasswordError value)? badEmailPassword,
     TResult Function(BadApiKeyError value)? badApiKey,
     TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult Function(InvalidEmailError value)? invalidEmail,
     TResult Function(InvalidPasswordError value)? invalidPassword,
     TResult Function(InvalidCodeError value)? invalidCode,
     TResult Function(LogoutError value)? logoutError,
@@ -1179,6 +1400,7 @@ class _$InvalidCodeErrorImpl extends InvalidCodeError {
     required TResult Function() badEmailPassword,
     required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
+    required TResult Function() invalidEmail,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
     required TResult Function() logoutError,
@@ -1198,6 +1420,7 @@ class _$InvalidCodeErrorImpl extends InvalidCodeError {
     TResult? Function()? badEmailPassword,
     TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
+    TResult? Function()? invalidEmail,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
     TResult? Function()? logoutError,
@@ -1217,6 +1440,7 @@ class _$InvalidCodeErrorImpl extends InvalidCodeError {
     TResult Function()? badEmailPassword,
     TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
+    TResult Function()? invalidEmail,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
     TResult Function()? logoutError,
@@ -1241,6 +1465,7 @@ class _$InvalidCodeErrorImpl extends InvalidCodeError {
     required TResult Function(BadApiKeyError value) badApiKey,
     required TResult Function(CancelledSocialAuthError value)
         cancelledSocialAuth,
+    required TResult Function(InvalidEmailError value) invalidEmail,
     required TResult Function(InvalidPasswordError value) invalidPassword,
     required TResult Function(InvalidCodeError value) invalidCode,
     required TResult Function(LogoutError value) logoutError,
@@ -1258,6 +1483,7 @@ class _$InvalidCodeErrorImpl extends InvalidCodeError {
     TResult? Function(BadEmailPasswordError value)? badEmailPassword,
     TResult? Function(BadApiKeyError value)? badApiKey,
     TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult? Function(InvalidEmailError value)? invalidEmail,
     TResult? Function(InvalidPasswordError value)? invalidPassword,
     TResult? Function(InvalidCodeError value)? invalidCode,
     TResult? Function(LogoutError value)? logoutError,
@@ -1275,6 +1501,7 @@ class _$InvalidCodeErrorImpl extends InvalidCodeError {
     TResult Function(BadEmailPasswordError value)? badEmailPassword,
     TResult Function(BadApiKeyError value)? badApiKey,
     TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult Function(InvalidEmailError value)? invalidEmail,
     TResult Function(InvalidPasswordError value)? invalidPassword,
     TResult Function(InvalidCodeError value)? invalidCode,
     TResult Function(LogoutError value)? logoutError,
@@ -1356,6 +1583,7 @@ class _$LogoutErrorImpl extends LogoutError {
     required TResult Function() badEmailPassword,
     required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
+    required TResult Function() invalidEmail,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
     required TResult Function() logoutError,
@@ -1375,6 +1603,7 @@ class _$LogoutErrorImpl extends LogoutError {
     TResult? Function()? badEmailPassword,
     TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
+    TResult? Function()? invalidEmail,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
     TResult? Function()? logoutError,
@@ -1394,6 +1623,7 @@ class _$LogoutErrorImpl extends LogoutError {
     TResult Function()? badEmailPassword,
     TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
+    TResult Function()? invalidEmail,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
     TResult Function()? logoutError,
@@ -1418,6 +1648,7 @@ class _$LogoutErrorImpl extends LogoutError {
     required TResult Function(BadApiKeyError value) badApiKey,
     required TResult Function(CancelledSocialAuthError value)
         cancelledSocialAuth,
+    required TResult Function(InvalidEmailError value) invalidEmail,
     required TResult Function(InvalidPasswordError value) invalidPassword,
     required TResult Function(InvalidCodeError value) invalidCode,
     required TResult Function(LogoutError value) logoutError,
@@ -1435,6 +1666,7 @@ class _$LogoutErrorImpl extends LogoutError {
     TResult? Function(BadEmailPasswordError value)? badEmailPassword,
     TResult? Function(BadApiKeyError value)? badApiKey,
     TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult? Function(InvalidEmailError value)? invalidEmail,
     TResult? Function(InvalidPasswordError value)? invalidPassword,
     TResult? Function(InvalidCodeError value)? invalidCode,
     TResult? Function(LogoutError value)? logoutError,
@@ -1452,6 +1684,7 @@ class _$LogoutErrorImpl extends LogoutError {
     TResult Function(BadEmailPasswordError value)? badEmailPassword,
     TResult Function(BadApiKeyError value)? badApiKey,
     TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult Function(InvalidEmailError value)? invalidEmail,
     TResult Function(InvalidPasswordError value)? invalidPassword,
     TResult Function(InvalidCodeError value)? invalidCode,
     TResult Function(LogoutError value)? logoutError,
@@ -1584,6 +1817,7 @@ class _$MissingCredentialsImpl extends MissingCredentials {
     required TResult Function() badEmailPassword,
     required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
+    required TResult Function() invalidEmail,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
     required TResult Function() logoutError,
@@ -1603,6 +1837,7 @@ class _$MissingCredentialsImpl extends MissingCredentials {
     TResult? Function()? badEmailPassword,
     TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
+    TResult? Function()? invalidEmail,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
     TResult? Function()? logoutError,
@@ -1623,6 +1858,7 @@ class _$MissingCredentialsImpl extends MissingCredentials {
     TResult Function()? badEmailPassword,
     TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
+    TResult Function()? invalidEmail,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
     TResult Function()? logoutError,
@@ -1647,6 +1883,7 @@ class _$MissingCredentialsImpl extends MissingCredentials {
     required TResult Function(BadApiKeyError value) badApiKey,
     required TResult Function(CancelledSocialAuthError value)
         cancelledSocialAuth,
+    required TResult Function(InvalidEmailError value) invalidEmail,
     required TResult Function(InvalidPasswordError value) invalidPassword,
     required TResult Function(InvalidCodeError value) invalidCode,
     required TResult Function(LogoutError value) logoutError,
@@ -1664,6 +1901,7 @@ class _$MissingCredentialsImpl extends MissingCredentials {
     TResult? Function(BadEmailPasswordError value)? badEmailPassword,
     TResult? Function(BadApiKeyError value)? badApiKey,
     TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult? Function(InvalidEmailError value)? invalidEmail,
     TResult? Function(InvalidPasswordError value)? invalidPassword,
     TResult? Function(InvalidCodeError value)? invalidCode,
     TResult? Function(LogoutError value)? logoutError,
@@ -1681,6 +1919,7 @@ class _$MissingCredentialsImpl extends MissingCredentials {
     TResult Function(BadEmailPasswordError value)? badEmailPassword,
     TResult Function(BadApiKeyError value)? badApiKey,
     TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult Function(InvalidEmailError value)? invalidEmail,
     TResult Function(InvalidPasswordError value)? invalidPassword,
     TResult Function(InvalidCodeError value)? invalidCode,
     TResult Function(LogoutError value)? logoutError,
@@ -1805,6 +2044,7 @@ class _$WrongMethodImpl extends WrongMethod {
     required TResult Function() badEmailPassword,
     required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
+    required TResult Function() invalidEmail,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
     required TResult Function() logoutError,
@@ -1824,6 +2064,7 @@ class _$WrongMethodImpl extends WrongMethod {
     TResult? Function()? badEmailPassword,
     TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
+    TResult? Function()? invalidEmail,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
     TResult? Function()? logoutError,
@@ -1843,6 +2084,7 @@ class _$WrongMethodImpl extends WrongMethod {
     TResult Function()? badEmailPassword,
     TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
+    TResult Function()? invalidEmail,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
     TResult Function()? logoutError,
@@ -1867,6 +2109,7 @@ class _$WrongMethodImpl extends WrongMethod {
     required TResult Function(BadApiKeyError value) badApiKey,
     required TResult Function(CancelledSocialAuthError value)
         cancelledSocialAuth,
+    required TResult Function(InvalidEmailError value) invalidEmail,
     required TResult Function(InvalidPasswordError value) invalidPassword,
     required TResult Function(InvalidCodeError value) invalidCode,
     required TResult Function(LogoutError value) logoutError,
@@ -1884,6 +2127,7 @@ class _$WrongMethodImpl extends WrongMethod {
     TResult? Function(BadEmailPasswordError value)? badEmailPassword,
     TResult? Function(BadApiKeyError value)? badApiKey,
     TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult? Function(InvalidEmailError value)? invalidEmail,
     TResult? Function(InvalidPasswordError value)? invalidPassword,
     TResult? Function(InvalidCodeError value)? invalidCode,
     TResult? Function(LogoutError value)? logoutError,
@@ -1901,6 +2145,7 @@ class _$WrongMethodImpl extends WrongMethod {
     TResult Function(BadEmailPasswordError value)? badEmailPassword,
     TResult Function(BadApiKeyError value)? badApiKey,
     TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult Function(InvalidEmailError value)? invalidEmail,
     TResult Function(InvalidPasswordError value)? invalidPassword,
     TResult Function(InvalidCodeError value)? invalidCode,
     TResult Function(LogoutError value)? logoutError,
@@ -1987,6 +2232,7 @@ class _$UnknownAuthErrorImpl extends UnknownAuthError {
     required TResult Function() badEmailPassword,
     required TResult Function(String message) badApiKey,
     required TResult Function() cancelledSocialAuth,
+    required TResult Function() invalidEmail,
     required TResult Function() invalidPassword,
     required TResult Function() invalidCode,
     required TResult Function() logoutError,
@@ -2006,6 +2252,7 @@ class _$UnknownAuthErrorImpl extends UnknownAuthError {
     TResult? Function()? badEmailPassword,
     TResult? Function(String message)? badApiKey,
     TResult? Function()? cancelledSocialAuth,
+    TResult? Function()? invalidEmail,
     TResult? Function()? invalidPassword,
     TResult? Function()? invalidCode,
     TResult? Function()? logoutError,
@@ -2025,6 +2272,7 @@ class _$UnknownAuthErrorImpl extends UnknownAuthError {
     TResult Function()? badEmailPassword,
     TResult Function(String message)? badApiKey,
     TResult Function()? cancelledSocialAuth,
+    TResult Function()? invalidEmail,
     TResult Function()? invalidPassword,
     TResult Function()? invalidCode,
     TResult Function()? logoutError,
@@ -2049,6 +2297,7 @@ class _$UnknownAuthErrorImpl extends UnknownAuthError {
     required TResult Function(BadApiKeyError value) badApiKey,
     required TResult Function(CancelledSocialAuthError value)
         cancelledSocialAuth,
+    required TResult Function(InvalidEmailError value) invalidEmail,
     required TResult Function(InvalidPasswordError value) invalidPassword,
     required TResult Function(InvalidCodeError value) invalidCode,
     required TResult Function(LogoutError value) logoutError,
@@ -2066,6 +2315,7 @@ class _$UnknownAuthErrorImpl extends UnknownAuthError {
     TResult? Function(BadEmailPasswordError value)? badEmailPassword,
     TResult? Function(BadApiKeyError value)? badApiKey,
     TResult? Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult? Function(InvalidEmailError value)? invalidEmail,
     TResult? Function(InvalidPasswordError value)? invalidPassword,
     TResult? Function(InvalidCodeError value)? invalidCode,
     TResult? Function(LogoutError value)? logoutError,
@@ -2083,6 +2333,7 @@ class _$UnknownAuthErrorImpl extends UnknownAuthError {
     TResult Function(BadEmailPasswordError value)? badEmailPassword,
     TResult Function(BadApiKeyError value)? badApiKey,
     TResult Function(CancelledSocialAuthError value)? cancelledSocialAuth,
+    TResult Function(InvalidEmailError value)? invalidEmail,
     TResult Function(InvalidPasswordError value)? invalidPassword,
     TResult Function(InvalidCodeError value)? invalidCode,
     TResult Function(LogoutError value)? logoutError,

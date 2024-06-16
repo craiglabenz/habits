@@ -59,6 +59,18 @@ Map<String, dynamic> _$$CancelledSocialAuthErrorImplToJson(
       'runtimeType': instance.$type,
     };
 
+_$InvalidEmailErrorImpl _$$InvalidEmailErrorImplFromJson(
+        Map<String, dynamic> json) =>
+    _$InvalidEmailErrorImpl(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$InvalidEmailErrorImplToJson(
+        _$InvalidEmailErrorImpl instance) =>
+    <String, dynamic>{
+      'runtimeType': instance.$type,
+    };
+
 _$InvalidPasswordErrorImpl _$$InvalidPasswordErrorImplFromJson(
         Map<String, dynamic> json) =>
     _$InvalidPasswordErrorImpl(
