@@ -7,7 +7,7 @@ import 'package:dartz/dartz.dart';
 /// indicates whether that place is immediately accessible (and thus is a cache)
 /// or is remotely accessible and thus is the source of truth.
 /// {@endtemplate }
-abstract class Source<T, K> extends DataContract<T, K> {
+abstract class Source<T, K> with DataContract<T, K> {
   /// Indicator for whether this [Source] loads data from a store on-device, or
   /// off-device.
   SourceType get sourceType;

@@ -53,4 +53,11 @@ class Routes {
     path: '/upgrade',
     builder: (context, state) => UpgradeScreen(key: state.pageKey),
   );
+
+  /// Screen to inform a user that they must download the latest version.
+  static final GoRoute accountAuth = GoRoute(
+    name: 'accountAuth',
+    path: '/account-auth',
+    builder: (context, state) => AccountAuthScreen(key: state.pageKey),
+  );
 }

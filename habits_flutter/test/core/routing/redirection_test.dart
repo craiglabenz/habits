@@ -9,6 +9,13 @@ import 'package:habits_flutter/core/core.dart';
 import '../../dependency_intestion.dart';
 
 void main() {
+  const anonymousAuthUser = AuthUser(
+    id: 'id',
+    apiKey: 'abc',
+    method: AuthType.anonymous,
+    allMethods: [AuthType.anonymous],
+  );
+
   group('AppRouter should', () {
     setUp(setUpTestDI);
 
@@ -88,10 +95,7 @@ void main() {
 
           await tester.pumpWidget(const AppView());
           (GetIt.I<BaseAuthRepository<AuthUser>>() as FakeAuthRepository)
-              .publishNewUser(
-            const AuthUser(id: 'id', apiKey: 'abc', method: AuthType.anonymous),
-            true,
-          );
+              .publishNewUser(anonymousAuthUser, true);
 
           await expectation;
         });
@@ -110,10 +114,7 @@ void main() {
           await tester.pumpWidget(const AppView());
 
           (GetIt.I<BaseAuthRepository<AuthUser>>() as FakeAuthRepository)
-              .publishNewUser(
-            const AuthUser(id: 'id', apiKey: 'abc', method: AuthType.anonymous),
-            false,
-          );
+              .publishNewUser(anonymousAuthUser, false);
 
           await expectation;
         });
@@ -134,16 +135,10 @@ void main() {
           );
           await tester.pumpWidget(const AppView());
           (GetIt.I<BaseAuthRepository<AuthUser>>() as FakeAuthRepository)
-              .publishNewUser(
-            const AuthUser(id: 'id', apiKey: 'abc', method: AuthType.anonymous),
-            true,
-          );
+              .publishNewUser(anonymousAuthUser, true);
           await tester.pumpWidget(const AppView());
           (GetIt.I<BaseAuthRepository<AuthUser>>() as FakeAuthRepository)
-              .publishNewUser(
-            const AuthUser(id: 'id', apiKey: 'abc', method: AuthType.anonymous),
-            false,
-          );
+              .publishNewUser(anonymousAuthUser, false);
 
           await expectation;
         });

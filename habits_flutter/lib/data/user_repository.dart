@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:app_client/app_client.dart';
 import 'package:app_shared/app_shared.dart';
@@ -7,14 +8,26 @@ import 'package:get_it/get_it.dart';
 import 'package:habits_client/habits_client.dart';
 import 'package:habits_shared/habits_shared.dart';
 
+/// {@template BaseSessionUserRepository}
+/// {@endtemplate}
+abstract class BaseSessionUserRepository with ReadinessMixin {
+  /// Synchronously available [User] object pre-loaded whenever the [AuthUser]
+  /// changes. Safely accessing this depends on [isReady] being true.
+  User get loadedUser;
+
+  /// Persists new data about the existing [User] object attached to the active
+  /// session.
+  Future<WriteResult<User>> save(User user);
+}
+
 /// {@template SessionUserRepository}
 /// {@endtemplate}
-class SessionUserRepository extends Repository<User, String> {
+class SessionUserRepository
+    with ReadinessMixin
+    implements BaseSessionUserRepository {
   /// {@macro SessionUserRepository}
-  SessionUserRepository()
-      : client = GetIt.I<Client>(),
-        super(SourceList<User, String>.empty(const UserBindings())) {
-    _setUpInitializer();
+  SessionUserRepository() : client = GetIt.I<Client>() {
+    initReadyCheck();
     final authRepo = GetIt.I<BaseAuthRepository<AuthUser>>();
     _authSubscription = authRepo.user.listen(
       ((AuthUser, bool) data) => updateForNewUser(data.$1),
@@ -22,25 +35,11 @@ class SessionUserRepository extends Repository<User, String> {
     updateForNewUser(authRepo.lastUser.$1);
   }
 
-  void _setUpInitializer() {
-    _success = false;
+  @override
+  void initReadyCheck() {
     _loadedUser = null;
-    _initialized = Completer<bool>();
-    _initialized.future.then((result) => _success = result);
+    super.initReadyCheck();
   }
-
-  bool _success = false;
-
-  late Completer<bool> _initialized;
-
-  /// Ready checker. Resolves once [loadedUser] is ready.
-  Future<bool> get ready => _initialized.future;
-
-  /// Synchronous getter for readiness.
-  bool get isReady => _initialized.isCompleted && _success;
-
-  /// Synchronous getter for unreadiness.
-  bool get isNotReady => !isReady;
 
   /// Logger.
   final AppLogger logger = AppLogger('SessionUserRepository');
@@ -50,9 +49,9 @@ class SessionUserRepository extends Repository<User, String> {
 
   User? _loadedUser;
 
-  /// The ready-to-go [User] object pre-loaded whenever the [AuthUser] changes.
+  @override
   User get loadedUser {
-    if (!_initialized.isCompleted) {
+    if (!isNotReady) {
       logger.severe(
         'Accessed SessionUserRepository.loadedUser while unready. '
         'Be sure to `await userRepository.ready` before accessing '
@@ -60,14 +59,6 @@ class SessionUserRepository extends Repository<User, String> {
       );
       throw Exception(
         'Accessed SessionUserRepository.loadedUser while unready',
-      );
-    }
-    if (!_success) {
-      logger.severe(
-        'SessionUserRepository ready check resolved without loading user',
-      );
-      throw Exception(
-        'SessionUserRepository ready check resolved without loading user',
       );
     }
     return _loadedUser!;
@@ -79,9 +70,9 @@ class SessionUserRepository extends Repository<User, String> {
   /// user changes.
   Future<void> updateForNewUser(AuthUser user) async {
     logger.finest('Updating loadedUser for $user');
-    if (_initialized.isCompleted) {
+    if (isResolved) {
       // Delete local data whenever the authentication story changes
-      _setUpInitializer();
+      initReadyCheck();
     }
 
     // If the new user is someone we know about, load their data.
@@ -89,15 +80,15 @@ class SessionUserRepository extends Repository<User, String> {
       try {
         _loadedUser = await client.user.getForSession();
         logger.finest('Set loadedUser to $_loadedUser');
-        _initialized.complete(true);
+        markReady();
       } on NotFoundException catch (e) {
         logger.severe('Error loading User for session: $e');
-        _initialized.complete(false);
+        markReadinessFailed();
       }
     }
   }
 
-  /// Persists the latest [User] info to the server.
+  @override
   Future<WriteResult<User>> save(User user) async {
     try {
       _loadedUser = await client.user.update(user);
@@ -112,6 +103,43 @@ class SessionUserRepository extends Repository<User, String> {
   void dispose() {
     _authSubscription.cancel();
   }
+}
+
+/// Fake implementation of [SessionUserRepository] suitable for tests.
+class FakeSessionUserRepository
+    with ReadinessMixin
+    implements BaseSessionUserRepository {
+  /// Builds a [FakeSessionUserRepository] which represents the fully loaded
+  /// state.
+  FakeSessionUserRepository.ready(
+    this.loadedUser, {
+    List<WriteResult<User>> saveResults = const [],
+  })  : isReady = true,
+        _saveResults = Queue.from(saveResults) {
+    _initializedCompleter.complete(true);
+  }
+
+  /// Builds a [FakeSessionUserRepository] which represents the unloaded state.
+  FakeSessionUserRepository.unReady()
+      : isReady = false,
+        _saveResults = Queue.from(const []);
+
+  @override
+  late User loadedUser;
+
+  final _initializedCompleter = Completer<bool>();
+
+  @override
+  Future<bool> get ready => _initializedCompleter.future;
+
+  @override
+  bool isReady;
+
+  /// Hardcoded results to [save].
+  final Queue<WriteResult<User>> _saveResults;
+
+  @override
+  Future<WriteResult<User>> save(User user) => Future.value(_saveResults.first);
 }
 
 /// {@template UserBindings}

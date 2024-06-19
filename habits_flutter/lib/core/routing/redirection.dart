@@ -1,9 +1,9 @@
 // ignore_for_file: avoid_redundant_argument_values
 import 'package:app_shared/app_shared.dart' as app_shared;
+import 'package:app_shared/app_shared.dart';
 import 'package:go_router/go_router.dart';
 import 'package:habits_flutter/app/app.dart';
 import 'package:habits_flutter/core/core.dart';
-import 'package:logging/logging.dart';
 
 /// {@template GoRouterRedirector}
 /// Validates that the user's current location within the app is allowed by
@@ -133,7 +133,7 @@ class RouteState {
 
   /// Builds a GoRouterState value from a given route.
   /// Useful for the initial route.
-  factory RouteState.fromRoute(GoRoute route, {Params? pathParameters}) {
+  factory RouteState.fromRoute(GoRoute route, {StrParams? pathParameters}) {
     String path = route.path;
     if (pathParameters != null) {
       for (final key in pathParameters.keys) {

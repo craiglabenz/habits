@@ -6,7 +6,7 @@ import 'package:app_client/app_client.dart';
 /// Data abstraction most likely to be exposed to other layers of the
 /// application. Subclasses of this are where domain-specific logic should live.
 /// {@endtemplate}
-class Repository<T, K> extends DataContract<T, K> {
+class Repository<T, K> with DataContract<T, K> {
   /// {@macro repo}
   Repository(this.sourceList);
 

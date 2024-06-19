@@ -14,7 +14,7 @@ import 'package:dartz/dartz.dart';
 /// control which sources are asked, which is helpful when you want to force a
 /// cache read or cache miss.
 /// {@endtemplate}
-class SourceList<T, K> extends DataContract<T, K> {
+class SourceList<T, K> with DataContract<T, K> {
   /// {@macro SourceList}
   SourceList({required this.sources, required this.bindings}) {
     for (final source in sources) {

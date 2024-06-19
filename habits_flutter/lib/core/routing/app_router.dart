@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
+import 'package:app_shared/app_shared.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:habits_flutter/app/app.dart';
 import 'package:habits_flutter/core/core.dart';
@@ -21,6 +22,7 @@ class AppRouter {
         Routes.maintenance,
         Routes.upgrade,
         Routes.home,
+        Routes.accountAuth,
       ],
       // refreshListenable: GoRouterRefreshStream(_appBloc.stream),
       initialLocation: initialRoute.path,
@@ -100,6 +102,26 @@ class AppRouter {
   /// Adds the login screen to the navigation stack. This is pushed to
   /// preserve the user's ability to go backward.
   void pushLogin() => _pushNamed(Routes.login.name!);
+
+  // /// Routes the user to the AccountAuth page with the [AuthUser] and [User]
+  // /// records pre-loaded.
+  // Future<bool> pushAccountAuth(BuildContext context) {
+  //   final authRepo = GetIt.I<BaseAuthRepository<AuthUser>>();
+  //   final userRepo = GetIt.I<SessionUserRepository>();
+  //   final accountAuthLoadedCompleter = Completer<bool>();
+  //   [authRepo.ready, userRepo.ready].wait.then(
+  //     (_) {
+  //       if (authRepo.lastUser.$1 == AuthUser.unknown) {
+  //         accountAuthLoadedCompleter.complete(false);
+  //       }
+  //       router.pushNamed(
+  //         Routes.accountAuth.name!,
+  //         extra: (authRepo.lastUser.$1, userRepo.loadedUser),
+  //       );
+  //     },
+  //   );
+  //   return accountAuthLoadedCompleter.future;
+  // }
 }
 
 /// {@template GoRouterRefreshStream}

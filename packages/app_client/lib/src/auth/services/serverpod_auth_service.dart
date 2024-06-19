@@ -3,7 +3,7 @@ import 'package:app_shared/app_shared.dart';
 import 'package:dartz/dartz.dart';
 import 'package:get_it/get_it.dart';
 import 'package:habits_client/habits_client.dart';
-import 'package:serverpod_auth_client/module.dart' as serverpod_auth;
+// import 'package:serverpod_auth_client/module.dart' as serverpod_auth;
 import 'package:serverpod_auth_client/serverpod_auth_client.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 
@@ -134,15 +134,16 @@ class ServerpodAuthService<T, K> extends BaseRestAuth<T> {
   Future<void> logOut() async => _client.authenticationKeyManager?.remove();
 }
 
-/// Converts a Serverpod [serverpod_auth.UserInfo] object into the app's
-/// auth'ed user class, [AuthUser].
-AuthUser authUserFromServerpod(
-  serverpod_auth.UserInfo serverpodUser,
-  String apiKey,
-) =>
-    AuthUser(
-      id: serverpodUser.userIdentifier,
-      apiKey: apiKey,
-      email: serverpodUser.email,
-      method: AuthType.anonymous,
-    );
+// /// Converts a Serverpod [serverpod_auth.UserInfo] object into the app's
+// /// auth'ed user class, [AuthUser].
+// AuthUser authUserFromServerpod(
+//   serverpod_auth.UserInfo serverpodUser,
+//   String apiKey,
+// ) =>
+//     AuthUser(
+//       id: serverpodUser.userIdentifier,
+//       apiKey: apiKey,
+//       email: serverpodUser.email,
+//       method: AuthType.anonymous,
+//       allMethods: [AuthType.anonymous],
+//     );

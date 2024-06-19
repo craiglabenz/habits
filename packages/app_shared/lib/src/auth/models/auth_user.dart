@@ -34,7 +34,7 @@ class AuthUser extends StringModel with _$AuthUser {
 
     /// All active mechanisms used for this account. Allowed values are from
     /// [AuthType].
-    @Default([]) List<AuthType> allMethods,
+    required List<AuthType> allMethods,
     String? email,
   }) = _AuthUser;
 
@@ -47,7 +47,9 @@ class AuthUser extends StringModel with _$AuthUser {
   static const unknown = AuthUser(
     id: 'unknown',
     apiKey: '---',
+    // TODO: Using [AuthType.anonymous] here is confusing.
     method: AuthType.anonymous,
+    allMethods: [AuthType.anonymous],
   );
 
   /// True if this [AuthUser] is [AuthUser.unknown].

@@ -10,21 +10,17 @@ import 'package:meta/meta.dart';
 
 final _log = AppLogger('app_client.auth.AuthRepository', Level.WARNING);
 
+// TODO: Why is this an `interface`?
 /// {@template AuthRepository}
 /// Repository which manages user authentication.
 /// {@endtemplate}
-abstract interface class BaseAuthRepository<T> {
+abstract interface class BaseAuthRepository<T> with ReadinessMixin {
   /// Placeholder for the last [T] emitted from the Firebase auth stream.
   /// A value of `null` indicates that we have not yet completed initial checks
   /// and should probably show the `SplashPage`. Once [ready] resolves,
   /// this value should never again be `null`. At that time, the most least
   /// information this should contain is `(AuthUser.unknown, false)`.
   (T, bool) get lastUser;
-
-  /// Indicates whether initial checks for an existing session have been
-  /// completed. While this value is still `false`, no authorization information
-  /// on this repository means anything.
-  Future<bool> get ready;
 
   /// Stream of ([T], `bool`) which will emit the current user when the
   /// authentication state changes and a boolean for whether that user's account
@@ -73,17 +69,18 @@ abstract interface class BaseAuthRepository<T> {
 }
 
 /// {@macro AuthRepository}
-class AuthRepository implements BaseAuthRepository<AuthUser> {
+class AuthRepository
+    with ReadinessMixin
+    implements BaseAuthRepository<AuthUser> {
   /// {@macro AuthRepository}
   AuthRepository({
     BaseSocialAuth? socialAuthService,
     BaseRestAuth<AuthUser>? restAuthService,
   })  : _socialAuthService = socialAuthService ?? GetIt.I<BaseSocialAuth>(),
         _restAuthService = restAuthService ?? GetIt.I<BaseRestAuth<AuthUser>>(),
-        _authUserController = StreamController<(AuthUser, bool)>.broadcast(),
-        _initializedCompleter = Completer<bool>() {
+        _authUserController = StreamController<(AuthUser, bool)>.broadcast() {
+    initReadyCheck();
     _streamAuthSub = _socialAuthService.users.listen(onNewFirebaseUser);
-    _initializedCompleter.future.then((val) => _isReady = val);
   }
 
   StreamSubscription<FirebaseUser?>? _streamAuthSub;
@@ -100,30 +97,12 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
   @override
   (AuthUser, bool) get lastUser {
     assert(
-      _initializedCompleter.isCompleted,
+      isReady,
       'Must not access AuthRepository.lastUser until the '
-      'AuthRepository.initialized future resolves',
+      'AuthRepository.initialized future resolves successfully',
     );
     return _lastUser!;
   }
-
-  /// Completes with `true` when the first user is resolved, or `false` if there
-  /// are any errors. Note that [AuthUser.unknown] sessions will still yield
-  /// a value of `true` here.
-  final Completer<bool> _initializedCompleter;
-
-  @override
-  Future<bool> get ready => _initializedCompleter.future;
-
-  bool _isReady = false;
-
-  /// Synchronous checker for whether or not [ready] has already resolved with
-  /// a value of true.
-  bool get isReady => _isReady;
-
-  /// Synchronous checker for whether or not [ready] is either still pending or
-  /// has resolved with a value of false.
-  bool get isNotReady => !_isReady;
 
   @override
   Stream<(AuthUser, bool)> get user => _authUserController.stream;
@@ -135,7 +114,7 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
   /// system thinks our user's session status has changed.
   Future<void> onNewFirebaseUser(FirebaseUser? firebaseUser) async {
     log('New FirebaseUser: $firebaseUser');
-    if (!_initializedCompleter.isCompleted) {
+    if (isNotResolved) {
       // This is SocialAuth's first emitted user
       if (firebaseUser == null) {
         _publishNewUser(AuthUser.unknown, false);
@@ -155,15 +134,13 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
       !(user == AuthUser.unknown && isNewUser),
       'Must not set value of `isNewUser=true` when session is unknown',
     );
-    if (_initializedCompleter.isCompleted &&
-        user == lastUser.$1 &&
-        isNewUser == lastUser.$2) {
+    if (isResolved && user == lastUser.$1 && isNewUser == lastUser.$2) {
       log('Skipping redundant publish of $user', Level.FINEST);
       return;
     }
     log('Publishing $user to app');
-    if (!_initializedCompleter.isCompleted) {
-      _initializedCompleter.complete(true);
+    if (isNotResolved) {
+      markReady();
     }
     _lastUser = (user, isNewUser);
     _authUserController.sink.add((user, isNewUser));
@@ -388,9 +365,12 @@ class AuthRepository implements BaseAuthRepository<AuthUser> {
 /// authRepo.publishNewUser(myUser);
 /// ```
 /// {@endtemplate}
-class FakeAuthRepository implements BaseAuthRepository<AuthUser> {
+class FakeAuthRepository
+    with ReadinessMixin
+    implements BaseAuthRepository<AuthUser> {
   /// {@macro FakeAuthRepository}
   FakeAuthRepository() {
+    initReadyCheck();
     _authUserController = StreamController<(AuthUser, bool)>.broadcast();
   }
 
@@ -399,7 +379,7 @@ class FakeAuthRepository implements BaseAuthRepository<AuthUser> {
   @override
   (AuthUser, bool) get lastUser {
     assert(
-      _initializedCompleter.isCompleted,
+      isReady,
       'Must not access AuthRepository.lastUser until the '
       'AuthRepository.initialized future resolves',
     );
@@ -415,7 +395,7 @@ class FakeAuthRepository implements BaseAuthRepository<AuthUser> {
   @visibleForTesting
   // ignore: avoid_positional_boolean_parameters
   void publishNewUser(AuthUser user, bool isNewUser) {
-    _lastUser = (user, isNewUser);
+    setAsInitialized((user, isNewUser));
     _authUserController.sink.add((user, isNewUser));
   }
 
@@ -468,18 +448,13 @@ class FakeAuthRepository implements BaseAuthRepository<AuthUser> {
         'Only call `publishNewUser`.',
       );
 
-  final _initializedCompleter = Completer<bool>();
-
-  @override
-  Future<bool> get ready => _initializedCompleter.future;
-
   /// Test-only function to move this fake AuthRepository into active mode.
   /// Without calling this function, [ready] will never complete, which
   /// may or may not be what you want depending on the test.
   @visibleForTesting
   void setAsInitialized([(AuthUser, bool)? newLastUser]) {
     _lastUser ??= newLastUser ?? (AuthUser.unknown, false);
-    _initializedCompleter.complete(true);
+    markReady();
   }
 }
 

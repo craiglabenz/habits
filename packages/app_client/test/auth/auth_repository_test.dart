@@ -13,12 +13,14 @@ void main() {
     apiKey: 'apiKey',
     email: 'user@email.com',
     method: AuthType.anonymous,
+    allMethods: [AuthType.anonymous],
   );
   const unexpectedUser = AuthUser(
     id: 'wrongId',
     apiKey: 'apiKey',
     email: 'user2@email.com',
     method: AuthType.anonymous,
+    allMethods: [AuthType.anonymous],
   );
   const pw = 'pw';
 
@@ -404,24 +406,28 @@ void main() {
       timeout: const Timeout(Duration(seconds: 1)),
     );
 
-    test('lastUser updated after signInAnonymously', () async {
-      restAuth = FakeRestAuth(
-        createAnonymousUserResults: Queue.from(
-          <UserOrError<AuthUser>>[const Right(user)],
-        ),
-        checkSessionResults: Queue.from(
-          <UserOrError<AuthUser>>[const Right(user)],
-        ),
-      );
-      final socialAuth = FakeStreamAuth()..prepareLogin(buildFirebaseUser());
-      authRepo = AuthRepository(
-        socialAuthService: socialAuth,
-        restAuthService: restAuth,
-      );
-      socialAuth.emitUser(null);
-      await authRepo.signInAnonymously();
-      await authRepo.ready;
-      expect(authRepo.lastUser.$1.isKnown, isTrue);
-    });
+    test(
+      'lastUser updated after signInAnonymously',
+      () async {
+        restAuth = FakeRestAuth(
+          createAnonymousUserResults: Queue.from(
+            <UserOrError<AuthUser>>[const Right(user)],
+          ),
+          checkSessionResults: Queue.from(
+            <UserOrError<AuthUser>>[const Right(user)],
+          ),
+        );
+        final socialAuth = FakeStreamAuth()..prepareLogin(buildFirebaseUser());
+        authRepo = AuthRepository(
+          socialAuthService: socialAuth,
+          restAuthService: restAuth,
+        );
+        socialAuth.emitUser(null);
+        await authRepo.signInAnonymously();
+        await authRepo.ready;
+        expect(authRepo.lastUser.$1.isKnown, isTrue);
+      },
+      timeout: const Timeout(Duration(seconds: 1)),
+    );
   });
 }

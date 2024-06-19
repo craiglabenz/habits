@@ -3,10 +3,7 @@ import 'package:app_client/app_client.dart';
 /// {@template DataContract}
 /// Outline of core methods to which all data loaders must adhere.
 /// {@endtemplate}
-abstract class DataContract<T, K> {
-  /// {@macro DataContract}
-  const DataContract();
-
+mixin DataContract<T, K> {
   /// Loads the instance of [T] whose primary key is [id].
   Future<ReadResult<T>> getById(K id, RequestDetails details);
 
@@ -26,32 +23,3 @@ abstract class DataContract<T, K> {
   /// Persists all [items].
   Future<WriteListResult<T>> setItems(List<T> items, RequestDetails details);
 }
-
-// /// Function signature for [DataContract.getById].
-// typedef GetById<T> = Future<ReadResult<T>> Function(
-//   String id,
-//   RequestDetails details,
-// );
-
-// /// Function signature for [DataContract.getByIds].
-// typedef GetByIds<T> = Future<ReadListResult<T, K>> Function(
-//   Set<String> ids,
-//   RequestDetails details,
-// );
-
-// /// Function signature for [DataContract.getItems].
-// typedef GetItems<T> = Future<ReadListResult<T, K>> Function(
-//   RequestDetails details,
-// );
-
-// /// Function signature for [DataContract.setItem].
-// typedef SetItem<T> = Future<WriteResult<T>> Function(
-//   T item,
-//   RequestDetails details,
-// );
-
-// /// Function signature for [DataContract.setItems].
-// typedef SetItems<T> = Future<WriteListResult<T>> Function(
-//   List<T> items,
-//   RequestDetails details,
-// );
