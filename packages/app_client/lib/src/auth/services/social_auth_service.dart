@@ -59,6 +59,15 @@ abstract class BaseSocialAuth {
   /// Logs in an existing user by creating an anonymous session.
   Future<FirebaseUserOrError> signInAnonymously();
 
+  /// Adds email and password authentication to an existing session.
+  Future<FirebaseUserOrError> addEmailAuth({
+    required String email,
+    required String password,
+  });
+
+  /// Updates the active session's password.
+  Future<FirebaseUserOrError> updatePassword(String password);
+
   /// Deletes the given user's account.
   Future<void> deleteUser(FirebaseUser user);
 
@@ -226,17 +235,6 @@ class FirebaseAuthService extends BaseSocialAuth {
     }
   }
 
-  /// Pass-thru to the raw stream of `firebase_user.User` objects from Firebase
-  /// Auth.
-  @override
-  Stream<FirebaseUser?> get users => _firebaseAuth.authStateChanges();
-
-  @override
-  Future<void> deleteUser(FirebaseUser user) {
-    _log.warning('Deleting user ${user.uid}');
-    return user.delete();
-  }
-
   @override
   Future<FirebaseUserOrError> signInAnonymously() async {
     try {
@@ -253,6 +251,30 @@ class FirebaseAuthService extends BaseSocialAuth {
       _log.severe('Unexpected signInAnonymously Exception: $e');
       return const Left(AuthenticationError.unknownError());
     }
+  }
+
+  @override
+  Future<FirebaseUserOrError> addEmailAuth({
+    required String email,
+    required String password,
+  }) =>
+      throw UnimplementedError();
+
+  /// Pass-thru to the raw stream of `firebase_user.User` objects from Firebase
+  /// Auth.
+  @override
+  Stream<FirebaseUser?> get users => _firebaseAuth.authStateChanges();
+
+  @override
+  Future<void> deleteUser(FirebaseUser user) {
+    _log.warning('Deleting user ${user.uid}');
+    return user.delete();
+  }
+
+  @override
+  Future<FirebaseUserOrError> updatePassword(String password) {
+    // TODO: implement updatePassword
+    throw UnimplementedError();
   }
 }
 

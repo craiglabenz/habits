@@ -73,6 +73,19 @@ class ServerpodAuthService<T, K> extends BaseRestAuth<T> {
     return _processResponse(authResponse, 'appAuth.createAnonymous', st);
   }
 
+  @override
+  Future<UserOrError<T>> addEmailAuth({
+    required String email,
+    required String password,
+  }) async {
+    final st = DateTime.now();
+    final authResponse = await _client.appAuth.addEmailAuth(
+      email: email,
+      password: password,
+    );
+    return _processResponse(authResponse, 'appAuth.addEmailAuth', st);
+  }
+
   Future<UserOrError<T>> _processResponse(
     AppAuthResponse authResponse,
     String url,
@@ -132,6 +145,12 @@ class ServerpodAuthService<T, K> extends BaseRestAuth<T> {
 
   @override
   Future<void> logOut() async => _client.authenticationKeyManager?.remove();
+
+  @override
+  Future<UserOrError<T>> updatePassword(String password) {
+    // TODO: implement updatePassword
+    throw UnimplementedError();
+  }
 }
 
 // /// Converts a Serverpod [serverpod_auth.UserInfo] object into the app's

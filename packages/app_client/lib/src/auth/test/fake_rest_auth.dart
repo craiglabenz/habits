@@ -56,4 +56,19 @@ class FakeRestAuth<T> implements BaseRestAuth<T> {
 
   @override
   Future<void> logOut() async {}
+
+  @override
+  Future<UserOrError<T>> addEmailAuth({
+    required String email,
+    required String password,
+  }) {
+    // TODO: implement addEmailAuth
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<UserOrError<T>> updatePassword(String password) {
+    // TODO: implement updatePassword
+    throw UnimplementedError();
+  }
 }

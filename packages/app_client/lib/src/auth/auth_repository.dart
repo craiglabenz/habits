@@ -15,11 +15,11 @@ final _log = AppLogger('app_client.auth.AuthRepository', Level.WARNING);
 /// Repository which manages user authentication.
 /// {@endtemplate}
 abstract interface class BaseAuthRepository<T> with ReadinessMixin {
-  /// Placeholder for the last [T] emitted from the Firebase auth stream.
-  /// A value of `null` indicates that we have not yet completed initial checks
-  /// and should probably show the `SplashPage`. Once [ready] resolves,
-  /// this value should never again be `null`. At that time, the most least
-  /// information this should contain is `(AuthUser.unknown, false)`.
+  /// Placeholder for the last [T] emitted on the [user] stream. A value of
+  /// `null` should only happen when `isReady` equals false, and should
+  /// correlate with app warmup. Once [ready] resolves, this value should never
+  /// again be `null`. At that time, the most least information this should
+  /// contain is `(AuthUser.unknown, false)`.
   (T, bool) get lastUser;
 
   /// Stream of ([T], `bool`) which will emit the current user when the
@@ -63,6 +63,20 @@ abstract interface class BaseAuthRepository<T> with ReadinessMixin {
 
   /// Signs out the current user which will emit `null` from the [user] stream.
   Future<AuthenticationError?> logOut();
+
+  /// Adds email authentication capabilities to the current account. The account
+  /// should only currently have [AuthType.anonymous] if this method is called.
+  Future<UserOrError<T>> addEmailAuth({
+    required String email,
+    required String password,
+  });
+
+  /// Updates the active session's password. Requires [AuthType.email] on the
+  /// account or is guaranteed to fail.
+  Future<UserOrError<T>> updatePassword(String password);
+
+  /// Updates the active session's email.
+  Future<UserOrError<AuthUser>> updateEmail(String email);
 
   /// Cleans up all resources.
   Future<void> dispose();
@@ -351,6 +365,28 @@ class AuthRepository
     // print('[${_log.name}][${level.name}] $message');
     _log.log(message, level);
   }
+
+  @override
+  Future<UserOrError<AuthUser>> addEmailAuth({
+    required String email,
+    required String password,
+  }) async {
+    throw UnimplementedError();
+    // await _socialAuthService.addEmailAuth(email: email, password: password);
+    // await _restAuthService.addEmailAuth(email: email, password: password);
+  }
+
+  @override
+  Future<UserOrError<AuthUser>> updatePassword(String password) {
+    // TODO: implement updatePassword
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<UserOrError<AuthUser>> updateEmail(String email) {
+    // TODO: implement updatePassword
+    throw UnimplementedError();
+  }
 }
 
 /// {@template FakeAuthRepository}
@@ -456,6 +492,21 @@ class FakeAuthRepository
     _lastUser ??= newLastUser ?? (AuthUser.unknown, false);
     markReady();
   }
+
+  @override
+  Future<UserOrError<AuthUser>> addEmailAuth({
+    required String email,
+    required String password,
+  }) =>
+      throw UnimplementedError();
+
+  @override
+  Future<UserOrError<AuthUser>> updatePassword(String password) =>
+      throw UnimplementedError();
+
+  @override
+  Future<UserOrError<AuthUser>> updateEmail(String email) =>
+      throw UnimplementedError();
 }
 
 /// Adds a convenient getter to [FirebaseUser] which identifies new users.

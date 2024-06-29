@@ -93,4 +93,19 @@ class FakeStreamAuth extends BaseSocialAuth {
     );
     return _publishUser();
   }
+
+  @override
+  Future<FirebaseUserOrError> addEmailAuth({
+    required String email,
+    required String password,
+  }) {
+    // TODO: implement addEmailAuth
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<FirebaseUserOrError> updatePassword(String password) {
+    // TODO: implement updatePassword
+    throw UnimplementedError();
+  }
 }

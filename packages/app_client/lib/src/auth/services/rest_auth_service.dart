@@ -40,6 +40,15 @@ abstract class BaseRestAuth<T> {
   /// Creates a new anonymous account that the user may or may not one day
   /// upgrade.
   Future<UserOrError<T>> createAnonymous({required String firebaseUid});
+
+  /// Adds email login functionality to the current account.
+  Future<UserOrError<T>> addEmailAuth({
+    required String email,
+    required String password,
+  });
+
+  /// Updates the active session's password.
+  Future<UserOrError<T>> updatePassword(String password);
 }
 
 /// {@template RestAuth}
@@ -104,20 +113,25 @@ class RestAuth<T, K> implements BaseRestAuth<T> {
   }
 
   @override
-  Future<UserOrError<T>> createAnonymous({required String firebaseUid}) {
-    // TODO: implement createAnonymous
-    throw UnimplementedError();
-  }
+  Future<UserOrError<T>> createAnonymous({required String firebaseUid}) =>
+      throw UnimplementedError();
 
   @override
-  Future<UserOrError<T>> checkSession() {
-    // TODO: implement checkSession
-    throw UnimplementedError();
-  }
+  Future<UserOrError<T>> checkSession() => throw UnimplementedError();
 
   @override
-  Future<void> logOut() {
-    // TODO: implement logOut
+  Future<void> logOut() => throw UnimplementedError();
+
+  @override
+  Future<UserOrError<T>> addEmailAuth({
+    required String email,
+    required String password,
+  }) =>
+      throw UnimplementedError();
+
+  @override
+  Future<UserOrError<T>> updatePassword(String password) {
+    // TODO: implement updatePassword
     throw UnimplementedError();
   }
 }
