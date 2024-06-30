@@ -371,9 +371,15 @@ class AuthRepository
     required String email,
     required String password,
   }) async {
-    throw UnimplementedError();
-    // await _socialAuthService.addEmailAuth(email: email, password: password);
-    // await _restAuthService.addEmailAuth(email: email, password: password);
+    final firebaseUserOrError = await _socialAuthService.addEmailAuth(
+      email: email,
+      password: password,
+    );
+    if (firebaseUserOrError.isRight()) {
+    } else {
+      return Left(firebaseUserOrError.leftOrRaise());
+    }
+    return _restAuthService.addEmailAuth(email: email, password: password);
   }
 
   @override

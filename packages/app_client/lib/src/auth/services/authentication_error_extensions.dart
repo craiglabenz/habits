@@ -8,27 +8,28 @@ final _log = AppLogger('AuthenticationError');
 extension AuthenticationErrorFromFirebase on AuthenticationError {
   /// Constructor which converts a [FirebaseAuthException] into a local error.
   static AuthenticationError fromFirebaseException(FirebaseAuthException e) {
-    if (e.code == 'account-exists-with-different-credential') {
+    if (e.code.contains('account-exists-with-different-credential')) {
       return AuthenticationError.accountExists(
         fieldName: 'email',
         value: e.email ?? '',
       );
-    } else if (e.code == 'invalid-credential') {
+    } else if (e.code.contains('invalid-credential')) {
       // Very unfortunate malformed thingy error. Probably Firebase's fault.
       _log.warning('Firebase error: Invalid-credential from $e');
       return const AuthenticationError.unknownError();
-    } else if (e.code == 'operation-not-allowed') {
+    } else if (e.code.contains('operation-not-allowed')) {
       _log.warning('Attempted login with inactive social auth type. Wat.');
       return const AuthenticationError.unknownError();
-    } else if (e.code == 'user-disabled') {
+    } else if (e.code.contains('user-disabled')) {
       _log.fine('Disabled user');
       return const AuthenticationError.badEmailPassword();
-    } else if (e.code == 'user-not-found' || e.code == 'wrong-password') {
+    } else if (e.code.contains('user-not-found') ||
+        e.code.contains('wrong-password')) {
       // Normal failed login type stuff
       _log.finer('Failed login: ${e.code}');
       return const AuthenticationError.badEmailPassword();
-    } else if (e.code == 'invalid-verification-code' ||
-        e.code == 'invalid-verification-id') {
+    } else if (e.code.contains('invalid-verification-code') ||
+        e.code.contains('invalid-verification-id')) {
       _log.info('2FA error: ${e.code} :: from $e');
       return const AuthenticationError.invalidCode();
     }

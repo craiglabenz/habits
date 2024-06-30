@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 import 'package:app_client/app_client.dart';
+import 'package:app_shared/app_shared.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -7,6 +8,8 @@ import 'package:mocktail/mocktail.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class MockFirebaseAuth extends Mock implements firebase_auth.FirebaseAuth {}
+
+class MockFirebaseUser extends Mock implements firebase_auth.User {}
 
 class MockGoogleSignIn extends Mock implements GoogleSignIn {}
 
@@ -36,6 +39,7 @@ void main() {
   late List<List<AppleIDAuthorizationScopes>> getAppleCredentialsCalls;
   late AuthorizationCredentialAppleID authorizationCredentialAppleID;
   TestWidgetsFlutterBinding.ensureInitialized();
+  late firebase_auth.User firebaseUser;
 
   const email = 'test@gmail.com';
   const password = 't0ps3cret42';
@@ -43,7 +47,7 @@ void main() {
     registerFallbackValue(FakeAuthCredential());
   });
 
-  group('FirebaseSocialAuth.signUp should', () {
+  group('SocialAuthService.signUp should', () {
     setUp(() {
       firebaseAuth = MockFirebaseAuth();
       when(
@@ -106,7 +110,7 @@ void main() {
     );
   });
 
-  group('FirebaseSocialAuth.logInWithEmailAndPassword', () {
+  group('SocialAuthService.logInWithEmailAndPassword', () {
     setUp(() {
       when(
         () => firebaseAuth.signInWithEmailAndPassword(
@@ -159,7 +163,7 @@ void main() {
     );
   });
 
-  group('FirebaseSocialAuth.loginWithGoogle should', () {
+  group('SocialAuthService.loginWithGoogle should', () {
     const accessToken = 'access-token';
     const idToken = 'id-token';
 
@@ -215,7 +219,7 @@ void main() {
     });
   });
 
-  group('FirebaseSocialAuth.logInWithApple should', () {
+  group('SocialAuthService.logInWithApple should', () {
     setUp(() async {
       firebaseAuth = MockFirebaseAuth();
       googleSignIn = MockGoogleSignIn();
@@ -274,7 +278,7 @@ void main() {
     });
   });
 
-  group('FirebaseSocialAuth.logOut', () {
+  group('SocialAuthService.logOut', () {
     test('calls signOut', () async {
       when(() => firebaseAuth.signOut()).thenAnswer((_) async {});
       when(() => googleSignIn.signOut())
@@ -301,6 +305,63 @@ void main() {
       expect(
         await socialAuth.logOut(),
         isLeft,
+      );
+    });
+  });
+
+  group('SocialAuthService.addEmailAuth should', () {
+    test('create and link a credential', () async {
+      firebaseAuth = MockFirebaseAuth();
+      firebaseUser = MockFirebaseUser();
+      final userCredential = MockUserCredential();
+
+      when(() => firebaseAuth.currentUser).thenReturn(firebaseUser);
+      when(() => firebaseUser.linkWithCredential(any()))
+          .thenAnswer((_) async => Future.value(userCredential));
+      when(() => userCredential.user).thenReturn(firebaseUser);
+      socialAuth = FirebaseAuthService(firebaseAuth: firebaseAuth);
+      final userOrError = await socialAuth.addEmailAuth(
+        email: 'some@email.com',
+        password: '12345678',
+      );
+      expect(userOrError, isRight);
+    });
+
+    test('return an error when there is no user', () async {
+      firebaseAuth = MockFirebaseAuth();
+      firebaseUser = MockFirebaseUser();
+      final userCredential = MockUserCredential();
+      when(() => firebaseAuth.currentUser).thenReturn(firebaseUser);
+      when(() => firebaseUser.linkWithCredential(any()))
+          .thenAnswer((_) async => userCredential);
+      when(() => userCredential.user).thenReturn(null);
+      socialAuth = FirebaseAuthService(firebaseAuth: firebaseAuth);
+      final userOrError = await socialAuth.addEmailAuth(
+        email: 'some@email.com',
+        password: '12345678',
+      );
+      expect(userOrError, isLeft);
+    });
+
+    test('catch firebase exceptions', () async {
+      firebaseAuth = MockFirebaseAuth();
+      firebaseUser = MockFirebaseUser();
+      when(() => firebaseAuth.currentUser).thenReturn(firebaseUser);
+      when(() => firebaseUser.linkWithCredential(any())).thenThrow(
+        firebase_auth.FirebaseAuthException(
+          message: 'xyz',
+          code: 'account-exists-with-different-credential',
+        ),
+      );
+      socialAuth = FirebaseAuthService(firebaseAuth: firebaseAuth);
+      final userOrError = await socialAuth.addEmailAuth(
+        email: 'some@email.com',
+        password: '12345678',
+      );
+      expect(userOrError, isLeft);
+      expect(
+        userOrError.leftOrRaise(),
+        const AccountExistsError(fieldName: 'email', value: ''),
       );
     });
   });

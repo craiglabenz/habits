@@ -257,8 +257,29 @@ class FirebaseAuthService extends BaseSocialAuth {
   Future<FirebaseUserOrError> addEmailAuth({
     required String email,
     required String password,
-  }) =>
-      throw UnimplementedError();
+  }) async {
+    final emailAuthCredential = firebase_auth.EmailAuthProvider.credential(
+      email: email,
+      password: password,
+    );
+    late firebase_auth.UserCredential linkedCredential;
+    try {
+      linkedCredential = await _firebaseAuth.currentUser!
+          .linkWithCredential(emailAuthCredential);
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      _log.severe('Firebase exception during addEmailAuth: $e');
+      return Left(AuthenticationErrorFromFirebase.fromFirebaseException(e));
+    } on Exception catch (e) {
+      _log.severe('Unexpected signInAnonymously Exception: $e');
+      return const Left(AuthenticationError.unknownError());
+    }
+    if (linkedCredential.user != null) {
+      return Right(linkedCredential.user!);
+    } else {
+      _log.severe('Failed to link email credential for $email');
+      return const Left(AuthenticationError.unknownError());
+    }
+  }
 
   /// Pass-thru to the raw stream of `firebase_user.User` objects from Firebase
   /// Auth.
