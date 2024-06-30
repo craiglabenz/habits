@@ -5,7 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:habits_client/habits_client.dart';
 import 'package:habits_flutter/app_config/app_config.dart';
 import 'package:habits_flutter/core/core.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
 class _MockClient extends Fake implements Client {}
 

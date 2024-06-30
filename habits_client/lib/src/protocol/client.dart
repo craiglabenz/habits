@@ -41,6 +41,34 @@ class EndpointAppAuth extends _i1.EndpointRef {
         'checkSession',
         {'keyIdentifier': keyIdentifier},
       );
+
+  /// Adds email-flavored auth to the authenticated session.
+  _i2.Future<_i3.AppAuthResponse> addEmailAuth({
+    required String email,
+    required String password,
+  }) =>
+      caller.callServerEndpoint<_i3.AppAuthResponse>(
+        'appAuth',
+        'addEmailAuth',
+        {
+          'email': email,
+          'password': password,
+        },
+      );
+
+  /// Loads an existing session off an email and password combination.
+  _i2.Future<_i3.AppAuthResponse> loginWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) =>
+      caller.callServerEndpoint<_i3.AppAuthResponse>(
+        'appAuth',
+        'loginWithEmailAndPassword',
+        {
+          'email': email,
+          'password': password,
+        },
+      );
 }
 
 /// Callable endpoints for the [User] model.

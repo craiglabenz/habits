@@ -71,6 +71,55 @@ class Endpoints extends _i1.EndpointDispatch {
             keyIdentifier: params['keyIdentifier'],
           ),
         ),
+        'addEmailAuth': _i1.MethodConnector(
+          name: 'addEmailAuth',
+          params: {
+            'email': _i1.ParameterDescription(
+              name: 'email',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'password': _i1.ParameterDescription(
+              name: 'password',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['appAuth'] as _i2.AppAuthEndpoint).addEmailAuth(
+            session,
+            email: params['email'],
+            password: params['password'],
+          ),
+        ),
+        'loginWithEmailAndPassword': _i1.MethodConnector(
+          name: 'loginWithEmailAndPassword',
+          params: {
+            'email': _i1.ParameterDescription(
+              name: 'email',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'password': _i1.ParameterDescription(
+              name: 'password',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['appAuth'] as _i2.AppAuthEndpoint)
+                  .loginWithEmailAndPassword(
+            session,
+            email: params['email'],
+            password: params['password'],
+          ),
+        ),
       },
     );
     connectors['user'] = _i1.EndpointConnector(

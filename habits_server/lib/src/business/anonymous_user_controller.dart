@@ -71,15 +71,15 @@ class AnonymousUserController {
     // has logging disabled for security purposes.
     final savedAuthKey = await session.authKey.insert(authKey);
 
-    await session.user.insert(
-      User(
-        id: userInfo.id,
-        userInfoId: userInfo.id!,
-        uid: UuidValue.fromString(const Uuid().v4()),
-        createdAt: now,
-        updatedAt: now,
-      ),
+    final userToInsert = User(
+      id: userInfo.id,
+      userInfoId: userInfo.id!,
+      uid: UuidValue.fromString(const Uuid().v4()),
+      createdAt: now,
+      updatedAt: now,
     );
+    final userQueries = session.user;
+    await userQueries.insert(userToInsert);
 
     return shared.AppAuthSuccess(
       userInfoData: userInfo.toJson(),

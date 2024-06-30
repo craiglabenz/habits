@@ -55,7 +55,7 @@ client/install:
 
 # App
 app/build:
-	cd habits_flutter && flutter pub run build_runner build --delete-conflicting-outputs
+	cd habits_flutter && dart run build_runner build --delete-conflicting-outputs
 	cd habits_flutter && flutter pub get
 
 app/install:
@@ -72,3 +72,16 @@ app/run/iphone:
 
 app/test:
 	cd habits_flutter && flutter test
+
+# Mocks
+app_client/mocks:
+	cd packages/app_client/packages/app_client_mocks && dart pub get
+	cd packages/app_client/packages/app_client_mocks && dart run build_runner build --delete-conflicting-outputs
+	cp packages/app_client/packages/app_client_mocks/test/* packages/app_client/packages/app_client_mocks/lib/src
+
+app/mocks:
+	cd habits_flutter/packages/habits_flutter_mocks && flutter pub get
+	cd habits_flutter/packages/habits_flutter_mocks && dart run build_runner build --delete-conflicting-outputs
+	cp habits_flutter/packages/habits_flutter_mocks/test/* habits_flutter/packages/habits_flutter_mocks/lib/src
+
+all/mocks: app_client/mocks app/mocks
